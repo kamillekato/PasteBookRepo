@@ -1,4 +1,4 @@
-﻿using PastebookDataModelLibrary;
+﻿using PastebookDataLibrary; 
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,24 +9,35 @@ namespace PastebookBusinessLogic
 {
     public class UserManager
     {
-        public bool RegisterUser(USER user)
+        private PasswordManager pwdManager;
+        public UserManager()
+        {
+            pwdManager = new PasswordManager();
+        }
+
+        public bool AddUser(UserEntity user)
         {
             bool returnValue = false;
             try
             {
                 using (var context = new DB_PASTEBOOKEntities())
                 {
-                    if (CheckIfUserNameExist(user.USER_NAME))
+                    if (CheckIfUserNameExist(user.UserName))
                     {
                         return false;
                     }
-                    else if (CheckIfEmailAddressExist(user.EMAIL_ADDRESS))
+                    else if (CheckIfEmailAddressExist(user.EmailAddress))
                     {
                         return false;
                     }
                     else
-                    {
-                        context.USERs.Add(user);
+                    {    
+                        string salt = null;
+                        string password = pwdManager.GeneratePasswordHash(user.Password, out salt);
+                        user.Password = password;
+                        user.Salt = salt;
+                        user.DateCreated = DateTime.Now;
+                        context.USERs.Add(Mapper.MapUserEntityToUSER(user));
                         returnValue = context.SaveChanges() != 0;
                     }  
                 }
@@ -73,7 +84,24 @@ namespace PastebookBusinessLogic
             return returnValue;
         }
 
-        
+        public bool CheckLoginAttempt(string email ,string password)
+        {
+            bool returnValue = false;
+            try
+            {
+                using (var context= new DB_PASTEBOOKEntities())
+                {
+                    var user = context.USERs.Where(usr => usr.EMAIL_ADDRESS == email).SingleOrDefault();
+                    returnValue = pwdManager.IsPasswordMatch(password, user.SALT, user.PASSWORD);
+                }
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+
+            return returnValue;
+        }
 
     } 
 

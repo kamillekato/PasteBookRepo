@@ -12,7 +12,7 @@ namespace PastebookBusinessLogic
     {
         
         public string GeneratePasswordHash(string plainTextPassword,out string salt)
-        {
+        { 
             salt = GetSaltString();
             string finalString = plainTextPassword + salt;
             return GetPasswordHashAndSalt(finalString);

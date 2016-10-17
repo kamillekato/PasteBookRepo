@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PastebookDataModelLibrary
+namespace PastebookDataLibrary
 {
     using System;
     using System.Collections.Generic;
@@ -21,7 +21,6 @@ namespace PastebookDataModelLibrary
         }
     
         public int ID { get; set; }
-        public string COUNTRY { get; set; }
         public string Country { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

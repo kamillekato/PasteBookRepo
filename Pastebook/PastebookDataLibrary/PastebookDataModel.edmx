@@ -78,7 +78,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="USER_NAME" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="PASSWORD" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SALT" Type="varchar" MaxLength="100" Nullable="false" />
@@ -388,10 +388,9 @@
             <PropertyRef Name="ID" />
           </Key>
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="COUNTRY" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Country" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="USERs" Relationship="Self.FK_USER_REF_COUNTRY" FromRole="REF_COUNTRY" ToRole="USER" />
-          <Property Name="Country" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          </EntityType>
+        </EntityType>
         <EntityType Name="sysdiagram">
           <Key>
             <PropertyRef Name="diagram_id" />
@@ -575,8 +574,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_USER_REF_COUNTRY">
-          <End Type="Self.REF_COUNTRY" Multiplicity="0..1" Role="REF_COUNTRY" />
-          <End Type="Self.USER" Multiplicity="*" Role="USER" />
+          <End Role="REF_COUNTRY" Type="Self.REF_COUNTRY" Multiplicity="0..1" />
+          <End Role="USER" Type="Self.USER" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="REF_COUNTRY">
               <PropertyRef Name="ID" />
@@ -644,8 +643,8 @@
             <End Role="POST" EntitySet="POSTs" />
           </AssociationSet>
           <AssociationSet Name="FK_USER_REF_COUNTRY" Association="Self.FK_USER_REF_COUNTRY">
-            <End EntitySet="REF_COUNTRY" Role="REF_COUNTRY" />
-            <End EntitySet="USERs" Role="USER" />
+            <End Role="REF_COUNTRY" EntitySet="REF_COUNTRY" />
+            <End Role="USER" EntitySet="USERs" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -712,7 +711,12 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="REF_COUNTRY">
-             
+            <EntityTypeMapping TypeName="DB_PASTEBOOKModel.REF_COUNTRY">
+              <MappingFragment StoreEntitySet="REF_COUNTRY">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Country" ColumnName="Country" />
+              </MappingFragment>
+            </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="sysdiagrams">
             <EntityTypeMapping TypeName="DB_PASTEBOOKModel.sysdiagram">

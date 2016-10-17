@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="a2682e0fb48a41cbbbd3fcd9050e17d0" Name="Diagram1">
+      <Diagram DiagramId="2c57616a1d8e43c894770677aef5bd34" Name="Diagram1">
         <EntityTypeShape EntityType="DB_PASTEBOOKModel.COMMENT" Width="1.5" PointX="7.5" PointY="10" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_PASTEBOOKModel.FRIEND" Width="1.5" PointX="5.25" PointY="8.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DB_PASTEBOOKModel.LIKE" Width="1.5" PointX="7.5" PointY="13.25" IsExpanded="true" />
@@ -25,7 +25,7 @@
         <AssociationConnector Association="DB_PASTEBOOKModel.FK_NOTIFICATION_SENDER_USER" ManuallyRouted="false" />
         <AssociationConnector Association="DB_PASTEBOOKModel.FK_POST_OWNER_USER" ManuallyRouted="false" />
         <AssociationConnector Association="DB_PASTEBOOKModel.FK_POST_POSTER_USER" ManuallyRouted="false" />
-        <AssociationConnector ManuallyRouted="false" Association="DB_PASTEBOOKModel.FK_USER_REF_COUNTRY" />
+        <AssociationConnector Association="DB_PASTEBOOKModel.FK_USER_REF_COUNTRY" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

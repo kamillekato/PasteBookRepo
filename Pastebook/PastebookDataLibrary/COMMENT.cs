@@ -7,24 +7,28 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace PastebookDataModelLibrary
+namespace PastebookDataLibrary
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class REF_COUNTRY
+    public partial class COMMENT
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public REF_COUNTRY()
+        public COMMENT()
         {
-            this.USERs = new HashSet<USER>();
+            this.NOTIFICATIONs = new HashSet<NOTIFICATION>();
         }
     
         public int ID { get; set; }
-        public string COUNTRY { get; set; }
-        public string Country { get; set; }
+        public int POST_ID { get; set; }
+        public int POSTER_ID { get; set; }
+        public string CONTENT { get; set; }
+        public System.DateTime DATE_CREATED { get; set; }
     
+        public virtual USER USER { get; set; }
+        public virtual POST POST { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<USER> USERs { get; set; }
+        public virtual ICollection<NOTIFICATION> NOTIFICATIONs { get; set; }
     }
 }

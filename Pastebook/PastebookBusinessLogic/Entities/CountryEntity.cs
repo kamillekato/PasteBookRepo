@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace PastebookBusinessLogic
 {
-    public class Class1
+    public class CountryEntity
     {
+        public int ID { get; set; }
+        public string Country { get; set; }
     }
 }
