@@ -50,10 +50,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entities\CountryEntity.cs" />
+    <Compile Include="Entities\PostEntity.cs" />
     <Compile Include="Entities\UserEntity.cs" />
     <Compile Include="Managers\CountryManager.cs" />
     <Compile Include="DataAccess.cs" />
     <Compile Include="Managers\PasswordManager.cs" />
+    <Compile Include="Managers\PostManager.cs" />
     <Compile Include="Managers\UserManager.cs" />
     <Compile Include="Mapper\Mapper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

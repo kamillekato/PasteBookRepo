@@ -28,15 +28,34 @@
     border-radius:6px;
 }
 
+.redText{
+    color:#d50000;
+}
+.asteriskSize{ 
+    font-size:20px;
+}
+
 .divShadow{    
     border-radius:6px;
     box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
 }
-.row{
+.rowLoginContainer{
     margin: 2px;
 }
+.navbar{
+    background-color:#ffffff;
+    border:none;
+}
+.formSignup{
+    margin-bottom:10px;
+}
+.btn{
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .6);
+}
 
- 
+.control-label{
+    color:#757575;
+}
 
 .blueText{
     color:#1976D2;
@@ -47,7 +66,7 @@
 .divHeader{
     margin-left :30%;
 }
-.btn {
+.btnMain {
     height:50px;
 } 
 .wide{

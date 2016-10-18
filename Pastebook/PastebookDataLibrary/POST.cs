@@ -22,7 +22,7 @@ namespace PastebookDataLibrary
             this.NOTIFICATIONs = new HashSet<NOTIFICATION>();
         }
     
-        public int POST_ID { get; set; }
+        public int ID { get; set; }
         public System.DateTime CREATED_DATE { get; set; }
         public string CONTENT { get; set; }
         public int PROFILE_OWNER_ID { get; set; }

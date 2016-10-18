@@ -59,5 +59,18 @@ namespace PastebookBusinessLogic
                 Country = country.Country, 
             };
         }
+
+        public static POST MapPostEntityToPOST(PostEntity post)
+        {
+            return new POST() {
+                ID = post.ID,
+                CONTENT =post.Content,
+                PROFILE_OWNER_ID = post.Profile_Owner_ID,
+                POSTER_ID = post.Poster_ID,
+                CREATED_DATE = post.CreatedDate
+            };
+
+        }
+
     }
 }

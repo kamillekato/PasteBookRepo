@@ -8,11 +8,11 @@
     <div class="col-md-offset-7 col-md-5">
        
             <div class="containerView divShadow" >   
-                <div class="row rowContainer">
+                <div class="row rowLoginContainer">
                     <h2 class="col-md-offset-1 col-md-11 grayText">Welcome To Pastebook</h2> 
                 </div>
                     <p class="blueText"><strong>ACCOUNT LOGIN</strong></p>
-                <div class="form-horizontal row ">
+                <div class="form-horizontal row rowLoginContainer">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group"> 
                         <div class="col-md-12 "> 
@@ -31,7 +31,7 @@
 
                     <div class="form-group">
                         <div class="col-md-12">
-                            <input type="submit" value="Login" class="btn btn-default btn-block btn-primary wide" />
+                            <button type="submit" class="btn btnMain btn-default btn-block btn-primary wide"><strong> LOGIN</strong></button>
                         </div>
                     </div>
                     
@@ -40,9 +40,9 @@
                 </div>
             </div> 
          <div class="containerView divShadow"> 
-             <div class="row">
-                 <h5 class="grayText"><strong>No Account?</strong></h5>  
-                 <input type="button" value="SignUp" class="btn btn-block btn-default btn-primary wide" onclick="location.href='@Url.Action("SignUp","Pastebook")'" />
+             <div class="row rowLoginContainer">
+                 <h5 class="grayText"><strong>No Account?</strong></h5>   
+                 <button type="button" class="btn btn-default btn-primary wide btn-block btnMain" onclick="location.href='@Url.Action("SignUp","Pastebook")'"><strong>SIGN UP</strong></button>
              </div>
          </div>
     </div>

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="DB_PASTEBOOKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="DB_PASTEBOOKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="COMMENT">
           <Key>
             <PropertyRef Name="ID" />
@@ -49,9 +49,9 @@
         </EntityType>
         <EntityType Name="POST">
           <Key>
-            <PropertyRef Name="POST_ID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="POST_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="CREATED_DATE" Type="datetime" Nullable="false" />
           <Property Name="CONTENT" Type="varchar" MaxLength="1000" Nullable="false" />
           <Property Name="PROFILE_OWNER_ID" Type="int" Nullable="false" />
@@ -110,7 +110,7 @@
           <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="POST">
-              <PropertyRef Name="POST_ID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="COMMENT">
               <PropertyRef Name="POST_ID" />
@@ -146,7 +146,7 @@
           <End Role="LIKE" Type="Self.LIKE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="POST">
-              <PropertyRef Name="POST_ID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="LIKE">
               <PropertyRef Name="POST_ID" />
@@ -182,7 +182,7 @@
           <End Role="NOTIFICATION" Type="Self.NOTIFICATION" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="POST">
-              <PropertyRef Name="POST_ID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="NOTIFICATION">
               <PropertyRef Name="POST_ID" />
@@ -311,7 +311,8 @@
             <End Role="USER" EntitySet="USER" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_PASTEBOOKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -370,9 +371,9 @@
         </EntityType>
         <EntityType Name="POST">
           <Key>
-            <PropertyRef Name="POST_ID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="POST_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="CONTENT" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PROFILE_OWNER_ID" Type="Int32" Nullable="false" />
@@ -405,7 +406,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="USER_NAME" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PASSWORD" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SALT" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
@@ -446,7 +447,7 @@
           <End Role="COMMENT" Type="Self.COMMENT" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="POST">
-              <PropertyRef Name="POST_ID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="COMMENT">
               <PropertyRef Name="POST_ID" />
@@ -494,7 +495,7 @@
           <End Role="LIKE" Type="Self.LIKE" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="POST">
-              <PropertyRef Name="POST_ID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="LIKE">
               <PropertyRef Name="POST_ID" />
@@ -518,7 +519,7 @@
           <End Role="NOTIFICATION" Type="Self.NOTIFICATION" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="POST">
-              <PropertyRef Name="POST_ID" />
+              <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="NOTIFICATION">
               <PropertyRef Name="POST_ID" />
@@ -702,7 +703,7 @@
           <EntitySetMapping Name="POSTs">
             <EntityTypeMapping TypeName="DB_PASTEBOOKModel.POST">
               <MappingFragment StoreEntitySet="POST">
-                <ScalarProperty Name="POST_ID" ColumnName="POST_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
                 <ScalarProperty Name="CONTENT" ColumnName="CONTENT" />
                 <ScalarProperty Name="PROFILE_OWNER_ID" ColumnName="PROFILE_OWNER_ID" />
