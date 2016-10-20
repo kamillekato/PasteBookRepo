@@ -38,6 +38,6 @@ namespace Pastebook.Models
         [Display(Name = "Email address")]
         public string EmailAddress { get; set; }
 
-         
+        public string FullName { get { return FirstName + ' ' + LastName; } }
     }
 }

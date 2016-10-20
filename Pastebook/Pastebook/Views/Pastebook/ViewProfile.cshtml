@@ -1,0 +1,159 @@
+﻿@model Pastebook.Models.UserModel
+@{ 
+    Layout= "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div class="row"> 
+    <div class="col-md-12">
+        <div class="rowPadding">
+            <div id="headerProfile" class="divBorderRadius divColorBlue divShadow">
+                <div class="col-md-offset-1 col-md-2">
+                    <img id="ImgProfile" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive" />
+                </div>
+                <div class="col-md-5">
+                    <div id="HeaderProfileInfo"> 
+                        <h1 class="whiteText"><STRONG>@Html.DisplayFor(model => model.FullName)</STRONG></h1>
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-5"> 
+    </div>
+    <div class="col-md-7">
+        <div class="divShadow divPost clearfix rowProfilePadding">
+            <h5 class="blueText"><strong><span class="glyphicon glyphicon-pencil"></span>  Create Post</strong></h5>
+            <textarea class="form-control" rows="3" id="textAreaPost" ng-model="postTextArea" placeholder="What's on your mind?"></textarea>
+            <div class="row">
+                <div class="col-md-offset-10 col-md-2"> 
+                    <button type="submit" class="asText" ng-click="CreatePost(@Model.ID)"><h4 class="blueText"><strong>POST</strong></h4></button>
+                </div>
+            </div>
+        </div>
+        <div id="divRenderAction">
+            @{Html.RenderAction("Timeline","Pastebook", new {   userID = Model.ID }); }
+        </div>
+    </div>
+</div>
+
+<div> 
+        
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.UserName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserName)
+        </dd>
+         
+        <dt>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Birthday)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Birthday)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CountryID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CountryID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MobileNo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MobileNo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AboutMe)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AboutMe)
+        </dd>
+         
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailAddress)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailAddress)
+        </dd>
+
+    </dl>
+</div> 
+
+
+
+
+@section Scripts{ 
+
+<script>
+        var CreatePostUrl = '@Url.Action("Post","Pastebook")'
+        var app = angular.module('HomePage', [])
+        var currentUserID = @Session["CurrentUserID"]
+
+        app.controller('HomeController', ['$scope','$http','$timeout', function ($scope,$http,$timeout) {
+            
+            $scope.CreatePost = function (profileID) {
+                $http({
+                    url: CreatePostUrl,
+                    params: {
+                        Content: $scope.postTextArea,
+                        Poster_ID: parseInt(currentUserID),
+                        Profile_Owner_ID: parseInt(profileID)
+                    },
+                    type: 'GET'
+                }).success(function (data) {
+                    $scope.postTextArea = "";
+                    $(divRenderAction).load('@Url.Action("Timeline","Pastebook",new { userID = Model.ID })');
+                }).error(function () {
+                });
+            }
+
+            $scope.RefreshTimeline = function () {
+                $timeout(function () {
+                    $(divRenderAction).load('@Url.Action("Timeline","Pastebook",new { userID = Model.ID })');
+                    $scope.RefreshTimeline(); 
+                }, 60000); 
+            }
+            $scope.RefreshTimeline();
+        }]);
+</script>
+
+
+
+}

@@ -1,5 +1,4 @@
-﻿
-@model Pastebook.Models.UserModel
+﻿@model Pastebook.Models.SignUpViewModel
 @{
         ViewBag.ListOfGender = new SelectList(new List<SelectListItem> {
                             new SelectListItem { Value="U",Text= "Unspecified",Selected =true },
@@ -11,10 +10,7 @@
 
 @using (Html.BeginForm("SignUp", "Pastebook", FormMethod.Post))
 {
-    @Html.AntiForgeryToken()
-    <div class="row">
-        <div class="col-md-offset-7 col-md-5">
-            <div class="containerView divShadow">
+    @Html.AntiForgeryToken() 
                 <div class="form-horizontal">
                     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                     <div class="form-group formSignup">
@@ -31,59 +27,58 @@
                         </div>
                     </div>
                     <div class="form-group formSignup">
-                        <div class="col-md-6">
-                            
-                            @Html.LabelFor(model => model.UserName, htmlAttributes: new { @class = "control-label" }) <strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.UserName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.UserName, "", new { @class = "text-danger" })
+                        <div class="col-md-6"> 
+                            @Html.LabelFor(model => model.User.UserName, htmlAttributes: new { @class = "control-label" }) <strong class="redText asteriskSize">*</strong>
+                            @Html.EditorFor(model => model.User.UserName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.User.UserName, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
-                            @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label " })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
-                        </div>
-                    </div>
-                    <div class="form-group formSignup">
-                        <div class="col-md-6">
-                            @Html.LabelFor(model => model.EmailAddress, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.User.Password, htmlAttributes: new { @class = "control-label " })<strong class="redText asteriskSize">*</strong>
+                            @Html.EditorFor(model => model.User.Password, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.User.Password, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group formSignup">
                         <div class="col-md-6">
-                            @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.User.EmailAddress, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
+                            @Html.EditorFor(model => model.User.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.User.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group formSignup">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.User.FirstName, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
+                            @Html.EditorFor(model => model.User.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.User.FirstName, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6  ">
-                            @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.User.LastName, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
+                            @Html.EditorFor(model => model.User.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.User.LastName, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group formSignup">
                         <div class="col-md-6">
-                            @Html.LabelFor(model => model.Birthday, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.Birthday, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.Birthday, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.User.Birthday, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
+                            @Html.EditorFor(model => model.User.Birthday, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.User.Birthday, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
-                            @Html.LabelFor(model => model.CountryID, htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.CountryID, new SelectList(ViewBag.ListOfCountry, "ID", "Country"), "--Select Country--", new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.CountryID, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.User.CountryID, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.User.CountryID, new SelectList(Model.CountryList, "ID", "Country"), "--Select Country--", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.User.CountryID, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group formSignup">
                         <div class="col-md-6">
-                            @Html.LabelFor(model => model.MobileNo, htmlAttributes: new { @class = "control-label " })
-                            @Html.EditorFor(model => model.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.MobileNo, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.User.MobileNo, htmlAttributes: new { @class = "control-label " })
+                            @Html.EditorFor(model => model.User.MobileNo, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.User.MobileNo, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
-                            @Html.LabelFor(model => model.Gender, htmlAttributes: new { @class = "control-label" })
-                            @Html.DropDownListFor(model => model.Gender, (SelectList)ViewBag.ListOfGender, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.Gender, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.User.Gender, htmlAttributes: new { @class = "control-label" })
+                            @Html.DropDownListFor(model => model.User.Gender, (SelectList)ViewBag.ListOfGender, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.User.Gender, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group formSignup">
@@ -91,12 +86,8 @@
                             <button type="submit" class="btn btnMain btn-default btn-block btn-primary wide"><strong>SIGN UP</strong></button>
                         </div>
                     </div>
-                </div>
-            </div>
-        </div>
-            
-    </div>
-    
+                </div> 
+             
 }
  
 
@@ -104,7 +95,7 @@
     @Scripts.Render("~/bundles/jqueryval")
     <script>
         $(function () {
-            $("#Birthday").datepicker({maxDate:"0"});
+            $("#User_Birthday").datepicker({maxDate:"0"});
         });
     </script>
 }

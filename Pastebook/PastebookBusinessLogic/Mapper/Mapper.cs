@@ -10,6 +10,21 @@ namespace PastebookBusinessLogic
 {
     public class Mapper
     {
+        public static PostEntity MapSPTimelineToPostEntity(SP_TIMELINE_Result sp_result)
+        {
+            return new PostEntity()
+            {
+                ID = sp_result.ID,
+                Content = sp_result.Content,
+                CreatedDate = sp_result.Created_date,
+                NumberOfLikes = sp_result.NumberofLikes,
+                NumberOfComments = sp_result.NumberOfcomments,
+                OwnerName = sp_result.OwnerName,
+                PosterName = sp_result.PosterName,
+                Poster_ID =sp_result.Poster_ID,
+                Profile_Owner_ID = sp_result.profile_Owner_ID
+            };
+        }
 
         public static USER MapUserEntityToUSER(UserEntity user)
         {

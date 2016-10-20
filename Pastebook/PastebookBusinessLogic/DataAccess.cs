@@ -14,7 +14,6 @@ namespace PastebookBusinessLogic
             bool returnValue = false;
             if (!CheckIfUserNameExist(user.UserName) && !CheckIfEmailAddressExist(user.EmailAddress))
             {
-                 
                 returnValue = userManager.AddUser(user);
             }
             return returnValue;
@@ -41,6 +40,22 @@ namespace PastebookBusinessLogic
             return returnValue;
         }
 
+        public UserEntity GetUserByEmail(string emailAddress)
+        {
+            UserEntity user = userManager.RetrieveUserByEmail(emailAddress);
+            return user;
+        }
+
+        public UserEntity GetUserByUserName(string userName)
+        {
+            UserEntity user = new UserEntity();
+            user = userManager.RetreiveUserByUserName(userName);
+            return user;
+        }
+
+
+
+
 
         CountryManager countryManager = new CountryManager();
         public List<CountryEntity> GetListOfCountry()
@@ -50,7 +65,20 @@ namespace PastebookBusinessLogic
             return countryList;
         }
 
+        PostManager postManager = new PostManager();
+        public bool CreatePost(PostEntity post)
+        {
+            bool returnValue = false;
+            returnValue = postManager.CreatePost(post);
+            return returnValue;
+        }
 
+        public List<PostEntity> GetTimelinePost(int userID)
+        {
+            List<PostEntity> postList = new List<PostEntity>();
+            postList = postManager.GetUserRelatedPost(userID);
+            return postList;
+        }
 
 
     }

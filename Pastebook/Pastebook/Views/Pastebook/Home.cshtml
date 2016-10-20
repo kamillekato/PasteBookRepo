@@ -1,1 +1,69 @@
-﻿
+﻿ 
+    @{
+        Layout = "~/Views/Shared/_LayoutHome.cshtml";
+    } 
+
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="row rowPadding">
+            <div id="userHomeDetails" class="col-md-12 homeLeftDiv divBorderRadius divShadow ">
+                <div class="col-md-12 divColorBlue divInsideRadius">
+                    <div class="col-md-offset-4 col-md-4">
+                        <img  id="imgHome" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive"  />
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="row rowPost">
+            <div class="divShadow divPost clearfix">
+                <h5 class="blueText"><strong><span class="glyphicon glyphicon-pencil"></span>  Create Post</strong></h5>
+                <textarea class="form-control" rows="3" id="textAreaPost" ng-model="postTextArea" placeholder="What's on your mind?"></textarea>
+                <div class="row">
+                    <div class="col-md-offset-10 col-md-2">
+                        <button type="submit" class="asText" ng-click="createPost()"><h4 class="blueText"><strong>POST</strong></h4></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-md-3">
+
+    </div>
+</div>
+
+
+@section Scripts {
+   
+    <script>
+        var CreatePostUrl = '@Url.Action("Post","Pastebook")'
+        var app = angular.module('HomePage', [])
+        var currentUserID = @Session["CurrentUserID"]
+        app.controller('HomeController', ['$scope','$http', function ($scope,$http) {
+            $scope.postTextArea = ""; 
+            $scope.createPost = function () {
+                if ($scope.postTextArea == "") {
+
+                } else {
+                    $http({
+                        url: CreatePostUrl,
+                        params: {
+                            Content: $scope.postTextArea,
+                            Poster_ID: parseInt(currentUserID),
+                            Profile_Owner_ID: parseInt(currentUserID)
+                        },
+                        type: 'GET'
+                    }).success(function (data) {
+                        $scope.postTextArea = "";
+                        
+                    }).error(function () {
+                    });
+                } 
+            }
+        }]);
+    </script>
+}

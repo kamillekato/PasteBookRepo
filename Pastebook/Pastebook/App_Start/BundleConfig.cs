@@ -8,6 +8,9 @@ namespace Pastebook
         // For more information on bundling, visit http://go.microsoft.com/fwlink/?LinkId=301862
         public static void RegisterBundles(BundleCollection bundles)
         {
+
+            bundles.Add(new ScriptBundle("~/bundles/angular") 
+                .Include("~/Scripts/angular.js"));
             bundles.Add(new ScriptBundle("~/bundles/jquery").Include(
                         "~/Scripts/jquery-{version}.js"));
 
@@ -33,6 +36,11 @@ namespace Pastebook
             bundles.Add(new StyleBundle("~/Content/Login/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/loginsite.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Home/css").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/homesite.css"));
+
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/core.css",

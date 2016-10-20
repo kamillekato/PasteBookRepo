@@ -1,8 +1,17 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    background-color: #F5F5F5;
 }
 
+.divShadow{
+    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.navbar{
+    background-color:#90CAF9;
+    border:none;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -25,4 +34,5 @@ textarea {
 
 textarea{
     resize:none;
+    max-width:100%;
 }

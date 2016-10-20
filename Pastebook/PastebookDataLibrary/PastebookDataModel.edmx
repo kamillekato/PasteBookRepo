@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="POST_ID" Type="int" Nullable="false" />
           <Property Name="POSTER_ID" Type="int" Nullable="false" />
           <Property Name="CONTENT" Type="varchar" MaxLength="1000" Nullable="false" />
@@ -23,14 +23,14 @@
           <Property Name="USER_ID" Type="int" Nullable="false" />
           <Property Name="FRIEND_ID" Type="int" Nullable="false" />
           <Property Name="REQUEST" Type="char" MaxLength="1" Nullable="false" />
-          <Property Name="isBLOCKED" Type="char" MaxLength="1" Nullable="false" />
+          <Property Name="BLOCKED" Type="char" MaxLength="1" Nullable="false" />
           <Property Name="CREATED_DATE" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="LIKE">
           <Key>
-            <PropertyRef Name="LIKE_ID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="LIKE_ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="POST_ID" Type="int" Nullable="false" />
           <Property Name="LIKE_BY" Type="int" Nullable="false" />
         </EntityType>
@@ -249,6 +249,40 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="fn_diagramobjects" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int" />
+        <Function Name="sp_alterdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_creatediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="version" Type="int" Mode="In" />
+          <Parameter Name="definition" Type="varbinary(max)" Mode="In" />
+        </Function>
+        <Function Name="sp_dropdiagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagramdefinition" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_helpdiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
+          <Parameter Name="owner_id" Type="int" Mode="In" />
+          <Parameter Name="new_diagramname" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="SP_TIMELINE" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="int" Mode="In" />
+        </Function>
+        <Function Name="sp_upgraddiagrams" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
         <EntityContainer Name="DB_PASTEBOOKModelStoreContainer">
           <EntitySet Name="COMMENT" EntityType="Self.COMMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FRIEND" EntityType="Self.FRIEND" Schema="dbo" store:Type="Tables" />
@@ -320,7 +354,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="POST_ID" Type="Int32" Nullable="false" />
           <Property Name="POSTER_ID" Type="Int32" Nullable="false" />
           <Property Name="CONTENT" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" Nullable="false" />
@@ -337,16 +371,16 @@
           <Property Name="USER_ID" Type="Int32" Nullable="false" />
           <Property Name="FRIEND_ID" Type="Int32" Nullable="false" />
           <Property Name="REQUEST" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
-          <Property Name="isBLOCKED" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="BLOCKED" Type="String" MaxLength="1" FixedLength="true" Unicode="false" Nullable="false" />
           <Property Name="CREATED_DATE" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="USER" Relationship="Self.FK_FRIEND_ID_USER_ID" FromRole="FRIEND" ToRole="USER" />
           <NavigationProperty Name="USER1" Relationship="Self.FK_FRIEND_USER" FromRole="FRIEND" ToRole="USER" />
         </EntityType>
         <EntityType Name="LIKE">
           <Key>
-            <PropertyRef Name="LIKE_ID" />
+            <PropertyRef Name="ID" />
           </Key>
-          <Property Name="LIKE_ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="POST_ID" Type="Int32" Nullable="false" />
           <Property Name="LIKE_BY" Type="Int32" Nullable="false" />
           <NavigationProperty Name="POST" Relationship="Self.FK_LIKE_POST" FromRole="LIKE" ToRole="POST" />
@@ -647,7 +681,62 @@
             <End Role="REF_COUNTRY" EntitySet="REF_COUNTRY" />
             <End Role="USER" EntitySet="USERs" />
           </AssociationSet>
+          <FunctionImport Name="sp_alterdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_creatediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="version" Mode="In" Type="Int32" />
+            <Parameter Name="definition" Mode="In" Type="Binary" />
+          </FunctionImport>
+          <FunctionImport Name="sp_dropdiagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagramdefinition" ReturnType="Collection(DB_PASTEBOOKModel.sp_helpdiagramdefinition_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_helpdiagrams" ReturnType="Collection(DB_PASTEBOOKModel.sp_helpdiagrams_Result)">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_renamediagram">
+            <Parameter Name="diagramname" Mode="In" Type="String" />
+            <Parameter Name="owner_id" Mode="In" Type="Int32" />
+            <Parameter Name="new_diagramname" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="SP_TIMELINE" ReturnType="Collection(DB_PASTEBOOKModel.SP_TIMELINE_Result)">
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_upgraddiagrams" />
         </EntityContainer>
+        <ComplexType Name="sp_helpdiagramdefinition_Result">
+          <Property Type="Int32" Name="version" Nullable="true" />
+          <Property Type="Binary" Name="definition" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_helpdiagrams_Result">
+          <Property Type="String" Name="Database" Nullable="true" MaxLength="128" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="128" />
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="String" Name="Owner" Nullable="true" MaxLength="128" />
+          <Property Type="Int32" Name="OwnerID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_TIMELINE_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="DateTime" Name="Created_date" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Content" Nullable="false" MaxLength="1000" />
+          <Property Type="Int32" Name="profile_Owner_ID" Nullable="false" />
+          <Property Type="Int32" Name="Poster_ID" Nullable="false" />
+          <Property Type="String" Name="OwnerName" Nullable="false" MaxLength="101" />
+          <Property Type="String" Name="PosterName" Nullable="false" MaxLength="101" />
+          <Property Type="Int32" Name="NumberofLikes" Nullable="true" />
+          <Property Type="Int32" Name="NumberOfcomments" Nullable="true" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -672,7 +761,7 @@
                 <ScalarProperty Name="USER_ID" ColumnName="USER_ID" />
                 <ScalarProperty Name="FRIEND_ID" ColumnName="FRIEND_ID" />
                 <ScalarProperty Name="REQUEST" ColumnName="REQUEST" />
-                <ScalarProperty Name="isBLOCKED" ColumnName="isBLOCKED" />
+                <ScalarProperty Name="BLOCKED" ColumnName="BLOCKED" />
                 <ScalarProperty Name="CREATED_DATE" ColumnName="CREATED_DATE" />
               </MappingFragment>
             </EntityTypeMapping>
@@ -680,7 +769,7 @@
           <EntitySetMapping Name="LIKEs">
             <EntityTypeMapping TypeName="DB_PASTEBOOKModel.LIKE">
               <MappingFragment StoreEntitySet="LIKE">
-                <ScalarProperty Name="LIKE_ID" ColumnName="LIKE_ID" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="POST_ID" ColumnName="POST_ID" />
                 <ScalarProperty Name="LIKE_BY" ColumnName="LIKE_BY" />
               </MappingFragment>
@@ -750,6 +839,45 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_alterdiagram" FunctionName="DB_PASTEBOOKModel.Store.sp_alterdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_creatediagram" FunctionName="DB_PASTEBOOKModel.Store.sp_creatediagram" />
+          <FunctionImportMapping FunctionImportName="sp_dropdiagram" FunctionName="DB_PASTEBOOKModel.Store.sp_dropdiagram" />
+          <FunctionImportMapping FunctionImportName="sp_helpdiagramdefinition" FunctionName="DB_PASTEBOOKModel.Store.sp_helpdiagramdefinition">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_PASTEBOOKModel.sp_helpdiagramdefinition_Result">
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_helpdiagrams" FunctionName="DB_PASTEBOOKModel.Store.sp_helpdiagrams">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_PASTEBOOKModel.sp_helpdiagrams_Result">
+                <ScalarProperty Name="Database" ColumnName="Database" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Owner" ColumnName="Owner" />
+                <ScalarProperty Name="OwnerID" ColumnName="OwnerID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_renamediagram" FunctionName="DB_PASTEBOOKModel.Store.sp_renamediagram" />
+          <FunctionImportMapping FunctionImportName="SP_TIMELINE" FunctionName="DB_PASTEBOOKModel.Store.SP_TIMELINE">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_PASTEBOOKModel.SP_TIMELINE_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Created_date" ColumnName="Created_date" />
+                <ScalarProperty Name="Content" ColumnName="Content" />
+                <ScalarProperty Name="profile_Owner_ID" ColumnName="profile_Owner_ID" />
+                <ScalarProperty Name="Poster_ID" ColumnName="Poster_ID" />
+                <ScalarProperty Name="OwnerName" ColumnName="OwnerName" />
+                <ScalarProperty Name="PosterName" ColumnName="PosterName" />
+                <ScalarProperty Name="NumberofLikes" ColumnName="NumberofLikes" />
+                <ScalarProperty Name="NumberOfcomments" ColumnName="NumberOfcomments" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DB_PASTEBOOKModel.Store.sp_upgraddiagrams" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

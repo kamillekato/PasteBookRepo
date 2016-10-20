@@ -18,7 +18,7 @@ namespace PastebookDataLibrary
         public int USER_ID { get; set; }
         public int FRIEND_ID { get; set; }
         public string REQUEST { get; set; }
-        public string isBLOCKED { get; set; }
+        public string BLOCKED { get; set; }
         public System.DateTime CREATED_DATE { get; set; }
     
         public virtual USER USER { get; set; }

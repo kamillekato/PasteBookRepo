@@ -103,6 +103,61 @@ namespace PastebookBusinessLogic
             return returnValue;
         }
 
+
+        public UserEntity RetreiveUserByUserName(string userName)
+        {
+            UserEntity user = new UserEntity();
+            try
+            {
+                using (var context = new DB_PASTEBOOKEntities())
+                {
+                    var getUser = context.USERs.Where(usr => usr.USER_NAME == userName).SingleOrDefault();
+                    user = Mapper.MapUSERToUserEntity(getUser);
+                }
+            }
+            catch (Exception)
+            {
+                return null;
+            }
+            return user;
+        }
+
+        public UserEntity RetrieveUserByEmail(string email)
+        {
+            UserEntity user = new UserEntity();
+            try
+            {
+                using (var context =  new DB_PASTEBOOKEntities())
+                {
+                    var getUser= context.USERs.Where(usr => usr.EMAIL_ADDRESS == email).SingleOrDefault();
+                    user = Mapper.MapUSERToUserEntity(getUser);
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return user;
+        }
+        
+        public UserEntity RetrieveUserByID(int userID)
+        {
+            UserEntity user = new UserEntity();
+            try
+            {
+                using (var context = new DB_PASTEBOOKEntities())
+                {
+                    var getUser = context.USERs.Where(usr => usr.ID == userID).SingleOrDefault();
+                    user = Mapper.MapUSERToUserEntity(getUser);
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return user;
+        }
+
     } 
 
 }

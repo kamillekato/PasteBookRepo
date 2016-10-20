@@ -17,6 +17,7 @@ namespace PastebookBusinessLogic
             {
                 using (var context = new DB_PASTEBOOKEntities())
                 {
+                    post.CreatedDate = DateTime.Now;
                     context.POSTs.Add(Mapper.MapPostEntityToPOST(post));
                     returnValue = context.SaveChanges() != 0;
                 }
@@ -28,5 +29,28 @@ namespace PastebookBusinessLogic
             }
             return returnValue;
         }
+
+
+        public List<PostEntity> GetUserRelatedPost(int userID)
+        {
+            List<PostEntity> timelinePost = new List<PostEntity>();
+            try
+            {
+                using (var context = new DB_PASTEBOOKEntities())
+                {
+                    var getPostList = context.SP_TIMELINE(userID).ToList();
+                    foreach (var post in getPostList)
+                    {
+                        timelinePost.Add(Mapper.MapSPTimelineToPostEntity(post));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
+            return timelinePost;
+        }
+        
     }
 }
