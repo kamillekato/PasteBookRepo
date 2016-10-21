@@ -1,0 +1,41 @@
+﻿@model IEnumerable<PastebookDataLibrary.LIKE>
+
+
+@if (Model.Count() <= 0)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="likeContent ">
+                <div class="row">
+                    <div class="col-md-offset-4 col-md-8">
+                        <h4>No Like</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+foreach (var like in Model)
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="likeContent ">
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-11">
+                        <div class="form-inline">
+                            <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-like" /></span>
+                            <div class="form-group">
+                                <h4>@like.USER.FIRST_NAME @like.USER.LAST_NAME</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+}
+
+  

@@ -16,8 +16,10 @@ namespace PastebookBusinessLogic
         public DateTime CreatedDate { get; set; }
 
         public string PosterName { get; set; }
+        public byte[] PosterPicture { get; set; }
         public string OwnerName { get; set; }
         public int? NumberOfLikes { get; set; } 
         public int? NumberOfComments { get; set; }
+        public int IsLike { get; set; }
     }
 }

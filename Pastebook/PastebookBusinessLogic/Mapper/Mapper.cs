@@ -22,7 +22,8 @@ namespace PastebookBusinessLogic
                 OwnerName = sp_result.OwnerName,
                 PosterName = sp_result.PosterName,
                 Poster_ID =sp_result.Poster_ID,
-                Profile_Owner_ID = sp_result.profile_Owner_ID
+                Profile_Owner_ID = sp_result.profile_Owner_ID,
+                IsLike = sp_result.IsLike
             };
         }
 
@@ -87,5 +88,16 @@ namespace PastebookBusinessLogic
 
         }
 
+        public static LIKE MapLikeEntityToLIKE(LikeEntity like)
+        {
+            return new LIKE()
+            {
+                ID = like.ID,
+                POST_ID = like.PostID,
+                LIKE_BY = like.LikeBy
+            };
+        }
+
+         
     }
 }

@@ -51,7 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
     <Compile Include="COMMENT.cs">
       <DependentUpon>PastebookDataModel.tt</DependentUpon>
     </Compile>
@@ -90,6 +89,9 @@
       <DependentUpon>PastebookDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_helpdiagrams_Result.cs">
+      <DependentUpon>PastebookDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="SP_POSTLIKES_Result.cs">
       <DependentUpon>PastebookDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="SP_TIMELINE_Result.cs">

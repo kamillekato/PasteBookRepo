@@ -69,10 +69,31 @@ namespace Pastebook
                 PosterName = post.PosterName,
                 Poster_ID = post.Poster_ID,
                 Profile_Owner_ID = post.Profile_Owner_ID,
-                NumberOfComments = post.NumberOfComments
+                NumberOfComments = post.NumberOfComments,
+                IsLike = post.IsLike
             };
         }
 
-         
+        public static LikeEntity MapLikeModelToLikeEntity(LikeViewModel like) {
+            return new LikeEntity()
+            {
+                ID= like.ID,
+                LikeBy = like.LikeBy,
+                PostID = like.PostID
+            };
+
+        }
+
+        public static LikeViewModel MapLikeEntityToLikeModel(LikeEntity like)
+        {
+            return new LikeViewModel()
+            {
+                ID = like.ID,
+                PostID =like.PostID,
+                LikeBy = like.LikeBy,
+                LikeByName= like.LikeByName,
+                LikeByPicture = like.LikeByPicture
+            };
+        }
     }
 }

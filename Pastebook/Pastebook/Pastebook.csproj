@@ -156,6 +156,7 @@
     <Compile Include="Manager\PastebookManager.cs" />
     <Compile Include="Mapper\MVCMapper.cs" />
     <Compile Include="Models\CountryModel.cs" />
+    <Compile Include="Models\LikeViewModel.cs" />
     <Compile Include="Models\LoginViewModel.cs" />
     <Compile Include="Models\PostViewModel.cs" />
     <Compile Include="Models\SignUpViewModel.cs" />
@@ -249,6 +250,7 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Custom\Profile.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -1052,7 +1054,9 @@
     <Content Include="Views\Pastebook\Post.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Pastebook\ViewProfile.cshtml" />
-    <Content Include="Views\Pastebook\Timeline.cshtml" />
+    <Content Include="Views\Pastebook\GeneratePostList.cshtml" />
+    <Content Include="Views\Pastebook\GenerateLikesList.cshtml" />
+    <Content Include="Views\Pastebook\CommentList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -1062,9 +1066,17 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\PastebookBusinessLogic\PastebookDataAccess.csproj">
+    <ProjectReference Include="..\PastebookBusinessLogic.cs\PastebookBusinessLogic.csproj">
+      <Project>{7ccbc411-a80f-4dd3-b77f-81728281ddb7}</Project>
+      <Name>PastebookBusinessLogic</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PastebookBusinessLogic\PastebookD.csproj">
       <Project>{f1f43fb4-0583-4dac-b197-3ddc7b7d425f}</Project>
-      <Name>PastebookDataAccess</Name>
+      <Name>PastebookD</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\PastebookDataLibrary\PastebookDataLibrary.csproj">
+      <Project>{7973acc2-1202-438b-8aa2-c86c6a88e76c}</Project>
+      <Name>PastebookDataLibrary</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

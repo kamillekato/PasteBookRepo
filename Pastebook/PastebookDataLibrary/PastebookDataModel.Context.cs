@@ -147,5 +147,14 @@ namespace PastebookDataLibrary
         {
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("sp_upgraddiagrams");
         }
+    
+        public virtual ObjectResult<LIKE> SP_POSTLIKES(Nullable<int> userID)
+        {
+            var userIDParameter = userID.HasValue ?
+                new ObjectParameter("userID", userID) :
+                new ObjectParameter("userID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<LIKE>("SP_POSTLIKES", userIDParameter);
+        }
     }
 }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DB_PASTEBOOKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DB_PASTEBOOKModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="COMMENT">
           <Key>
             <PropertyRef Name="ID" />
@@ -274,6 +274,9 @@
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
         </Function>
+        <Function Name="SP_POSTLIKES" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="userID" Type="int" Mode="In" />
+        </Function>
         <Function Name="sp_renamediagram" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="diagramname" Type="nvarchar" Mode="In" />
           <Parameter Name="owner_id" Type="int" Mode="In" />
@@ -345,8 +348,7 @@
             <End Role="USER" EntitySet="USER" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DB_PASTEBOOKModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -711,9 +713,12 @@
             <Parameter Name="new_diagramname" Mode="In" Type="String" />
           </FunctionImport>
           <FunctionImport Name="SP_TIMELINE" ReturnType="Collection(DB_PASTEBOOKModel.SP_TIMELINE_Result)">
-            <Parameter Name="userID" Mode="In" Type="Int32" />
+          <Parameter Name="userID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="sp_upgraddiagrams" />
+          <FunctionImport Name="SP_POSTLIKES" ReturnType="Collection(DB_PASTEBOOKModel.SP_POSTLIKES_Result)">
+            <Parameter Name="userID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
         <ComplexType Name="sp_helpdiagramdefinition_Result">
           <Property Type="Int32" Name="version" Nullable="true" />
@@ -736,6 +741,14 @@
           <Property Type="String" Name="PosterName" Nullable="false" MaxLength="101" />
           <Property Type="Int32" Name="NumberofLikes" Nullable="true" />
           <Property Type="Int32" Name="NumberOfcomments" Nullable="true" />
+          <Property Type="Int32" Name="IsLike" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="SP_POSTLIKES_Result">
+          <Property Type="Int32" Name="ID" Nullable="false" />
+          <Property Type="Int32" Name="Post_ID" Nullable="false" />
+          <Property Type="Int32" Name="Like_By" Nullable="false" />
+          <Property Type="String" Name="LikeByName" Nullable="false" MaxLength="101" />
+          <Property Type="Binary" Name="profile_Pic" Nullable="true" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -874,10 +887,22 @@
                 <ScalarProperty Name="PosterName" ColumnName="PosterName" />
                 <ScalarProperty Name="NumberofLikes" ColumnName="NumberofLikes" />
                 <ScalarProperty Name="NumberOfcomments" ColumnName="NumberOfcomments" />
+                <ScalarProperty Name="IsLike" ColumnName="IsLike" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
           <FunctionImportMapping FunctionImportName="sp_upgraddiagrams" FunctionName="DB_PASTEBOOKModel.Store.sp_upgraddiagrams" />
+          <FunctionImportMapping FunctionImportName="SP_POSTLIKES" FunctionName="DB_PASTEBOOKModel.Store.SP_POSTLIKES">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_PASTEBOOKModel.SP_POSTLIKES_Result">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Post_ID" ColumnName="Post_ID" />
+                <ScalarProperty Name="Like_By" ColumnName="Like_By" />
+                <ScalarProperty Name="LikeByName" ColumnName="LikeByName" />
+                <ScalarProperty Name="profile_Pic" ColumnName="profile_Pic" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

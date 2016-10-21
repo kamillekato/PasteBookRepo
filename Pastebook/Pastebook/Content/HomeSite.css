@@ -3,19 +3,82 @@
     padding-bottom: 20px;
     background-color: #F5F5F5;
 }
+ 
+.navbar-inverse .navbar-brand{
+    color: #ffffff;
+    font-size:25px;
+}
+#imgNavBar{
+    border-radius:7px;
+    margin-top:5px;
+    margin-left:10px;
+    height:auto;
+    width: 35px;
+    border:3px solid #ffffff;
+}
+.navbar-toggle {
+    z-index:3;
+}
+ .navbarRound{
+     background-color:#ffffff; 
 
-.divShadow{
+ }
+ .divShadow{
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+ .navbarIcon{
+     margin-right:25px;
+ }
+.navbar-inverse .navbar-nav > li > a{
+    color:#ffffff;
+    font-size:17px;
 }
 
 .navbar{
-    background-color:#90CAF9;
+    background-color:#4FC3F7;
     border:none;
     margin-bottom:20px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
-
  
+.modalLikeBody{
+    background-color:#f5f5f5;
+    border-radius:0px 0px 5px 5px;
+    padding: 8px;
+}
+.likeContent{  
+    background-color:#ffffff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-radius:5px 5px 5px 5px;
+    margin-bottom:8px;
+}
+.commentAreaPost{ 
+    resize:none;
+    max-width:100%; 
+}
+.commentPostButton{
+    margin-top:5px;
+    margin-bottom:0;
+}
+.commentContent{
+    font-size:16px;
+}
+.commentText{
+    font-size:14px;
+}
+.commentDisplay{
+    border-radius:5px;
+    margin:2px 5px 3px 5px;
+    padding:8px;
+    background-color:#f5f5f5;
+}
+#commentTop{
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-radius:5px;
+    margin:5px;
+    padding:8px;
+    background-color:#f5f5f5;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -27,6 +90,12 @@
 .rowPadding{
     padding:20px 10px 10px 10px;
 }
+.img-like{
+    margin:5px;
+    width:45px;
+    height:auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
 
 #ImgProfile{
     width :160px;
@@ -37,12 +106,19 @@
 }
 .rowProfilePadding{
     margin-top:15px;
-    margin-left:10px;
+    margin-left:0px;
     margin-right:10px;
 }
-
-#HeaderProfileInfo{
-    margin-top:12%; 
+.rowLeftProfilePadding{ 
+    margin-top:15px;
+    margin-left:10px;
+    margin-right:0px;
+}
+.profileHeaderDetails{
+    margin-bottom:0px;
+}
+#headerProfileInfo{
+    margin-top:6%;
 }
 
 #headerProfile{
@@ -54,7 +130,7 @@
    
 }
 .divColorBlue{
-    background-color:#90CAF9;
+    background-color:#4FC3F7;
 }
 .divPost{
     border-radius:6px;
@@ -77,7 +153,12 @@
     width:130px;
     height:auto;
 }
-
+.img-comment{
+    margin:0px 0px 0px 8px;
+    width:38px;
+    height:auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
 .img-post{
     margin:5px 0px 0px 8px;
     width:45px;
@@ -90,6 +171,36 @@
 
 .divBorderRadius{ 
     border-radius:6px;  
+}
+#headerFullName{
+    font-size:40px; 
+    font-weight:bold;
+}
+#headerUserName{
+    margin-top:0;
+    font-size:20px;
+}
+
+#btnAddFriend{
+    background:none; 
+    margin:0;  
+    margin-right:10px;
+    font-weight:bold;
+    font-size:18px;
+    border:3px solid #fff;
+}
+#btnAddFriend:hover{
+     color:#4FC3F7;
+     background-color:#fff;
+     border:3px solid #fff;
+}
+#btnAddFriend:hover:focus{
+     color:#4FC3F7;
+     background-color:#fff;
+     border:3px solid #fff;
+}
+#btnAddFriend:focus{
+    color:#fff;
 }
 
 .homeLeftDiv{
@@ -130,6 +241,11 @@ textarea {
 .postButton:hover{
     color:#1976D2;
 }
+
+.postBlueButton{
+    color:#1976D2;
+}
+
 
 .asText{
     background:none;

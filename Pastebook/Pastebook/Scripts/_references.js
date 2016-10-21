@@ -15,6 +15,7 @@
 /// <reference path="angular-scenario.js" />
 /// <reference path="angular-touch.min.js" />
 /// <reference path="bootstrap.min.js" />
+/// <reference path="custom/profile.js" />
 /// <reference path="jquery.validate.js" />
 /// <reference path="jquery.validate.unobtrusive.js" />
 /// <reference path="jquery-1.12.4.js" />

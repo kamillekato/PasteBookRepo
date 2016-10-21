@@ -22,5 +22,6 @@ namespace PastebookDataLibrary
         public string PosterName { get; set; }
         public Nullable<int> NumberofLikes { get; set; }
         public Nullable<int> NumberOfcomments { get; set; }
+        public int IsLike { get; set; }
     }
 }
