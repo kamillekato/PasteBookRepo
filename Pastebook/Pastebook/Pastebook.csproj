@@ -1057,6 +1057,7 @@
     <Content Include="Views\Pastebook\GeneratePostList.cshtml" />
     <Content Include="Views\Pastebook\GenerateLikesList.cshtml" />
     <Content Include="Views\Pastebook\CommentList.cshtml" />
+    <Content Include="Views\Pastebook\FriendRequestList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

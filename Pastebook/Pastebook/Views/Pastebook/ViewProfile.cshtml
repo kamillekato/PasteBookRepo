@@ -19,7 +19,7 @@
                         <div class="col-md-12">
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <button id="btnAddFriend" class="btn btn-default whiteText" style="display: none;">Add Friend</button>
+                                    <button id="btnAddFriend" class="btn btn-default whiteText" >Add Friend</button>
                                 </div>
                             </div>
                         </div>
@@ -77,6 +77,7 @@
 @section Scripts{
     <script>
         var partialUrl = '@Url.Action("Timeline","Pastebook",new { userID = Model.ID })'; 
+        var partialFriendUrl = '@Url.Action("ViewFriendRequest","Pastebook",new { userID = (int)Session["CurrentUserID"]})';
         var checkUserIfFriendUrl = '@Url.Action("CheckUserIfFriend","Pastebook" )';
         var posterID =  @Session["CurrentUserID"];
         var profileOwnerID = @Model.ID;
@@ -85,6 +86,9 @@
         var createPostUrl = '@Url.Action("Post","Pastebook")';
         var likeUnlikeUrl = '@Url.Action("LikeUnlikePost","Pastebook")'
         var sendCommentUrl = '@Url.Action("PostComment","Pastebook")';
+        var acceptFriendRequestUrl = '@Url.Action("AcceptFriendRequest", "Pastebook")';
+        var countFriendRequestUrl = '@Url.Action("CountFriendRequest","Pastebook")';
+        var relationship=null;
     </script>
 
 

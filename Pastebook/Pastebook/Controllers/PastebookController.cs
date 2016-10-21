@@ -19,6 +19,7 @@ namespace Pastebook.Controllers
         private LikeManager likeManager = new LikeManager();
         private CommentManager commentManager = new CommentManager();
         private FriendManager friendManager = new FriendManager();
+        private NotificationManager notifManager = new NotificationManager();
         // GET: Login
         public ActionResult Index()
         { 
@@ -70,9 +71,7 @@ namespace Pastebook.Controllers
          
         [HttpGet] 
         public ActionResult Home()
-        {
-            Session["CurrentUserID"] = 18;
-            Session["CurrentUserName"] = "kamille";
+        { 
             if (Session["CurrentUserID"] != null)
             { 
                 return View();
@@ -93,6 +92,12 @@ namespace Pastebook.Controllers
         public ActionResult AddFriend(FRIEND friend)
         {
             friendManager.AddFriend(friend);
+            notifManager.AddNotification(new NOTIFICATION() {
+                RECEIVER_ID =friend.FRIEND_ID,
+                SEEN ="Y",
+                SENDER_ID=friend.USER_ID,
+                NOTIF_TYPE ="F" 
+            });
             string userName = string.Empty;
             userName = userManager.GetUserNameByID(friend.FRIEND_ID);
             return RedirectToAction("ViewProfile","Pastebook",new { userName = userName});
@@ -100,8 +105,10 @@ namespace Pastebook.Controllers
 
         public ActionResult AcceptFriendRequest(FRIEND friend)
         {
-            
-            return RedirectToAction("ViewProfile","Pastebook");
+            friend = friendManager.GetFriend(friend.USER_ID, friend.FRIEND_ID);
+            var getValue = friendManager.AcceptFriend(friend);
+            var userName = userManager.GetUserNameByID(friend.FRIEND_ID);
+            return RedirectToAction("ViewProfile","Pastebook", new { userName = userName });
         }
 
         [HttpGet]
@@ -119,6 +126,15 @@ namespace Pastebook.Controllers
             timelinePost = postManager.GetUsersTimelinePost(userID);
             return PartialView("GeneratePostList", timelinePost); 
         }
+
+        public ActionResult ViewFriendRequest(int userID)
+        {
+            List<NOTIFICATION> friendRequest = new List<NOTIFICATION>();
+            friendRequest = notifManager.GetFriendRequest(userID);
+            return PartialView("FriendRequestList", friendRequest);
+        }
+
+
 
         public ActionResult ViewLikes(int postID)
         {
@@ -144,6 +160,16 @@ namespace Pastebook.Controllers
 
 
 
+
+
+        public JsonResult CountFriendRequest(int userID)
+        {
+            int count = 0;
+            count = notifManager.CountFriendRequest(userID);
+            return Json(count,JsonRequestBehavior.AllowGet);
+        }
+
+
         public JsonResult CheckUserIfFriend(int userID, int friendID)
         {
             FRIEND getFriend = new FRIEND();
@@ -152,7 +178,7 @@ namespace Pastebook.Controllers
             {
                 getFriend = friendManager.GetFriend(userID, friendID);
                 
-                return Json(new { Status =cntr ,Request = getFriend.REQUEST, UserID = getFriend.USER_ID,FriendID = getFriend.FRIEND_ID},JsonRequestBehavior.AllowGet);
+                return Json(new { Status =cntr ,ID = getFriend.ID,RequestFriend = getFriend.REQUEST, UserID = getFriend.USER_ID,FriendID = getFriend.FRIEND_ID},JsonRequestBehavior.AllowGet);
             }else
             {
                 return Json(new { Status = cntr, UserID = 0, FriendID = 0 },JsonRequestBehavior.AllowGet);

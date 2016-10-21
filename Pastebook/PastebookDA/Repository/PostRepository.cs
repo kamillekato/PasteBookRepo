@@ -16,7 +16,7 @@ namespace PastebookDataAccess
             {
                 using (var context = new DB_PASTEBOOKEntities())
                 { 
-                    timelinePost = context.POSTs.Include("USER1").Include("USER").Include("LIKEs").Include("COMMENTs")
+                    timelinePost = context.POSTs.Include("USER1").Include("USER").Include("LIKEs").Include("COMMENTs.USER")
                                             .Where(pst => pst.PROFILE_OWNER_ID == userID || pst.POSTER_ID == userID).OrderByDescending(pst => pst.CREATED_DATE).ToList();
                 }
             }

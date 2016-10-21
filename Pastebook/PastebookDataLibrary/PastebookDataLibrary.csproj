@@ -85,18 +85,6 @@
     <Compile Include="REF_COUNTRY.cs">
       <DependentUpon>PastebookDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>PastebookDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="sp_helpdiagrams_Result.cs">
-      <DependentUpon>PastebookDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_POSTLIKES_Result.cs">
-      <DependentUpon>PastebookDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="SP_TIMELINE_Result.cs">
-      <DependentUpon>PastebookDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="sysdiagram.cs">
       <DependentUpon>PastebookDataModel.tt</DependentUpon>
     </Compile>

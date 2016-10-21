@@ -182,6 +182,7 @@
 }
 
 #btnAddFriend{
+    display: none;
     background:none; 
     margin:0;  
     margin-right:10px;
@@ -202,6 +203,8 @@
 #btnAddFriend:focus{
     color:#fff;
 }
+
+
 
 .homeLeftDiv{
     padding-left: 0px;

@@ -29,6 +29,7 @@ namespace PastebookBusinessLogic
         public bool AcceptFriend(FRIEND friend)
         {
             bool returnValue = false;
+            friend.REQUEST = "Y";
             returnValue = friendRepo.Update(friend);
             return returnValue;
         }
