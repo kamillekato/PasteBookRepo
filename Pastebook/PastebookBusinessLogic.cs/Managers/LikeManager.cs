@@ -11,13 +11,14 @@ namespace PastebookBusinessLogic
     public class LikeManager
     {
         private LikeRepository likeRepo;
-
+        private NotificationManager notifManager;
         public LikeManager()
         {
             likeRepo = new LikeRepository();
+            notifManager = new NotificationManager();
         }
 
-        public bool LikeUnlikePost(LIKE like)
+        public bool LikeUnlikePost(LIKE like,int postOwnerID)
         {
             bool returnValue = false;
             LIKE getLike = null;
@@ -25,10 +26,25 @@ namespace PastebookBusinessLogic
             if (getLike == null)
             { 
                 returnValue = likeRepo.Add(like);
+                if (postOwnerID != like.LIKE_BY)
+                {
+                    notifManager.AddNotification(new NOTIFICATION()
+                    {
+                        RECEIVER_ID = postOwnerID,
+                        SEEN = "N",
+                        SENDER_ID = like.LIKE_BY,
+                        NOTIF_TYPE = "L",
+                        POST_ID = like.POST_ID
+                    });
+                } 
             }
             else
             {
                 returnValue = likeRepo.Remove(getLike);
+                if (postOwnerID != like.LIKE_BY)
+                {
+                    notifManager.RemoveLikeNotification(like.POST_ID , like.LIKE_BY);
+                }
             } 
             return returnValue;
         }

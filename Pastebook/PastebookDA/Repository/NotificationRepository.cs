@@ -27,6 +27,23 @@ namespace PastebookDataAccess
             return returnValue;
         }
 
+        public int CountNotification(int userID)
+        {
+            int returnValue = 0;
+            try
+            {
+                using ( var context = new DB_PASTEBOOKEntities())
+                {
+                    returnValue = context.NOTIFICATIONs.Where(notif => notif.RECEIVER_ID == userID && notif.NOTIF_TYPE != "F" && notif.SEEN == "N").ToList().Count();
+                }
+            }
+            catch 
+            {
+                return returnValue;
+            }
+            return returnValue;
+        }
+
         public int CountLikeCommentNotification(int userID)
         {
             int returnValue = 0;

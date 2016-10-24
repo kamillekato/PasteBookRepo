@@ -1,0 +1,104 @@
+﻿@model PastebookDataLibrary.POST
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+<div class="row">
+    <div class="col-md-12">
+        <div id="divRenderAction">
+            <div class="divShadow divPost clearfix rowProfilePadding">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-inline">
+                            <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-post" /></span>
+                            <div class="form-group">
+                                <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = Model.USER1.USER_NAME})'"><strong>@Model.USER1.FIRST_NAME @Model.USER1.LAST_NAME</strong></span><br />
+                                <span class="grayText">@Model.CREATED_DATE.ToString("MMMM dd, yyyy hh:ss tt")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-1 col-md-11">
+                        <blockquote>
+                            <p class="text-left postTextColor">@Model.CONTENT</p>
+                        </blockquote>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        @if (!Model.LIKEs.Any(lke => lke.LIKE_BY == (int)Session["CurrentUserID"]))
+                        {
+                            <button type="submit" class="asText postButton likeButton" onclick="LikeUnlikePost(@Model.ID,@Model.PROFILE_OWNER_ID)"><span class="glyphicon glyphicon-thumbs-up"> </span>  @Model.LIKEs.Count()</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="asText postButton postBlueButton likeButton" onclick="LikeUnlikePost(@Model.ID,@Model.PROFILE_OWNER_ID)"><span class="glyphicon glyphicon-thumbs-up"> </span>  @Model.LIKEs.Count()</button>
+                        }
+
+                        @if (Model.COMMENTs.Any(cmmnt => cmmnt.POSTER_ID == (int)Session["CurrentUserID"]))
+                        {
+                            <button type="submit" class="asText postButton postBlueButton" ng-click="">
+                                <span class="glyphicon glyphicon-comment">
+                                </span>  @Model.COMMENTs.Count()
+                            </button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="asText postButton" ng-click="">
+                                <span class="glyphicon glyphicon-comment">
+                                </span>  @Model.COMMENTs.Count()
+                            </button>
+                        }
+                        <div class="btn-group">
+                            <button type="button" class="asText postButton" ng-click="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="glyphicon glyphicon-option-horizontal"></span>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a role="button" onclick="ViewLikes('@Url.Action("ViewLikes","Pastebook", new { postID = Model.ID })')">View who likes</a></li>
+                                <li role="separator" class="divider"></li>
+                                <li><a role="button" href="">Delete post</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div id="commentTop">
+                            <textarea id="@Model.ID" class="form-control commentAreaPost" rows="2" placeholder="Comment here"></textarea>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button onclick="SendComment(@Model.ID,@Model.PROFILE_OWNER_ID)" class="btn btn-primary commentPostButton pull-right">Comment</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @foreach (var comment in Model.COMMENTs.OrderBy(cmmnt => cmmnt.DATE_CREATED))
+                {
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="commentDisplay">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <div class="form-inline">
+                                            <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-comment" /></span>
+                                            <div class="form-group">
+                                                <span class="postTextColor commentText" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = comment.USER.USER_NAME})'"><strong>@comment.USER.FIRST_NAME @comment.USER.LAST_NAME</strong></span><br />
+                                                <span class="grayText commentText">@comment.DATE_CREATED.ToString("MMMM dd, yyyy hh:ss tt")</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-offset-1 col-md-11">
+                                        <strong class="text-left postTextColor commentContent"> @comment.CONTENT  </strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div> 
+        </div>
+    </div>
+</div>

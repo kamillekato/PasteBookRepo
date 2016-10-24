@@ -4,6 +4,26 @@
     background-color: #F5F5F5;
 }
  
+.divFriendList{
+    background-color:#fff;
+}
+
+.divFriendContent{
+    background-color:#fff;
+    margin: 20px 10px 10px 20px;
+}
+
+
+
+.infoTextSize{
+    font-size:18px;
+    margin-left:65px;
+}
+
+.redText{
+    background-color:#f44336;
+}
+
 .navbar-inverse .navbar-brand{
     color: #ffffff;
     font-size:25px;
@@ -52,6 +72,68 @@
     border-radius:5px 5px 5px 5px;
     margin-bottom:8px;
 }
+
+.friendRequestContent{
+    background-color:#fff; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-radius:5px 5px 5px 5px;
+    margin-bottom:5px;
+    margin-left:4px;
+    margin-right:4px; 
+    padding:5px 10px;
+}
+
+.notificationContent{
+    background-color:#fff; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-radius:5px 5px 5px 5px;
+    margin-bottom:5px;
+    margin-left:4px;
+    margin-right:4px; 
+}
+.img-like{
+    margin:5px;
+    width:45px;
+    height:auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+.content-inner{
+    margin-right:33px; 
+}
+.img-notification{
+    width:35px;
+    height:auto;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    margin-right:2px;
+}
+
+.notificationContentSeen{
+    background-color:#f5f5f5; 
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    border-radius:5px 5px 5px 5px;
+    margin-bottom:5px;
+    margin-left:4px;
+    margin-right:4px; 
+}
+
+#dropdownNotification{
+    background-color:#f5f5f5;
+    border-radius:10px;
+    height:auto;
+    max-height:350px;
+    overflow-x:hidden;
+}
+
+#dropdownFriend{
+    background-color:#f5f5f5;
+    border-radius:10px;
+    height:auto;
+    max-height:350px;
+    width:20%;
+    overflow-x:hidden;
+    min-width:200px;
+}
+
 .commentAreaPost{ 
     resize:none;
     max-width:100%; 
@@ -90,22 +172,11 @@
 .rowPadding{
     padding:20px 10px 10px 10px;
 }
-.img-like{
-    margin:5px;
-    width:45px;
-    height:auto;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
 
-#ImgProfile{
-    width :160px;
-    height:auto;
-    margin-top:40px;
-    margin-left:9%;
-    margin-right:9%;
-}
+
+
 .rowProfilePadding{
-    margin-top:15px;
+    margin-top:15px;    
     margin-left:0px;
     margin-right:10px;
 }
@@ -155,6 +226,9 @@
 }
 .img-comment{
     margin:0px 0px 0px 8px;
+    max-width:38px;
+    object-fit:cover;
+    min-height:38px;
     width:38px;
     height:auto;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
@@ -162,8 +236,22 @@
 .img-post{
     margin:5px 0px 0px 8px;
     width:45px;
+    max-width:45px;
+    object-fit:cover;
+    min-height:45px;
     height:auto;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+#ImgProfile{ 
+    width :160px;
+    height:auto;
+    max-width:160px;
+    min-height:160px;
+    margin-top:40px;
+    margin-left:9%;
+    margin-right:9%;
+    display:block;  
+    object-fit:cover;
 }
  .grayText{
      color: #9E9E9E;
@@ -181,6 +269,79 @@
     font-size:20px;
 }
 
+ 
+.fileUpload {
+    
+    display: none;
+    background:none; 
+    margin:0;  
+    position: relative;
+    overflow: hidden;
+    margin: 10px;  
+    background:none;
+    border:3px solid #fff;
+    font-size:18px;
+
+}
+
+.fileUpload:hover{
+    position: relative;
+    overflow: hidden;
+    margin: 10px;  
+    background:none;
+    border:3px solid #fff;
+    font-size:18px;
+    color:#4FC3F7;
+    background-color:#fff;
+}
+.fileUpload:active{
+    position: relative;
+    overflow: hidden;
+    margin: 10px;  
+    background:none;
+    border:3px solid #fff;
+    font-size:18px;
+    color:#4FC3F7;
+    background-color:#fff;
+}
+.fileUpload:focus   {
+    position: relative;
+    overflow: hidden;
+    margin: 10px;  
+    background:none;
+    border:3px solid #fff;
+    font-size:18px;
+    color:#4FC3F7;
+    background-color:#fff;
+}
+ 
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+
+#editAboutMe{
+    margin:5px 5px;
+    font-size:25px;
+}
+hr{
+    margin-top:5px;
+    margin-bottom:5px;
+}
+#btnSaveAboutMe{
+    margin-top:10px;
+}
+#aboutMeTextarea{ 
+    resize:none;
+    max-width:100%;
+}
 #btnAddFriend{
     display: none;
     background:none; 
@@ -229,6 +390,7 @@ textarea {
     resize:none;
     max-width:100%;
 }
+
 
 .blueText{
     color:#1976D2;

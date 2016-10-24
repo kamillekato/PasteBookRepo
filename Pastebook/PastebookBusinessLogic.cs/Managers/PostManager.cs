@@ -32,6 +32,13 @@ namespace PastebookBusinessLogic
             return timelinePost;
         }
 
+        public POST GetPost(int postID)
+        {
+            POST post = new POST();
+            post = postRepo.Get(x=>x.ID== postID);
+            return post;
+        }
+
 
     }
 }

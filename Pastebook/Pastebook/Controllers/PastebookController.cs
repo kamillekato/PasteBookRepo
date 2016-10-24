@@ -4,6 +4,7 @@ using PastebookBusinessLogic;
 using PastebookDataLibrary;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -81,6 +82,7 @@ namespace Pastebook.Controllers
             }
         }
 
+        
          
         public ActionResult ViewProfile(string userName)
         {
@@ -91,13 +93,7 @@ namespace Pastebook.Controllers
  
         public ActionResult AddFriend(FRIEND friend)
         {
-            friendManager.AddFriend(friend);
-            notifManager.AddNotification(new NOTIFICATION() {
-                RECEIVER_ID =friend.FRIEND_ID,
-                SEEN ="Y",
-                SENDER_ID=friend.USER_ID,
-                NOTIF_TYPE ="F" 
-            });
+            friendManager.AddFriend(friend); 
             string userName = string.Empty;
             userName = userManager.GetUserNameByID(friend.FRIEND_ID);
             return RedirectToAction("ViewProfile","Pastebook",new { userName = userName});
@@ -124,17 +120,31 @@ namespace Pastebook.Controllers
         {
             List<POST> timelinePost = new List<POST>();
             timelinePost = postManager.GetUsersTimelinePost(userID);
-            return PartialView("GeneratePostList", timelinePost); 
+            return PartialView("PostList", timelinePost); 
         }
+
+         
+        public ActionResult ViewPost(int postID)
+        {
+            POST post = new POST();
+            post = postManager.GetPost(postID); 
+            return View(post);
+        }
+
 
         public ActionResult ViewFriendRequest(int userID)
         {
             List<NOTIFICATION> friendRequest = new List<NOTIFICATION>();
             friendRequest = notifManager.GetFriendRequest(userID);
             return PartialView("FriendRequestList", friendRequest);
+        } 
+
+        public ActionResult ViewNotifications(int userID)
+        {
+            List<NOTIFICATION> notifications = new List<NOTIFICATION>();
+            notifications = notifManager.GetNotification(userID);
+            return PartialView("NotificationList",notifications);
         }
-
-
 
         public ActionResult ViewLikes(int postID)
         {
@@ -149,26 +159,86 @@ namespace Pastebook.Controllers
             return PartialView("CommentList", comments);
         }
 
+        public ActionResult FriendList()
+        {
+            if (Session["CurrentUserID"] != null)
+            {
+                List<FRIEND> friendList = new List<FRIEND>();
+                friendList = friendManager.GetFriendList((int)Session["CurrentUserID"]);
+                List<USER> users = new List<USER>();
+                users = userManager.GetUserFriendList(friendList,(int)Session["CurrentUserID"]);
+                return View(users);
+            }else
+            {
+                return RedirectToAction("Login", "Pastebook");
+            }
+            
+        }
 
 
 
 
 
 
+
+
+
+
+
+
+
+        public JsonResult SaveAboutMe(int userID,string aboutMeContent)
+        {
+            var user = userManager.GetUserByID(userID);
+            user.ABOUT_ME = aboutMeContent;
+            userManager.UpdateUser(user);
+            return Json(new { },JsonRequestBehavior.AllowGet);
+        }
+
+
+        public JsonResult ChangeProfilePicture(int userID)
+        {  
+            if (Request.Files.AllKeys.Any())
+            {
+                var pic = Request.Files["UploadImage"]; 
+                using (MemoryStream ms = new MemoryStream())
+                {
+                    pic.InputStream.CopyTo(ms);
+                    var user = userManager.GetUserByID(userID);
+                    user.PROFILE_PIC = ms.GetBuffer();
+                    userManager.UpdateUser(user);
+                }
+            }
+
+            return Json(new { }, JsonRequestBehavior.AllowGet);
+        }
         
 
 
-
-
-
-
-        public JsonResult CountFriendRequest(int userID)
+        public JsonResult CancelFriendRequestInNotif(int userID,int friendID)
         {
-            int count = 0;
-            count = notifManager.CountFriendRequest(userID);
-            return Json(count,JsonRequestBehavior.AllowGet);
+            bool returnValue = false;
+            var friend = friendManager.GetFriend(userID, friendID);
+            returnValue = friendManager.RemoveFriend(friend);
+            return Json(returnValue, JsonRequestBehavior.AllowGet);
+        }
+         
+        public JsonResult AcceptFriendRequestInNotif(int userID,int friendID)
+        {
+            bool returnValue = false;
+            var friend = friendManager.GetFriend(userID, friendID);
+            returnValue = friendManager.AcceptFriend(friend); 
+            return Json(returnValue , JsonRequestBehavior.AllowGet);
         }
 
+        public JsonResult CountNotification(int userID)
+        {
+            int countFriendRequest = 0;
+            int countNotification = 0;
+            countFriendRequest = notifManager.CountFriendRequest(userID);
+            countNotification = notifManager.CountNotification(userID);
+            return Json(new { countFriendRequest = countFriendRequest , countNotification = countNotification},JsonRequestBehavior.AllowGet);
+        } 
 
         public JsonResult CheckUserIfFriend(int userID, int friendID)
         {
@@ -176,12 +246,11 @@ namespace Pastebook.Controllers
             bool cntr = friendManager.CheckIfFriendExist(userID,friendID);
             if (cntr)
             {
-                getFriend = friendManager.GetFriend(userID, friendID);
-                
-                return Json(new { Status =cntr ,ID = getFriend.ID,RequestFriend = getFriend.REQUEST, UserID = getFriend.USER_ID,FriendID = getFriend.FRIEND_ID},JsonRequestBehavior.AllowGet);
+                getFriend = friendManager.GetFriend(userID, friendID); 
+                return Json(new { Status =cntr ,ID = getFriend.ID,RequestFriend = getFriend.REQUEST},JsonRequestBehavior.AllowGet);
             }else
             {
-                return Json(new { Status = cntr, UserID = 0, FriendID = 0 },JsonRequestBehavior.AllowGet);
+                return Json(new { Status = cntr  },JsonRequestBehavior.AllowGet);
             } 
         }
 
@@ -196,21 +265,21 @@ namespace Pastebook.Controllers
             return Json(new { Status = returnValue }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult LikeUnLikePost(int postID, int userID)
+        public JsonResult LikeUnLikePost(int postID, int userID,int postOwnerID)
         {
             bool returnValue = false;
-            returnValue = likeManager.LikeUnlikePost(new LIKE() { POST_ID = postID , LIKE_BY = userID});
+            returnValue = likeManager.LikeUnlikePost(new LIKE() { POST_ID = postID , LIKE_BY = userID},postOwnerID);
             return Json(new { Status = returnValue }, JsonRequestBehavior.AllowGet);
         }
 
-        public JsonResult PostComment(string content,int userID,int postID)
+        public JsonResult PostComment(string content,int userID,int postID,int postOwnerID)
         {
             bool returnValue = false;
             returnValue = commentManager.AddComment(new COMMENT() {
                 CONTENT = content,
                 POSTER_ID = userID,
                 POST_ID = postID
-            });
+            },postOwnerID);
 
             return Json(new { Status = returnValue }, JsonRequestBehavior.AllowGet);
         }

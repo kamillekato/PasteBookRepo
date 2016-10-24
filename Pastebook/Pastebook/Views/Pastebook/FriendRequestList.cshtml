@@ -2,5 +2,16 @@
 
 @foreach (var notif in Model)
 {
-    <li><a href="#">@notif.USER1.FIRST_NAME</a></li>
+        <li><div  class="friendRequestContent">
+            <div class="form-inline">
+                <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" /></span>
+                <div class="form-group">
+                    <strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong><br />
+                    <button type="button" onclick="AcceptFriendByNotification( @notif.SENDER_ID,@notif.RECEIVER_ID)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok" title="Accept Friend Request"></span></button>     
+                    <button type="button" onclick="CancelFriendByNotification(@notif.SENDER_ID, @notif.RECEIVER_ID)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" title="Decline Friend Request"></span></button>
+                </div>
+
+            </div>
+        </div>
+    </li>
 }

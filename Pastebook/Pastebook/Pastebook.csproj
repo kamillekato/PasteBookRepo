@@ -1051,13 +1051,16 @@
     <Content Include="Views\Pastebook\Login.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
-    <Content Include="Views\Pastebook\Post.cshtml" />
+    <Content Include="Views\Pastebook\deletedPost.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Pastebook\ViewProfile.cshtml" />
-    <Content Include="Views\Pastebook\GeneratePostList.cshtml" />
+    <Content Include="Views\Pastebook\PostList.cshtml" />
     <Content Include="Views\Pastebook\GenerateLikesList.cshtml" />
     <Content Include="Views\Pastebook\CommentList.cshtml" />
     <Content Include="Views\Pastebook\FriendRequestList.cshtml" />
+    <Content Include="Views\Pastebook\NotificationList.cshtml" />
+    <Content Include="Views\Pastebook\ViewPost.cshtml" />
+    <Content Include="Views\Pastebook\FriendList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -233,7 +233,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="POST">
-              <PropertyRef Name="PROFILE_OWNER_ID" />
+              <PropertyRef Name="POSTER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -570,7 +570,7 @@
               <PropertyRef Name="ID" />
             </Principal>
             <Dependent Role="POST">
-              <PropertyRef Name="PROFILE_OWNER_ID" />
+              <PropertyRef Name="POSTER_ID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>

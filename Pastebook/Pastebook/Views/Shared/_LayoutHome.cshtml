@@ -31,7 +31,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li class="navbarIcon dropdown">
                         <a role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialFriend()" >
-                        <span class="glyphicon glyphicon-user"></span><span id="bdgeFriend" class="badge"></span></a>
+                        <span class="glyphicon glyphicon-user"></span><span id="bdgeFriend" class="badge redText"></span></a>
                         
                         <ul id="dropdownFriend" class="dropdown-menu">
                             <li><a href="#">Action</a></li>
@@ -42,8 +42,19 @@
                         </ul> 
                         
                     </li>
-                    <li class="navbarIcon"><a role="button" onclick="location.href='@Url.Action("SignUp","Pastebook")'"><span class="glyphicon glyphicon-globe"></span></a></li> 
-                    
+                     <li class="navbarIcon dropdown">
+                        <a role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialNotification()">
+                            <span class="glyphicon glyphicon-globe"></span><span id="bdgeNotification" class="badge redText"></span>
+                        </a> 
+                        <ul id="dropdownNotification" class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+
+                    </li>
                     <li  class="btn-group">
                         @*<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Profile<span class="caret"></span>
@@ -68,5 +79,6 @@
     @Scripts.Render("~/bundles/bootstrap")
     @Scripts.Render("~/bundles/angular")
     @RenderSection("scripts", required: false)
+    <script src="~/Scripts/Custom/Profile.js"></script>
 </body>
 </html>

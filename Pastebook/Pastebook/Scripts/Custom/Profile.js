@@ -7,7 +7,9 @@ function ReloadPartialFriend() {
     $("#dropdownFriend").load(partialFriendUrl);
 }
 
- 
+function ReloadPartialNotification() {
+    $("#dropdownNotification").load(partialNotificationUrl);
+}
 
 CheckUserIfFriend();
 function CheckUserIfFriend() {
@@ -33,7 +35,7 @@ function CheckUserIfFriend() {
                         $("#btnAddFriend").text("Friend");
                         $("#btnAddFriend").show();
                     } else { 
-                        if (data.UserID == parseInt(posterID)) {
+                        if (profileOwnerID == parseInt(posterID)) {
                             $("#btnAddFriend").text("Request");
                             $("#btnAddFriend").show();
                         } else {
@@ -49,8 +51,7 @@ function CheckUserIfFriend() {
     }
     
 
-}
-
+} 
 
 function AddFriend() {
     var data = { 
@@ -71,27 +72,32 @@ function AddFriend() {
     });
 }
 
-function CountFriendRequest() {
+function CountNotification() {
     var data = {
         userID: parseInt(posterID)
     }
     $.ajax({
-        url: countFriendRequestUrl,
+        url: countNotificationUrl,
         data: data,
         type: 'GET',
         success: function (result) {
-            $("#bdgeFriend").text(result);
+            if (result.countFriendRequest > 0) {
+                $("#bdgeFriend").text(result.countFriendRequest);  
+            }
+            if (result.countNotification > 0) {
+                $("#bdgeNotification").text(result.countNotification); 
+            }
         } 
     });
 }
-
+ 
+CountNotification();
 AutoRefresh();
 function AutoRefresh() { 
     setInterval(function () { 
-        CountFriendRequest();
-    }, 3000);
-}
-
+        CountNotification();
+    }, 1000);
+} 
 
 function AcceptFriendRequest() { 
     var data = {
@@ -107,7 +113,7 @@ function AcceptFriendRequest() {
         success: function () {
             CheckUserIfFriend();
         }, error: function () {
-            alert('Somethign went wrong')
+            alert('Something went wrong')
         }
     });
 }
@@ -116,24 +122,81 @@ $("#btnAddFriend").on('click', function () {
         AddFriend();
     } else { 
         if (relationship.RequestFriend == "N") {
-            if (relationship.UserID != parseInt(posterID)) {
+            if (profileOwnerID != parseInt(posterID)) {
                 AcceptFriendRequest();
             } 
         }
     }
 });
 
+function AcceptFriendByNotification(userID,friendID) {
+    var data = { 
+        userID: userID,
+        friendID: friendID
+    };
+
+    $.ajax({
+        url: acceptInNotifUrl,
+        data: data,
+        type: 'GET',
+        success: function () {
+            CheckUserIfFriend();
+            ReloadPartialFriend();
+        }, error: function () {
+            alert('Something went wrong')
+        }
+    });
+}
+
+function CancelFriendRequest() {
+    var data = {
+        userID: userID,
+        friendID: friendID
+    };
+
+    $.ajax({
+        url: acceptInNotifUrl,
+        data: data,
+        type: 'GET',
+        success: function () {
+            CheckUserIfFriend();
+            ReloadPartialFriend();
+        }, error: function () {
+            alert('Something went wrong')
+        }
+    });
+}
+
+function CancelFriendByNotification(userID,friendID){
+    var data = {
+        userID: userID,
+        friendID: friendID
+    };
+
+    $.ajax({
+        url: cancelFriendUrl,
+        data: data,
+        type: 'GET',
+        success: function () {
+            CheckUserIfFriend();
+            ReloadPartialFriend();
+        }, error: function () {
+            alert('Something went wrong')
+        }
+    });
+}
 
 function ViewLikes(partialLikeUrl) { 
     $("#modalContentRender").load(partialLikeUrl);
     $("#modalView").modal('show');
 }
-function SendComment(id) {
+function SendComment(id,postOwnerID) {
     var textAreaID = "#" + id.toString(); 
     var data = {
         content: $(textAreaID).val(),
         userID: parseInt(posterID),
-        postID: id
+        postID: id,
+        postOwnerID:postOwnerID
     };
 
     $.ajax({
@@ -168,14 +231,12 @@ function CreatePost() {
             alert('Something went wrong');
         }
     })
-}
-
- 
-
-function LikeUnlikePost(id) {
+} 
+function LikeUnlikePost(postID,postOwnerID) {
     var data = {
-        postID : id,
-        userID : posterID
+        postID : postID,
+        userID: posterID,
+        postOwnerID: postOwnerID
     };
     $.ajax({
         url: likeUnlikeUrl,
@@ -194,3 +255,26 @@ function LikeUnlikePost(id) {
 $("#postButton").click(function () { 
     CreatePost();
 });
+
+
+$("#btnSaveAboutMe").click(function () {
+    SaveAboutMe();
+})
+function SaveAboutMe() { 
+    var content = $("#aboutMeTextarea").val();  
+    var data = {
+        userID : parseInt(posterID),
+        aboutMeContent: content
+    }
+    $.ajax({
+        url: saveAboutMeUrl,
+        data: data,
+        type: 'GET',
+        success: function () {
+            $("#modalAbout").modal('hide');
+            $("#aboutMeInfo").text(content);
+        }, error: function () {
+
+        }
+    });
+}

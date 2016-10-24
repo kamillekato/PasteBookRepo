@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Linq.Expressions;
 
 namespace PastebookDataAccess
 {
@@ -45,6 +46,21 @@ namespace PastebookDataAccess
             return returnValue;
         }
 
-        
+        public override USER Get(Expression<Func<USER, bool>> where )
+        {
+            USER user = new USER();
+            try
+            {
+                using ( var context =new DB_PASTEBOOKEntities())
+                {
+                    user = context.USERs.Include("REF_COUNTRY").Where(where).FirstOrDefault();
+                }
+            }
+            catch 
+            {
+                return user;
+            }
+            return user;
+        }
     }
 }

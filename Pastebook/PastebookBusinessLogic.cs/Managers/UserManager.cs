@@ -34,6 +34,13 @@ namespace PastebookBusinessLogic
             return returnValue;
         } 
 
+        public bool UpdateUser(USER user)
+        {
+            bool returnValue = false;
+            returnValue = userRepo.Update(user);
+            return returnValue;
+        }
+
         public USER LoginUser(string email,string password)
         {
             USER getUser = null;
@@ -53,6 +60,13 @@ namespace PastebookBusinessLogic
         {
             USER user = null;
             user = userRepo.Get(usr => usr.USER_NAME == userName);
+            return user;
+        }
+
+        public USER GetUserByID(int id)
+        {
+            USER user = new USER();
+            user =userRepo.Get(usr=>usr.ID == id);
             return user;
         }
 
@@ -77,6 +91,24 @@ namespace PastebookBusinessLogic
             return userName;
         }
 
+        public List<USER> GetUserFriendList(List<FRIEND> friendList,int userID)
+        {
+            List<USER> users = new List<USER>();
+            foreach (var friend in friendList)
+            {
+                int getUserID = 0;
+                if (friend.USER_ID == userID)
+                {
+                    getUserID = friend.FRIEND_ID;
+                }else if(friend.FRIEND_ID == userID)
+                {
+                    getUserID = friend.USER_ID;
+                }
+                var getUser = userRepo.Get(usr => usr.ID == getUserID);
+                users.Add(getUser);
+            }
+            return users;
+        }
 
 
     }

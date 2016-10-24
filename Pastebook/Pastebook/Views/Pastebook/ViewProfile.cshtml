@@ -8,7 +8,18 @@
         <div class="rowPadding">
             <div id="headerProfile" class="divBorderRadius divColorBlue divShadow">
                 <div class="col-md-offset-1 col-md-2">
-                    <img id="ImgProfile" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive" />
+                    @{
+                        if (Model.PROFILE_PIC == null)
+                        {
+                            <img id="ImgProfile" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive" />
+                        }
+                        else
+                        {
+                            var base64 = Convert.ToBase64String(Model.PROFILE_PIC);
+                            var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                            <img id="ImgProfile" src="@imgSrc" class="img-circle img-responsive" />
+                        }
+                    }
                 </div>
                 <div class="col-md-9"> 
                     <div id="headerProfileInfo">  
@@ -19,6 +30,10 @@
                         <div class="col-md-12">
                             <div class="form-inline">
                                 <div class="form-group">
+                                    <div  class="fileUpload btn btn-default whiteText" role="button" title="Change photo">
+                                        <span class="glyphicon glyphicon-camera"></span>
+                                        <input id="inputUpload" type="file" class="upload" />
+                                    </div>
                                     <button id="btnAddFriend" class="btn btn-default whiteText" >Add Friend</button>
                                 </div>
                             </div>
@@ -31,12 +46,60 @@
 </div>
 <div class="row">
     <div class="col-md-5"> 
+
+
+        <div class="divShadow divPost rowLeftProfilePadding">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="blueText"><strong><span class="glyphicon glyphicon-triangle-right"></span>  Introduction</strong></h4>
+                </div>
+                <div class="col-md-6">
+                    <button id="editAboutMe" type="button" data-toggle="modal" data-target="#modalAbout" class="blueText pull-right infoTextSize asText"><span class="glyphicon glyphicon-edit"></span></button> 
+                </div>
+            </div>
+           
+            <hr />
+             <p id="aboutMeInfo" class="infoTextSize">@Model.ABOUT_ME</p>
+        </div>
+
         <div class="divShadow divPost rowLeftProfilePadding">
              <h4 class="blueText"><strong><span class="glyphicon glyphicon-info-sign"></span>  Info</strong></h4>
             <hr />
-            <div class="form-group"><span class="glyphicon glyphicon-home"></span></div>
+            <div class="row">
+                <div class="col-md-12">
+                    <dl class="dl-horizontal infoTextSize">
+                        <dt>
+                            Birthday :
+                        </dt>
+                        <dd>
+                            @Model.BIRTHDAY.ToString("MMMM dd, yyyy")
+                        </dd> 
+                        @{
+                            if (Model.COUNTRY_ID != 0)
+                            {
+                                <dt>
+                                    Country :
+                                </dt>
+                                <dd>
+                                    @Model.REF_COUNTRY.Country
+                                </dd>
+                            }
 
-            
+                            if (Model.MOBILE_NO != null)
+                            {
+                                <dt>
+                                    Mobile number :
+                                </dt>
+                                <dd>
+                                    @Model.MOBILE_NO
+                                </dd>
+                            }
+                        }
+                       
+                       
+                    </dl>
+                </div>
+            </div> 
         </div>
     </div>
     <div class="col-md-7">
@@ -60,7 +123,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="modalViewLabel">Modal Title</h4>
+                <h4 class="modal-title" id="modalViewLabel">Like</h4>
             </div>
             <div class="modal-body modalLikeBody">
                   <div id="modalContentRender">
@@ -68,16 +131,38 @@
                   </div>
             </div> 
         </div>
-    </div>
-
+    </div> 
 </div>
  
-
+<div class="modal fade" id="modalAbout" tabindex="-1" role="dialog" aria-labelledby="modalAboutMeModel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalAboutMeModel">About Me</h4>
+            </div>
+            <div class="modal-body modalLikeBody">
+                <div class="row">
+                    <div class="col-md-12">
+                        <textarea id="aboutMeTextarea" class="form-control" rows="3" placeholder="Tell something about yourself"></textarea>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <button id="btnSaveAboutMe" class="btn btn-primary pull-right" ><strong>Save</strong></button>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts{
     <script>
-        var partialUrl = '@Url.Action("Timeline","Pastebook",new { userID = Model.ID })'; 
+        var partialUrl = '@Url.Action("Timeline","Pastebook",new { userID = Model.ID })';
         var partialFriendUrl = '@Url.Action("ViewFriendRequest","Pastebook",new { userID = (int)Session["CurrentUserID"]})';
+        var partialNotificationUrl = '@Url.Action("ViewNotifications","Pastebook",new { userID = (int)Session["CurrentUserID"] })';
         var checkUserIfFriendUrl = '@Url.Action("CheckUserIfFriend","Pastebook" )';
         var posterID =  @Session["CurrentUserID"];
         var profileOwnerID = @Model.ID;
@@ -87,11 +172,58 @@
         var likeUnlikeUrl = '@Url.Action("LikeUnlikePost","Pastebook")'
         var sendCommentUrl = '@Url.Action("PostComment","Pastebook")';
         var acceptFriendRequestUrl = '@Url.Action("AcceptFriendRequest", "Pastebook")';
-        var countFriendRequestUrl = '@Url.Action("CountFriendRequest","Pastebook")';
+        var countNotificationUrl = '@Url.Action("CountNotification","Pastebook")';
+        var acceptInNotifUrl = '@Url.Action("AcceptFriendRequestInNotif","Pastebook")';
+        var cancelFriendUrl = '@Url.Action("CancelFriendRequestInNotif","Pastebook")';
+        var saveAboutMeUrl='@Url.Action("SaveAboutMe","Pastebook")'
         var relationship=null;
+        var changePictureUrl = '@Url.Action("ChangeProfilePicture","Pastebook",new {userID = (int)Session["CurrentUserID"] })';
+        var saveAboutMeUrl = '@Url.Action("SaveAboutMe","Pastebook")';
+
+
+        function ReadUrl(input){
+            if (input.files && input.files[0]) {
+                var reader= new FileReader();
+                reader.onload = function(e){
+                    $("#ImgProfile").attr('src',e.target.result);
+                }
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+
+
+
+        ShowHideEditPhoto();
+        function ShowHideEditPhoto(){
+            if (profileOwnerID == posterID) {
+                $(".fileUpload").show();
+            }
+        }
+
+        $("#inputUpload").change(function(){
+            ReadUrl(this);
+            var data=new FormData();
+            var files = $("#inputUpload").get(0).files;
+            if (files.length> 0) {
+                data.append("UploadImage",files[0])
+            }
+            $.ajax({
+                url:changePictureUrl,
+                type:'POST',
+                processData: false,
+                contentType: false,
+                data:data,
+                success: function(){
+                    ReloadPartial();
+                },error:function(){
+                }
+            });
+
+        });
     </script>
 
 
-    <script src="~/Scripts/Custom/Profile.js"></script>
+    
 
 }
