@@ -18,7 +18,7 @@ namespace PastebookDataAccess
                 using (var context = new DB_PASTEBOOKEntities())
                 { 
                     timelinePost = context.POSTs.Include("USER").Include("USER1").Include("LIKEs").Include("COMMENTs.USER")
-                                            .Where(pst => pst.PROFILE_OWNER_ID == userID || pst.POSTER_ID == userID).ToList();
+                                            .Where(pst => pst.PROFILE_OWNER_ID == userID || pst.POSTER_ID == userID).OrderByDescending(pst=>pst.CREATED_DATE).Take(100).ToList();
                 }
             }
             catch 
@@ -40,11 +40,30 @@ namespace PastebookDataAccess
                             .Where(where).FirstOrDefault();
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 return null;
             }
             return post;
+        }
+
+        public List<POST> GetUserNewsFeedPost( List<int> friendsID)
+        {
+            List<POST> postList = new List<POST>();
+            try
+            {
+                using (var context = new DB_PASTEBOOKEntities())
+                {
+                    postList = context.POSTs.Include("USER").Include("USER1").Include("LIKEs").Include("COMMENTs.USER")
+                                                                .Where(pst=> friendsID.Contains(pst.POSTER_ID)).OrderByDescending(pst=>pst.CREATED_DATE).ToList();
+                }
+            }
+            catch
+            {
+                return postList;    
+            }
+
+            return postList;
         }
     }
 }

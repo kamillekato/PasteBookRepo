@@ -1,58 +1,22 @@
 ﻿function ReloadPartial() { 
     $("#divRenderAction").load(partialUrl);
     
-}
- 
-function ReloadPartialFriend() {
-    $("#dropdownFriend").load(partialFriendUrl);
-}
-
-function ReloadPartialNotification() {
-    $("#dropdownNotification").load(partialNotificationUrl);
-}
-
-CheckUserIfFriend();
-function CheckUserIfFriend() {
-    if (parseInt(posterID) == profileOwnerID) { 
-    } else {
-        var data = {
-            userID: parseInt(posterID),
-            friendID: profileOwnerID
-        };
-        $.ajax({
-            url: checkUserIfFriendUrl,
-            data: data,
-            type: 'GET',
-            success: function (data) {
-                if (data.Status == false) {
-                    if (parseInt(posterID) != profileOwnerID) { 
-                        $("#btnAddFriend").text("Add Friend");
-                        $("#btnAddFriend").show();
-                    }
-                } else { 
-                    relationship = data;
-                    if (data.RequestFriend == "Y") {
-                        $("#btnAddFriend").text("Friend");
-                        $("#btnAddFriend").show();
-                    } else { 
-                        if (profileOwnerID == parseInt(posterID)) {
-                            $("#btnAddFriend").text("Request");
-                            $("#btnAddFriend").show();
-                        } else {
-                            $("#btnAddFriend").text("Accept Request");
-                            $("#btnAddFriend").show();
-                        }
-                    }
-                }
-            }, error: function () {
-                alert('Something went wrong')
-            }
-        });
-    }
-    
-
 } 
+ 
+var timerNewsFeed;
+function ClearTimer() {
+    clearInterval(timerNewsFeed); 
+}
 
+function TimerNewsFeed() {
+    ClearTimer()
+     timerNewsFeed = setInterval(function () { 
+        ReloadPartial();
+    }, 60000);
+}
+
+
+TimerNewsFeed();
 function AddFriend() {
     var data = { 
         USER_ID: parseInt(posterID),
@@ -64,44 +28,13 @@ function AddFriend() {
         data: data,
         type: 'GET',
         success: function (data) { 
-            CheckUserIfFriend();
-        },
-        error: function () {
-            alert('Something went wrong')
-        }
-    });
-}
-
-function CountNotification() {
-    var data = {
-        userID: parseInt(posterID)
-    }
-    $.ajax({
-        url: countNotificationUrl,
-        data: data,
-        type: 'GET',
-        success: function (result) {
-            if (result.countFriendRequest > 0) {
-                $("#bdgeFriend").text(result.countFriendRequest);  
-            }
-            if (result.countNotification > 0) {
-                $("#bdgeNotification").text(result.countNotification); 
-            }
+            location.reload();
         } 
     });
-}
- 
-CountNotification();
-AutoRefresh();
-function AutoRefresh() { 
-    setInterval(function () { 
-        CountNotification();
-    }, 1000);
 } 
 
 function AcceptFriendRequest() { 
-    var data = {
-        ID: parseInt(relationship.ID),
+    var data = { 
         USER_ID: parseInt(posterID),
         FRIEND_ID: profileOwnerID
     };
@@ -110,43 +43,14 @@ function AcceptFriendRequest() {
         url: acceptFriendRequestUrl,
         data: data,
         type: 'GET',
-        success: function () {
-            CheckUserIfFriend();
+        success: function () { 
+            location.reload();
         }, error: function () {
             alert('Something went wrong')
         }
     });
 }
-$("#btnAddFriend").on('click', function () { 
-    if (relationship == null ) {
-        AddFriend();
-    } else { 
-        if (relationship.RequestFriend == "N") {
-            if (profileOwnerID != parseInt(posterID)) {
-                AcceptFriendRequest();
-            } 
-        }
-    }
-});
-
-function AcceptFriendByNotification(userID,friendID) {
-    var data = { 
-        userID: userID,
-        friendID: friendID
-    };
-
-    $.ajax({
-        url: acceptInNotifUrl,
-        data: data,
-        type: 'GET',
-        success: function () {
-            CheckUserIfFriend();
-            ReloadPartialFriend();
-        }, error: function () {
-            alert('Something went wrong')
-        }
-    });
-}
+ 
 
 function CancelFriendRequest() {
     var data = {
@@ -158,27 +62,7 @@ function CancelFriendRequest() {
         url: acceptInNotifUrl,
         data: data,
         type: 'GET',
-        success: function () {
-            CheckUserIfFriend();
-            ReloadPartialFriend();
-        }, error: function () {
-            alert('Something went wrong')
-        }
-    });
-}
-
-function CancelFriendByNotification(userID,friendID){
-    var data = {
-        userID: userID,
-        friendID: friendID
-    };
-
-    $.ajax({
-        url: cancelFriendUrl,
-        data: data,
-        type: 'GET',
-        success: function () {
-            CheckUserIfFriend();
+        success: function () { 
             ReloadPartialFriend();
         }, error: function () {
             alert('Something went wrong')
@@ -203,7 +87,7 @@ function SendComment(id,postOwnerID) {
         url: sendCommentUrl,
         data: data,
         type: 'GET',
-        success: function (data) {
+        success: function (data) {  
             $(textAreaID).val("");
             ReloadPartial();
         },
@@ -223,43 +107,72 @@ function CreatePost() {
         url: createPostUrl,
         data: data,
         type: 'GET',
-        success: function (data) {
+        success: function (data) { 
             $("#textAreaPost").val("");
             ReloadPartial();
-        },
-        error: function () {
-            alert('Something went wrong');
-        }
+        } 
     })
-} 
-function LikeUnlikePost(postID,postOwnerID) {
+}
+
+function LikePost(postID, postOwnerID) {
     var data = {
-        postID : postID,
+        postID: postID,
         userID: posterID,
         postOwnerID: postOwnerID
     };
     $.ajax({
-        url: likeUnlikeUrl,
+        url: likeUrl,
         data: data,
         type: 'GET',
-        success: function (data) { 
+        success: function (data) {
             ReloadPartial();
-
         },
         error: function () {
             alert('Something went wrong');
         }
     })
 }
+function UnlikePost(postID) {
+    var data = {
+        postID: postID,
+        userID: posterID
+    }
+
+    $.ajax({
+        url: unlikeUrl,
+        data: data,
+        type: 'GET',
+        success: function (data) {
+            ReloadPartial();
+        },
+        error: function () {
+            alert('Something went wrong');
+        }
+    })
+
+}
 
 $("#postButton").click(function () { 
     CreatePost();
 });
 
+HideShowLeftSide();
+function HideShowLeftSide() {
+    if (profileOwnerID == parseInt(posterID)) { 
+        $("#editAboutMe").show();
+        $("#divFriendShow").show(); 
+    } else { 
+        $("#editAboutMe").hide();
+    }
+}
 
 $("#btnSaveAboutMe").click(function () {
     SaveAboutMe();
 })
+
+$("#editAboutMe").click(function () {
+    $("#aboutMeTextarea").val($("#aboutMeInfo").text());
+});
 function SaveAboutMe() { 
     var content = $("#aboutMeTextarea").val();  
     var data = {
@@ -270,11 +183,47 @@ function SaveAboutMe() {
         url: saveAboutMeUrl,
         data: data,
         type: 'GET',
-        success: function () {
-            $("#modalAbout").modal('hide');
-            $("#aboutMeInfo").text(content);
+        success: function (data) {
+            if (data.Result == true) { 
+                $("#modalAbout").modal('hide');
+                $("#aboutMeInfo").text(content);
+            }
         }, error: function () {
 
         }
     });
 }
+
+
+function ReadUrl(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            $("#ImgProfile").attr('src', e.target.result);
+            $("#imgNavBar").attr('src', e.target.result);
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+} 
+$("#inputUpload").change(function () {
+    ReadUrl(this);
+    var data = new FormData();
+    var files = $("#inputUpload").get(0).files;
+    if (files.length > 0) {
+        data.append("UploadImage", files[0])
+    }
+    $.ajax({
+        url: changePictureUrl,
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        data: data,
+        success: function (data) {
+            if (data.Result == true) {
+                ReloadPartial(); 
+            }
+        }, error: function () {
+        }
+    });
+
+});

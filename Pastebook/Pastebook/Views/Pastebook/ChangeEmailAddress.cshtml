@@ -1,0 +1,88 @@
+﻿
+
+@model PastebookDataLibrary.USER
+@{ 
+    Layout = "~/Views/Shared/_LayoutSettings.cshtml";
+}
+
+
+@using (Html.BeginForm("ChangeEmailAddress", "Pastebook", FormMethod.Post))
+{
+    <div id="settingsRenderBody">
+        <div class="row">
+            <div class="col-md-12">
+                <span class="settingsHeaderBottom">Change Email Address</span>
+            </div>
+        </div>
+        <strong class="redFontColor">Required(<span class="glyphicon glyphicon-asterisk"></span>)</strong>
+        <div class="row ">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-horizontal">
+                    @Html.HiddenFor(model => model.ID)
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            @Html.LabelFor(model => model.EMAIL_ADDRESS, htmlAttributes: new { @class = "control-label" })<strong class="redFontColor asteriskSize">*</strong>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.EMAIL_ADDRESS, new { htmlAttributes = new { @type = "email", @class = "form-control" } })
+                            <span id="EmailError" class="text-danger"></span>
+                            @Html.ValidationMessageFor(model => model.EMAIL_ADDRESS, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            <label for="confirmPassword" class="control-label">Password</label><strong class="redFontColor asteriskSize">*</strong>
+                        </div>
+                        <div class="col-md-9">
+                            <input type="password" class="form-control" name="confirmPassword" id="confirmPassword" placeholder="Password"   required />
+                            @Html.ValidationMessage("MainError", new { @class = "text-danger" })
+
+                         </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6">
+                        <div>
+                            <input type="submit" value="Save" class="btn btn-primary" />
+                            <button tpye="button" class="btn btn-primary" onclick="location.href='@Url.Action("Settings","Pastebook")'">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+ 
+@section Scripts{
+   @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var email='@Model.EMAIL_ADDRESS';
+        var checkEmailUrl = '@Url.Action("CheckEmailIfValid","Pastebook")';
+        
+
+
+        $("#EMAIL_ADDRESS").blur(function () {
+            if (email == $("#EMAIL_ADDRESS").val()) {
+
+            }else{
+                var data = {
+                    email: $("#EMAIL_ADDRESS").val()
+                };
+                $.ajax({
+                    url: checkEmailUrl,
+                    data: data,
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.IsValid == false) { 
+                            $("#EmailError").text("Email Address already taken.");
+                        } else { 
+                            $("#EmailError").text("");
+                        }
+                    }
+                });
+            }
+        });
+    </script>
+     }

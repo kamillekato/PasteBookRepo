@@ -148,19 +148,13 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ErrorController.cs" />
     <Compile Include="Controllers\PastebookController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Manager\PastebookManager.cs" />
-    <Compile Include="Mapper\MVCMapper.cs" />
-    <Compile Include="Models\CountryModel.cs" />
-    <Compile Include="Models\LikeViewModel.cs" />
-    <Compile Include="Models\LoginViewModel.cs" />
-    <Compile Include="Models\PostViewModel.cs" />
-    <Compile Include="Models\SignUpViewModel.cs" />
-    <Compile Include="Models\UserModel.cs" />
+    <Compile Include="Models\ProfileViewModel.cs" />
+    <Compile Include="Models\SettingsViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -171,6 +165,7 @@
     <Content Include="Content\HomeSite.css" />
     <Content Include="Content\Images\defaultProfilePic.jpg" />
     <Content Include="Content\LoginSite.css" />
+    <Content Include="Content\SettingSite.css" />
     <Content Include="Content\themes\base\accordion.css" />
     <Content Include="Content\themes\base\all.css" />
     <Content Include="Content\themes\base\autocomplete.css" />
@@ -250,7 +245,10 @@
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\Custom\Home.js" />
+    <Content Include="Scripts\Custom\Navbar.js" />
     <Content Include="Scripts\Custom\Profile.js" />
+    <Content Include="Scripts\Custom\ViewPost.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\angular.min.js.map" />
     <Content Include="Scripts\angular-touch.min.js.map" />
@@ -1042,28 +1040,31 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Pastebook\Index.cshtml" />
     <Content Include="Views\Pastebook\SignUp.cshtml" />
     <Content Include="Views\Pastebook\Home.cshtml" />
     <Content Include="Views\Pastebook\Login.cshtml" />
     <Content Include="Views\Shared\_LayoutLogin.cshtml" />
     <Content Include="Views\Shared\_LayoutHome.cshtml" />
-    <Content Include="Views\Pastebook\deletedPost.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Pastebook\ViewProfile.cshtml" />
     <Content Include="Views\Pastebook\PostList.cshtml" />
     <Content Include="Views\Pastebook\GenerateLikesList.cshtml" />
-    <Content Include="Views\Pastebook\CommentList.cshtml" />
     <Content Include="Views\Pastebook\FriendRequestList.cshtml" />
     <Content Include="Views\Pastebook\NotificationList.cshtml" />
     <Content Include="Views\Pastebook\ViewPost.cshtml" />
     <Content Include="Views\Pastebook\FriendList.cshtml" />
+    <Content Include="Views\Pastebook\Settings.cshtml" />
+    <Content Include="Views\Pastebook\SearchUser.cshtml" />
+    <Content Include="Views\Shared\_LayoutSettings.cshtml" />
+    <Content Include="Views\Pastebook\UpdateInformation.cshtml" />
+    <Content Include="Views\Pastebook\ChangeEmailAddress.cshtml" />
+    <Content Include="Views\Pastebook\ChangePassword.cshtml" />
+    <Content Include="Views\Error\ErrorFound.cshtml" />
+    <Content Include="Views\Error\Error404.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Manager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -1073,10 +1074,6 @@
     <ProjectReference Include="..\PastebookBusinessLogic.cs\PastebookBusinessLogic.csproj">
       <Project>{7ccbc411-a80f-4dd3-b77f-81728281ddb7}</Project>
       <Name>PastebookBusinessLogic</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\PastebookBusinessLogic\PastebookD.csproj">
-      <Project>{f1f43fb4-0583-4dac-b197-3ddc7b7d425f}</Project>
-      <Name>PastebookD</Name>
     </ProjectReference>
     <ProjectReference Include="..\PastebookDataLibrary\PastebookDataLibrary.csproj">
       <Project>{7973acc2-1202-438b-8aa2-c86c6a88e76c}</Project>

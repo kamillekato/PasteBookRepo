@@ -17,7 +17,7 @@ namespace PastebookDataAccess
             {
                 using (var context =  new DB_PASTEBOOKEntities())
                 {
-                    returnValue = context.NOTIFICATIONs.Where(notif => notif.RECEIVER_ID == userID && notif.NOTIF_TYPE == "F").ToList().Count();
+                    returnValue = context.NOTIFICATIONs.Where(notif => notif.RECEIVER_ID == userID && notif.NOTIF_TYPE == "F" && notif.SEEN == "N").ToList().Count();
                 }
             }
             catch 

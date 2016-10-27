@@ -3,13 +3,14 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>Pastebook</title>
     @Styles.Render("~/Content/Home/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
 <body  >
-    <div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar navbar-inverse navbar-fixed-top">   
         <div class="container">
+            
             <div class="navbar-header">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="icon-bar"></span>
@@ -20,55 +21,73 @@
             </div> 
              
                 
-             
             <div class="navbar-collapse collapse">
                 
                 <div class="nav navbar-form navbar-left">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Search" />
+                    <div class="form-group"> 
+                        @using (Html.BeginForm("SearchUser", "Pastebook", FormMethod.Post))
+                        {
+                        <div id="btnGroupSearch" class="input-group">
+                            <input id="searchTextBox" type="text" class="form-control" placeholder="Search people ... " name="searchText">
+                            <span class="input-group-btn">
+                                <button id="searchBtn" class="btn btn-default btnSearch" type="submit">
+                                    <span class="glyphicon glyphicon-search"></span>
+                                </button>
+                            </span>
+                        </div> 
+                        } 
                     </div>
                 </div>
                 <ul class="nav navbar-nav navbar-right">
+                    <li class="navbarIcon">
+                        <a title="Home" role="button" onclick="location.href='@Url.Action("Home","Pastebook")'"><span class="glyphicon glyphicon-home"></span></a>
+                    </li>
                     <li class="navbarIcon dropdown">
-                        <a role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialFriend()" >
+                        <a title="Friend Request" id="dropDownFriendRequest" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialFriend()" >
                         <span class="glyphicon glyphicon-user"></span><span id="bdgeFriend" class="badge redText"></span></a>
                         
                         <ul id="dropdownFriend" class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li>
+                                <div class="friendRequestContent">
+                                    <div class="form-inline">
+                                        <h4>No Friend Request</h4>
+                                    </div>
+                                </div>
+                            </li>
                         </ul> 
                         
                     </li>
                      <li class="navbarIcon dropdown">
-                        <a role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialNotification()">
+                        <a title="Notification" id="dropDownNotification" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialNotification()">
                             <span class="glyphicon glyphicon-globe"></span><span id="bdgeNotification" class="badge redText"></span>
                         </a> 
                         <ul id="dropdownNotification" class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li>
+                                <a class="notificationContent">
+                                    <div class="form-inline content-inner">
+                                        <h4>No Notification</h4>
+                                    </div>
+                                </a>
+                            </li>
                         </ul>
 
                     </li>
+
                     <li  class="btn-group">
                         @*<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Profile<span class="caret"></span>
                         </button>*@ 
-                       <img role="button" id="imgNavBar" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
+                       <img  role="button" id="imgNavBar" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive imgNavBarBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
                         
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("View Profile","ViewProfile","Pastebook",new { userName = Session["CurrentUserName"].ToString()},null)</li>
+                            <li>@Html.ActionLink("Settings","Settings","Pastebook")</li>
                             <li role="separator" class="divider"></li>
                             <li>@Html.ActionLink("Logout","Logout","Pastebook")</li>
                         </ul>
                     </li>
                 </ul>
-            </div>
+            </div> 
         </div>
     </div>
     <div class="container-fluid body-content">
@@ -76,9 +95,22 @@
     </div>
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/bootstrap") 
     @RenderSection("scripts", required: false)
-    <script src="~/Scripts/Custom/Profile.js"></script>
+    <script>
+        var partialFriendUrl = '@Url.Action("ViewFriendRequest","Pastebook",new { userID = (int)Session["CurrentUserID"]})';
+        var partialNotificationUrl = '@Url.Action("ViewNotifications","Pastebook",new { userID = (int)Session["CurrentUserID"] })';
+        var posterID =  @Session["CurrentUserID"];
+        var acceptInNotifUrl = '@Url.Action("AcceptFriendRequestInNotif","Pastebook")';
+        var cancelFriendUrl = '@Url.Action("CancelFriendRequestInNotif","Pastebook")';
+        var countNotificationUrl = '@Url.Action("CountNotification","Pastebook")';
+        var searchUserUrl ='@Url.Action("SearchUser","Pastebook")';
+        var getUserImageUrl = '@Url.Action("GetUserImage","Pastebook")';
+        var createPostUrl = '@Url.Action("Post","Pastebook")';
+        var likeUrl = '@Url.Action("LikePost","Pastebook")';
+        var unlikeUrl = '@Url.Action("UnlikePost","Pastebook")'
+         
+    </script>
+    <script src="~/Scripts/Custom/Navbar.js"></script>
 </body>
 </html>

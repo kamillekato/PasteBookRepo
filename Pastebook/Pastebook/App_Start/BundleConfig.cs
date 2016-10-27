@@ -41,6 +41,11 @@ namespace Pastebook
                       "~/Content/bootstrap.css",
                       "~/Content/homesite.css"));
 
+            bundles.Add(new StyleBundle("~/Content/Settings/css").Include(
+                      "~/Content/bootstrap.css",
+                      "~/Content/homesite.css",
+                      "~/Content/settingsite.css"));
+
 
             bundles.Add(new StyleBundle("~/Content/themes/base/css").Include(
                         "~/Content/themes/base/core.css",

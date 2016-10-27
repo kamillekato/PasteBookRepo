@@ -5,65 +5,83 @@
 
 
 <div class="row">
-    <div class="col-md-3">
-        <div class="row rowPadding">
-            <div id="userHomeDetails" class="col-md-12 homeLeftDiv divBorderRadius divShadow ">
-                <div class="col-md-12 divColorBlue divInsideRadius">
-                    <div class="col-md-offset-4 col-md-4">
-                        <img  id="imgHome" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive"  />
-                    </div>
-
+    <div class="col-md-5">
+        <div id="welcomeHeaderContainer" class="divShadow divPost rowLeftProfilePadding">
+            <div class="row">
+                <div class="col-md-12"> 
+                        <div id="welcomeHeader" class="text-center whiteText"><strong>WELCOME</strong></div>  
+                </div> 
+            </div>
+        </div>
+        <div class="divShadow divPost rowLeftProfilePadding">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="blueText"><strong>  Profile</strong></h4>
+                </div>
+                <div class="col-md-6">
+                    <button id="btnLeftProfile" type="button" class="blueText pull-right infoTextSize asText btnLeftProfile" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new { userName = Session["CurrentUserName"].ToString() })'">
+                        <span class="glyphicon glyphicon-eye-open"></span> View
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div  class="divShadow divPost rowLeftProfilePadding">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4 class="blueText"><strong>  FriendList</strong></h4>
+                </div>
+                <div class="col-md-6">
+                    <button id="btnLeftProfile" type="button" class="blueText pull-right infoTextSize asText btnLeftProfile" onclick="location.href='@Url.Action("FriendList","Pastebook" )'">
+                        <span class="glyphicon glyphicon-eye-open"></span> View
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    <div class="col-md-6">
-        <div class="row rowPost">
-            <div class="divShadow divPost clearfix">
-                <h5 class="blueText"><strong><span class="glyphicon glyphicon-pencil"></span>  Create Post</strong></h5>
-                <textarea class="form-control" rows="3" id="textAreaPost" ng-model="postTextArea" placeholder="What's on your mind?"></textarea>
-                <div class="row">
-                    <div class="col-md-offset-10 col-md-2">
-                        <button type="submit" class="asText" ng-click="createPost()"><h4 class="blueText"><strong>POST</strong></h4></button>
-                    </div>
+    <div class="col-md-7">
+        <div class="divShadow divPost clearfix rowProfilePadding">
+            <h5 class="blueText"><strong><span class="glyphicon glyphicon-pencil"></span>  Create Post</strong></h5>
+            <textarea class="form-control" rows="3" id="textAreaPost" placeholder="What's on your mind?"></textarea>
+            <div class="row">
+                <div class="col-md-offset-10 col-md-2">
+                    <button type="submit" class="asText" id="postButton"><h4 class="blueText"><strong>POST</strong></h4></button>
                 </div>
             </div>
         </div>
 
+
+        <div id="divRenderAction">
+            @{ Html.RenderAction("Newsfeed", "Pastebook", new { userID = (int)Session["CurrentUserID"] }); }
+        </div>
     </div>
     <div class="col-md-3">
 
     </div>
 </div>
+<div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="modalViewLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalViewLabel">Like</h4>
+            </div>
+            <div class="modal-body modalLikeBody">
+                <div id="modalContentRender">
 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 @section Scripts {
    
     <script>
-        var CreatePostUrl = '@Url.Action("Post","Pastebook")'
-        var app = angular.module('HomePage', [])
-        var currentUserID = @Session["CurrentUserID"]
-        app.controller('HomeController', ['$scope','$http', function ($scope,$http) {
-            $scope.postTextArea = ""; 
-            $scope.createPost = function () {
-                if ($scope.postTextArea == "") {
-
-                } else {
-                    $http({
-                        url: CreatePostUrl,
-                        params: {
-                            Content: $scope.postTextArea,
-                            Poster_ID: parseInt(currentUserID),
-                            Profile_Owner_ID: parseInt(currentUserID)
-                        },
-                        type: 'GET'
-                    }).success(function (data) {
-                        $scope.postTextArea = "";
-                        
-                    }).error(function () {
-                    });
-                } 
-            }
-        }]);
+        var partialUrl = '@Url.Action("Newsfeed","Pastebook",new { userID = (int)Session["CurrentUserID"] })';
+        var posterID =  @Session["CurrentUserID"];
+        var profileOwnerID = @Session["CurrentUserID"];
+        var sendCommentUrl = '@Url.Action("PostComment","Pastebook")';
+        var likeUnlikeUrl = '@Url.Action("LikeUnlikePost","Pastebook")';
     </script>
+<script src="~/Scripts/Custom/Home.js"></script>
 }

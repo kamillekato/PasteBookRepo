@@ -27,10 +27,10 @@ namespace PastebookBusinessLogic
             returnValue = friendRepo.Add(friend);
             if (returnValue == true)
             {
-                notifManager.AddNotification(new NOTIFICATION()
+                var getReturn =notifManager.AddNotification(new NOTIFICATION()
                 {
                     RECEIVER_ID = friend.FRIEND_ID,
-                    SEEN = "Y",
+                    SEEN = "N",
                     SENDER_ID = friend.USER_ID,
                     NOTIF_TYPE = "F"
                 });
@@ -82,8 +82,61 @@ namespace PastebookBusinessLogic
         public List<FRIEND> GetFriendList(int userID)
         {
             List<FRIEND> friendList = new List<FRIEND>();
-            friendList = friendRepo.GetList(frnd=> frnd.USER_ID == userID || frnd.FRIEND_ID == userID);
+            friendList = friendRepo.GetList(frnd=> (frnd.USER_ID == userID || frnd.FRIEND_ID == userID) && (frnd.REQUEST == "Y"));
             return friendList;
+        }
+
+        public string GetFriendStatus(int userID ,int friendID)
+        {
+            string status = string.Empty;
+            #region checkStatus
+            if (userID == friendID)
+            {
+                status = "Own";
+            }
+            else
+            { 
+                var getFriend = friendRepo.Get(frnd => (frnd.USER_ID == userID && frnd.FRIEND_ID == friendID) ||
+                                                    (frnd.USER_ID == friendID && frnd.FRIEND_ID == userID));
+                if (getFriend == null)
+                {
+                    status = "None";
+                }
+                else if (getFriend.REQUEST == "Y")
+                {
+                    status = "Friend";
+                }
+                else if (getFriend.REQUEST == "N")
+                {
+                    if (getFriend.USER_ID == userID)
+                    {
+                        status = "Request";
+                    }else
+                    {
+                        status = "Accept";
+                    }
+                }
+            }
+            #endregion 
+            return status;
+        }
+
+        public List<int> GetFriendsID(int userID)
+        {
+            List<FRIEND> friendList = new List<FRIEND>();
+            friendList = GetFriendList(userID);
+            List<int> friendsID = new List<int>();
+            foreach (var friend in friendList)
+            {
+                if (userID == friend.USER_ID)
+                {
+                    friendsID.Add(friend.FRIEND_ID);
+                }else
+                {
+                    friendsID.Add(friend.USER_ID);
+                }
+            }
+            return friendsID; 
         }
 
     }

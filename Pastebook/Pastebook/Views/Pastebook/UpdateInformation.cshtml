@@ -1,0 +1,156 @@
+﻿@model PastebookDataLibrary.USER
+@{
+    ViewBag.ListOfGender = new SelectList(new List<SelectListItem> {
+                            new SelectListItem { Value="U",Text= "Unspecified",Selected =true },
+                            new SelectListItem { Value = "M",Text="Male"},
+                               new SelectListItem {Value = "F", Text ="Female" }
+                           }, "Value", "Text");
+    Layout = "~/Views/Shared/_LayoutSettings.cshtml";
+}
+
+
+@using (Html.BeginForm("UpdateInformation", "Pastebook", FormMethod.Post))
+{
+    <div id="settingsRenderBody">
+        <div class="row">
+            <div class="col-md-12">
+                <span class="settingsHeaderBottom">Update Information</span>
+            </div>
+        </div>
+        <strong class="redFontColor">Required(<span class="glyphicon glyphicon-asterisk"></span>)</strong>
+        <div class="row ">
+            <div class="col-md-6">
+                <div class="form-horizontal">
+                    @Html.HiddenFor(model => model.ID)
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            @Html.LabelFor(model => model.USER_NAME, htmlAttributes: new { @class = "control-label" })<strong class="redFontColor asteriskSize">*</strong>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control",@placeholder="Username" } })
+                            <span id="errorUserName" class="text-danger"></span>
+                            @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            @Html.LabelFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "control-label" })<strong class="redFontColor asteriskSize">*</strong>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.FIRST_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder = "Firstname" } })
+                            @Html.ValidationMessageFor(model => model.FIRST_NAME, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            @Html.LabelFor(model => model.LAST_NAME, htmlAttributes: new { @class = "control-label" })<strong class="redFontColor asteriskSize">*</strong>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.LAST_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder = "Lastname" } })
+                            @Html.ValidationMessageFor(model => model.LAST_NAME, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-3 text-right">
+                            @Html.LabelFor(model => model.BIRTHDAY, htmlAttributes: new { @class = "control-label" })<strong class="redFontColor asteriskSize">*</strong>
+                        </div>
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control",@type="text" ,@readonly=true, @placeholder = "Birthday" } })
+                            @Html.ValidationMessageFor(model => model.BIRTHDAY, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-horizontal">
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.COUNTRY_ID, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.COUNTRY_ID, new SelectList(ViewBag.CountryList, "ID", "Country"), "--Select Country--", new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.COUNTRY_ID, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.EditorFor(model => model.MOBILE_NO, new { htmlAttributes = new { @class = "form-control", @placeholder = "Mobile number" } })
+                            @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.GENDER, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-9">
+                            @Html.DropDownListFor(model => model.GENDER, (SelectList)ViewBag.ListOfGender, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(model => model.GENDER, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                     
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div id="buttonContainer" class="pull-right">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <button tpye="button" class="btn btn-primary" onclick="location.href='@Url.Action("Settings","Pastebook")'">Cancel</button>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts{
+    @Scripts.Render("~/bundles/jqueryval")
+    <script>
+        var checkUserNameUrl = '@Url.Action("CheckUserNameIfValid","Pastebook")';
+        var checkEmailUrl = '@Url.Action("CheckEmailIfValid","Pastebook")';
+
+
+        $(function () {
+            $("#BIRTHDAY").datepicker({
+                maxDate: "0",
+                changeMonth: true,
+                changeYear: true,
+                showOn: "button", 
+                buttonText: "Select date"
+            });
+        });
+
+        $("#USER_NAME").blur(function(){
+            CheckUserName();
+        });
+         
+
+        function CheckUserName() {
+            var data = {
+                userName: $("#USER_NAME").val()
+            };
+            $.ajax({
+                url: checkUserNameUrl,
+                data: data,
+                type: 'GET',
+                success: function (result) {
+                    if (result.IsValid == false) {
+                        var userNameGet = $("#USER_NAME").val();
+                        if ('@Session["CurrentUserName"].ToString()' ==  userNameGet ) { 
+                        }else{ 
+                            $("#errorUserName").text("Username already taken.");
+                        }
+                    } else {
+                        $("#errorUserName").text("");
+                    }
+                }
+            });
+        }
+
+         
+    </script>
+    
+    }

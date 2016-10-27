@@ -32,12 +32,21 @@ namespace PastebookBusinessLogic
             return timelinePost;
         }
 
+        public List<POST> GetUsersNewsFeed(List<int> friendsID)
+        {
+            List<POST> newsfeed = null;
+            newsfeed = postRepo.GetUserNewsFeedPost(friendsID);
+            return newsfeed;
+        }
+
         public POST GetPost(int postID)
         {
             POST post = new POST();
             post = postRepo.Get(x=>x.ID== postID);
             return post;
         }
+
+       
 
 
     }

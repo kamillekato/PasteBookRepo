@@ -21,11 +21,24 @@ foreach (var like in Model)
 {
     <div class="row">
         <div class="col-md-12">
-            <div role="button" class="likeContent ">
+            <div role="button" class="likeContent " onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = like.USER.USER_NAME})'">
                 <div class="row">
                     <div class="col-md-offset-1 col-md-11">
                         <div class="form-inline">
-                            <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-like" /></span>
+                            @{
+                                if (like.USER.PROFILE_PIC == null)
+                                {
+                                    <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-like" /></span>
+
+                                }
+                                else
+                                {
+                                    var base64 = Convert.ToBase64String(like.USER.PROFILE_PIC);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                    <span class="form-group"><img src="@imgSrc" class="img-circle img-responsive img-like" /></span>
+                                }
+                            }
+                            
                             <div class="form-group">
                                 <h4>@like.USER.FIRST_NAME @like.USER.LAST_NAME </h4>
                             </div>

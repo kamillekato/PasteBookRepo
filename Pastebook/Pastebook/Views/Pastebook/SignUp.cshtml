@@ -11,8 +11,7 @@
 @using (Html.BeginForm("SignUp", "Pastebook", FormMethod.Post))
 {
     @Html.AntiForgeryToken() 
-                <div class="form-horizontal">
-                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-horizontal"> 
                     <div class="form-group formSignup">
                         <div class="col-md-3">
                                 <button type="button" onclick="location.href='@Url.Action("Login","Pastebook")'" class="btn-default btn btn-primary "><span class="glyphicon glyphicon-chevron-left"></span><strong>BACK</strong></button>                        
@@ -29,38 +28,47 @@
                     <div class="form-group formSignup">
                         <div class="col-md-6"> 
                             @Html.LabelFor(model => model.USER_NAME, htmlAttributes: new { @class = "control-label" }) <strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.USER_NAME, new { htmlAttributes = new { @class = "form-control",@placeholder="Username" } })
+                            <span id="errorUserName" class="text-danger"></span>
                             @Html.ValidationMessageFor(model => model.USER_NAME, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
-                            @Html.LabelFor(model => model.PASSWORD, htmlAttributes: new { @class = "control-label " })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.PASSWORD, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.EMAIL_ADDRESS, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
+                            @Html.EditorFor(model => model.EMAIL_ADDRESS, new { htmlAttributes = new { @class = "form-control",@placeholder="Email Address" } })
+                            <span id="errorEmail" class="text-danger"></span>
+                            @Html.ValidationMessageFor(model => model.EMAIL_ADDRESS, "", new { @class = "text-danger" })
                         </div>
                     </div>
-                    <div class="form-group formSignup">
+                    <div class="form-group formSignup"> 
                         <div class="col-md-6">
-                            @Html.LabelFor(model => model.EMAIL_ADDRESS, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.EMAIL_ADDRESS, new { htmlAttributes = new { @class = "form-control" } })
-                            @Html.ValidationMessageFor(model => model.EMAIL_ADDRESS, "", new { @class = "text-danger" })
+                            @Html.LabelFor(model => model.PASSWORD, htmlAttributes: new { @class = "control-label " })<strong class="redText asteriskSize">*</strong>
+                            @Html.EditorFor(model => model.PASSWORD, new { htmlAttributes = new { @class = "form-control" ,@placeholder="Password"} })
+                            @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            <label for="ConfirmPassword" class="control-label">Confirm Password
+                            </label><strong class="redText asteriskSize">*</strong>
+                            <input type="password" class="form-control" name="ConfirmPassword" id="ConfirmPassword" placeholder="Confirm Password"/>
+                            <span id="confirmError"  class="text-danger"></span>
+                            @Html.ValidationMessage("ConfirmPassword",new { @class="text-danger"})
                         </div>
                     </div>
                     <div class="form-group formSignup">
                         <div class="col-md-6">
                             @Html.LabelFor(model => model.FIRST_NAME, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.FIRST_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.FIRST_NAME, new { htmlAttributes = new { @class = "form-control" ,@placeholder="Firstname"} })
                             @Html.ValidationMessageFor(model => model.FIRST_NAME, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6  ">
                             @Html.LabelFor(model => model.LAST_NAME, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.LAST_NAME, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.LAST_NAME, new { htmlAttributes = new { @class = "form-control", @placeholder="Lastname" } })
                             @Html.ValidationMessageFor(model => model.LAST_NAME, "", new { @class = "text-danger" })
                         </div>
                     </div>
                     <div class="form-group formSignup">
                         <div class="col-md-6">
                             @Html.LabelFor(model => model.BIRTHDAY, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control",@readonly=true,@type="text",@placeholder="Birthday" } })
                             @Html.ValidationMessageFor(model => model.BIRTHDAY, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
@@ -72,13 +80,13 @@
                     <div class="form-group formSignup">
                         <div class="col-md-6">
                             @Html.LabelFor(model => model.MOBILE_NO, htmlAttributes: new { @class = "control-label " })
-                            @Html.EditorFor(model => model.MOBILE_NO, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.EditorFor(model => model.MOBILE_NO, new { htmlAttributes = new { @class = "form-control",@placeholder="Mobile number" } })
                             @Html.ValidationMessageFor(model => model.MOBILE_NO, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
                             @Html.LabelFor(model => model.GENDER, htmlAttributes: new { @class = "control-label" })
                             @Html.DropDownListFor(model => model.GENDER, (SelectList)ViewBag.ListOfGender, new { @class = "form-control" })
-                            @Html.ValidationMessageFor(model => model.GENDER, "", new { @class = "text-danger" })
+                            @Html.ValidationMessageFor(model => model.GENDER, "", new { @class = "text-danger" }) 
                         </div>
                     </div>
                     <div class="form-group formSignup">
@@ -94,8 +102,72 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
     <script>
+        var checkUserNameUrl = '@Url.Action("CheckUserNameIfValid","Pastebook")';
+        var checkEmailUrl = '@Url.Action("CheckEmailIfValid","Pastebook")';
+
+
         $(function () {
-            $("#User_Birthday").datepicker({maxDate:"0"});
+            $("#BIRTHDAY").datepicker({
+                maxDate: "0" ,
+                changeMonth: true,
+                changeYear: true,
+                showOn: "button", 
+                buttonText: "Select date"
+            });
+        });
+
+        $("#USER_NAME").blur(function(){
+            CheckUserName();
+        });
+
+
+        function CheckConfirmPassword() {
+            if ($("#PASSWORD").val() != $("#ConfirmPassword").val()) {
+                $("#confirmError").text("Passwords do not match");
+            } else {
+                $("#confirmError").text("");
+            }
+        }
+
+        $("#ConfirmPassword").blur(function () {
+            CheckConfirmPassword();
+        });
+
+        function CheckUserName() {
+            var data = {
+                userName: $("#USER_NAME").val()
+            };
+            $.ajax({
+                url: checkUserNameUrl,
+                data: data,
+                type: 'GET',
+                success: function (result) {
+                    if (result.IsValid == false) {
+                        $("#errorUserName").text("Username already taken.");
+                    } else {
+                        $("#errorUserName").text("");
+                    }
+                }
+            });
+        }
+
+
+        $("#EMAIL_ADDRESS").blur(function () {
+            var data = {
+                email: $("#EMAIL_ADDRESS").val()
+            };
+            $.ajax({
+                url: checkEmailUrl,
+                data: data,
+                type: 'GET',
+                success: function (result) {
+                    if (result.IsValid == false) {
+                        $("#errorEmail").text("Email Address already taken.");
+                    } else {
+                        $("#errorEmail").text("");
+                    }
+                }
+            });
         });
     </script>
 }

@@ -3,15 +3,41 @@
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6 col-md-offset-3">
         <div id="divRenderAction">
             <div class="divShadow divPost clearfix rowProfilePadding">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="form-inline">
-                            <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-post" /></span>
+                            <span class="form-group">
+                                @{
+                                    if (Model.USER1.PROFILE_PIC == null)
+                                    {
+                                        <img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-post" />
+                                    }
+                                    else
+                                    {
+                                        var base64 = Convert.ToBase64String(Model.USER1.PROFILE_PIC);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                        <img src="@imgSrc" class="img-circle img-responsive img-post" />
+                                    }
+                                }
+
+                            </span>
                             <div class="form-group">
-                                <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = Model.USER1.USER_NAME})'"><strong>@Model.USER1.FIRST_NAME @Model.USER1.LAST_NAME</strong></span><br />
+                                @{
+                                    if (Model.USER1.USER_NAME == Model.USER.USER_NAME)
+                                    {
+                                        <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = Model.USER1.USER_NAME})'"><strong>@Model.USER1.FIRST_NAME @Model.USER1.LAST_NAME</strong></span><br />
+
+                                    }
+                                    else
+                                    {
+                                        <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = Model.USER1.USER_NAME})'"><strong>@Model.USER1.FIRST_NAME @Model.USER1.LAST_NAME</strong></span>
+                                        <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = Model.USER.USER_NAME})'"> posted on <strong> @Model.USER.FIRST_NAME @Model.USER.LAST_NAME</strong>'s timeline</span><br />
+
+                                    }
+                                }
                                 <span class="grayText">@Model.CREATED_DATE.ToString("MMMM dd, yyyy hh:ss tt")</span>
                             </div>
                         </div>
@@ -54,9 +80,7 @@
                                 <span class="glyphicon glyphicon-option-horizontal"></span>
                             </button>
                             <ul class="dropdown-menu">
-                                <li><a role="button" onclick="ViewLikes('@Url.Action("ViewLikes","Pastebook", new { postID = Model.ID })')">View who likes</a></li>
-                                <li role="separator" class="divider"></li>
-                                <li><a role="button" href="">Delete post</a></li>
+                                <li><a role="button" onclick="ViewLikes('@Url.Action("ViewLikes","Pastebook", new { postID = Model.ID })')">View likes</a></li> 
                             </ul>
                         </div>
                     </div>
@@ -73,7 +97,7 @@
                         </div>
                     </div>
                 </div>
-                @foreach (var comment in Model.COMMENTs.OrderBy(cmmnt => cmmnt.DATE_CREATED))
+                @foreach (var comment in Model.COMMENTs.OrderByDescending(cmmnt => cmmnt.DATE_CREATED))
                 {
                     <div class="row">
                         <div class="col-md-12">
@@ -81,7 +105,18 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="form-inline">
-                                            <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-comment" /></span>
+                                            @{
+                                                if (comment.USER.PROFILE_PIC == null)
+                                                {
+                                                    <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-comment" /></span>
+                                                }
+                                                else
+                                                {
+                                                    var commentBase64 = Convert.ToBase64String(comment.USER.PROFILE_PIC);
+                                                    var imgCommentSrc = String.Format("data:image/gif;base64,{0}", commentBase64);
+                                                    <span class="form-group"><img src="@imgCommentSrc" class="img-circle img-responsive img-comment" /></span>
+                                                }
+                                            }
                                             <div class="form-group">
                                                 <span class="postTextColor commentText" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = comment.USER.USER_NAME})'"><strong>@comment.USER.FIRST_NAME @comment.USER.LAST_NAME</strong></span><br />
                                                 <span class="grayText commentText">@comment.DATE_CREATED.ToString("MMMM dd, yyyy hh:ss tt")</span>
@@ -97,8 +132,35 @@
                             </div>
                         </div>
                     </div>
-                }
-            </div> 
+                                                }
+            </div>
         </div>
     </div>
 </div>
+
+
+
+<div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="modalViewLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="modalViewLabel">Like</h4>
+            </div>
+            <div class="modal-body modalLikeBody">
+                <div id="modalContentRender">
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+
+    <script>
+        var posterID =  @Session["CurrentUserID"]; 
+        var sendCommentUrl = '@Url.Action("PostComment","Pastebook")';
+        var likeUnlikeUrl = '@Url.Action("LikeUnlikePost","Pastebook")';
+    </script>
+    <script src="~/Scripts/Custom/ViewPost.js"></script>
+}

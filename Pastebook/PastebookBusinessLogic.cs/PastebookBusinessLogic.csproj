@@ -69,7 +69,7 @@
       <Name>PastebookDataLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\PastebookDA\PastebookDataAccess.csproj">
-      <Project>{6BD560EA-4584-45AA-85C0-7DF956500B7A}</Project>
+      <Project>{6bd560ea-4584-45aa-85c0-7df956500b7a}</Project>
       <Name>PastebookDataAccess</Name>
     </ProjectReference>
   </ItemGroup>

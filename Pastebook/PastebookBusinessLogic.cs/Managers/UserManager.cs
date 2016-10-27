@@ -13,6 +13,72 @@ namespace PastebookBusinessLogic
         private UserRepository userRepo;
         private PasswordManager pwdManager;
 
+        public bool UpdateUserInformation(USER userUpdate)
+        {
+            bool returnValue = false;
+            var user = GetUserByID(userUpdate.ID);
+            user.FIRST_NAME = userUpdate.FIRST_NAME;
+            user.LAST_NAME = userUpdate.LAST_NAME;
+            user.BIRTHDAY = userUpdate.BIRTHDAY;
+            user.COUNTRY_ID = userUpdate.COUNTRY_ID;
+            user.GENDER = userUpdate.GENDER;
+            user.MOBILE_NO = userUpdate.MOBILE_NO;
+
+            if (user.USER_NAME == userUpdate.USER_NAME)
+            {
+                user.USER_NAME = userUpdate.USER_NAME;
+                returnValue = UpdateUser(user);
+                return returnValue;
+            }else
+            {
+                if (IsUserNameValid(userUpdate.USER_NAME))
+                {
+                    user.USER_NAME = userUpdate.USER_NAME;
+                    returnValue = UpdateUser(user);
+                }
+            }
+            return returnValue;
+        }
+
+        public bool ChangeEmailAddress(USER userUpdate,string confirmPassword)
+        {
+            bool returnValue = false;
+            var user = GetUserByID(userUpdate.ID);
+            bool cntr = pwdManager.IsPasswordMatch(confirmPassword,user.SALT, user.PASSWORD);
+            if (cntr)
+            {
+                if (user.EMAIL_ADDRESS == userUpdate.EMAIL_ADDRESS)
+                {
+                    return true;
+                }
+                else
+                {
+                    user.EMAIL_ADDRESS = userUpdate.EMAIL_ADDRESS;
+                    returnValue = UpdateUser(user);
+                }
+            }
+            return returnValue;
+
+        }
+
+         
+
+        public bool ChangePassword(USER userUpdate,string oldPassword)
+        {
+            bool returnValue = false;
+            var getUser = GetUserByID(userUpdate.ID);
+            bool cntr = pwdManager.IsPasswordMatch(oldPassword,getUser.SALT,getUser.PASSWORD);
+            if (cntr)
+            {
+                string salt = string.Empty;
+                string password = pwdManager.GeneratePasswordHash(userUpdate.PASSWORD, out salt);
+                getUser.SALT = salt;
+                getUser.PASSWORD = password;
+                returnValue = UpdateUser(getUser);
+            }
+            return returnValue;
+        }
+
         public UserManager()
         {
             userRepo = new UserRepository();
@@ -33,7 +99,7 @@ namespace PastebookBusinessLogic
             }
             return returnValue;
         } 
-
+         
         public bool UpdateUser(USER user)
         {
             bool returnValue = false;
@@ -91,6 +157,13 @@ namespace PastebookBusinessLogic
             return userName;
         }
 
+        public string GetEmailByID(int id)
+        {
+            string email = string.Empty;
+            email = userRepo.Get(usr=>usr.ID == id , usr=>usr.EMAIL_ADDRESS);
+            return email;
+        }
+
         public List<USER> GetUserFriendList(List<FRIEND> friendList,int userID)
         {
             List<USER> users = new List<USER>();
@@ -108,6 +181,20 @@ namespace PastebookBusinessLogic
                 users.Add(getUser);
             }
             return users;
+        }
+
+        public List<USER> GetUserBySearch(string searchText)
+        {
+            List<USER> users = new List<USER>();
+            users = userRepo.GetList(usr=>usr.FIRST_NAME == searchText || usr.LAST_NAME == searchText || searchText == (usr.FIRST_NAME + " " + usr.LAST_NAME));
+            return users;
+        }
+
+        public byte[] GetUserImage(int userID)
+        {
+            USER user = new USER();
+            user = userRepo.Get(usr=>usr.ID == userID);
+            return user.PROFILE_PIC;
         }
 
 

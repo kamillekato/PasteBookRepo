@@ -1,27 +1,92 @@
 ﻿@model IEnumerable<PastebookDataLibrary.NOTIFICATION>
 
+@{
+    if (Model.Count() == 0)
+    {
+        <li>
+            <a class="notificationContent">
+                <div class="form-inline content-inner">
+                    <h4>No Notification</h4>
+                </div>
+            </a>
+        </li>
+    }
+}
+
+
 @foreach (var notif in Model)
 {
     <li>
-        
+         
 
-            @if (notif.NOTIF_TYPE == "C")
-            {
-                <a class="notificationContent" role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook",new {postID = @notif.POST_ID })'" >
-                    <div class="form-inline content-inner">
-                        <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" /></span>
-                        <div class="form-group">
-                            <strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong><br />
-                            <text>commented on your post</text>
+        @if (notif.NOTIF_TYPE == "C")
+        { 
+                if (notif.SEEN == "Y")
+                {
+                        <a class="notificationContentSeen" role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook",new {postID = @notif.POST_ID })'">
+                            <div class="form-inline content-inner">
+                                @{
+                                    if (notif.USER1.PROFILE_PIC == null)
+                                    {
+                                        <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" /></span>
+                                    }
+                                    else
+                                    {
+                                        var base64 = Convert.ToBase64String(notif.USER1.PROFILE_PIC);
+                                        var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                        <span class="form-group"><img src="@imgSrc" class="img-circle img-responsive img-notification" /></span>
+                                    }
+                                }
+                                <div class="form-group">
+                                    <strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong><br />
+                                    <text>commented on your post</text>
+                                </div>
+                            </div>
+                        </a>
+                }
+                else
+                {
+                    <a class="notificationContent" role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook",new {postID = @notif.POST_ID })'">
+                        <div class="form-inline content-inner">
+                            @{
+                                if (notif.USER1.PROFILE_PIC == null)
+                                {
+                                    <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" /></span>
+                                }
+                                else
+                                {
+                                    var base64 = Convert.ToBase64String(notif.USER1.PROFILE_PIC);
+                                    var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                    <span class="form-group"><img src="@imgSrc" class="img-circle img-responsive img-notification" /></span>
+                                }
+                            }
+                            <div class="form-group">
+                                <strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong><br />
+                                <text>commented on your post</text>
+                            </div>
                         </div>
-                    </div>
-                </a>
-            }
-            else if(notif.NOTIF_TYPE == "L")
+                    </a>
+                } 
+
+        }
+        else if (notif.NOTIF_TYPE == "L")
+        {
+            if (notif.SEEN == "Y")
             {
-                <a class="notificationContent" role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook",new {postID = @notif.POST_ID })'">
+                <a class="notificationContentSeen" role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook",new {postID = @notif.POST_ID })'">
                     <div class="form-inline content-inner">
-                        <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" /></span>
+                        @{
+                            if (notif.USER1.PROFILE_PIC == null)
+                            {
+                                <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" /></span>
+                            }
+                            else
+                            {
+                                var base64 = Convert.ToBase64String(notif.USER1.PROFILE_PIC);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                <span class="form-group"><img src="@imgSrc" class="img-circle img-responsive img-notification" /></span>
+                            }
+                        }
                         <div class="form-group">
                             <strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong><br />
                             <text>liked on your post</text>
@@ -29,6 +94,31 @@
                     </div>
                 </a>
             }
+            else
+            {
+                <a class="notificationContent" role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook",new {postID = @notif.POST_ID })'">
+                    <div class="form-inline content-inner">
+                        @{
+                            if (notif.USER1.PROFILE_PIC == null)
+                            {
+                                <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" /></span>
+                            }
+                            else
+                            {
+                                var base64 = Convert.ToBase64String(notif.USER1.PROFILE_PIC);
+                                var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
+                                <span class="form-group"><img src="@imgSrc" class="img-circle img-responsive img-notification" /></span>
+                            }
+                        }
+                        <div class="form-group">
+                            <strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong><br />
+                            <text>liked on your post</text>
+                        </div>
+                    </div>
+                </a>
+            }
+
+        }
         
     </li>
 

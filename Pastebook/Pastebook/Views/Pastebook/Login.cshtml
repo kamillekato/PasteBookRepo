@@ -9,8 +9,9 @@
         <h2 class="col-md-offset-1 col-md-11 grayText">Welcome To Pastebook</h2> 
     </div>
         <p class="blueText"><strong>ACCOUNT LOGIN</strong></p>
-    <div class="form-horizontal row rowLoginContainer">
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    <div class="form-horizontal row rowLoginContainer"> 
+        @Html.ValidationMessage("LoginError",new { @class="text-danger" } )
+        
         <div class="form-group"> 
             <div class="col-md-12 "> 
                 @Html.LabelFor(model => model.EMAIL_ADDRESS, htmlAttributes: new { @class = "control-label grayText"   }) 
@@ -22,7 +23,7 @@
             <div class="col-md-12">
                 @Html.LabelFor(model => model.PASSWORD, htmlAttributes: new { @class = "control-label grayText" })
                 @Html.EditorFor(model => model.PASSWORD, new { htmlAttributes = new { @class = "form-control wide", @placeholder = "Password" } })
-                @Html.ValidationMessageFor(model => model.PASSWORD, "", new { @class = "text-danger" })
+                 
             </div>
         </div>
 

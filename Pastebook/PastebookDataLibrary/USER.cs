@@ -11,7 +11,8 @@ namespace PastebookDataLibrary
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class USER
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -28,18 +29,59 @@ namespace PastebookDataLibrary
         }
     
         public int ID { get; set; }
+        [Required(ErrorMessage = "Username field is required")]
+        [Display(Name = "Username")]
+        [StringLength(maximumLength: 50, MinimumLength = 4, ErrorMessage = "Username field must be at least 4 characters")]
+        [RegularExpression(@"^((\s*([_.]?)\s*[a-zA-Z0-9]+)+([_.]?)\s*)$", ErrorMessage = "Username is invalid. Username only allows Letters, Numbers, Periods(.) and Underscores(_).")]
         public string USER_NAME { get; set; }
+
+        [Required(ErrorMessage ="Password field is required")]
+        [Display(Name = "Password")]
+        [DataType(DataType.Password)]
+        [StringLength(maximumLength:50,MinimumLength = 5,ErrorMessage = "Password field must be atleast 5 characters")]
         public string PASSWORD { get; set; }
+
         public string SALT { get; set; }
+
+        [Required(ErrorMessage ="Firstname field is required")]
+        [Display(Name ="Firstname")]
+        [StringLength(maximumLength:50)]
+        [RegularExpression(@"^((\s*[ '.-]?\s*[a-zA-Z0-9]+)+[ '.-]?\s*)$", ErrorMessage = "Firstname is invalid. Firstname only allows Letters, Numbers, Periods(.), Apostrophe('), Parenthesis() and dashes(-)")]
         public string FIRST_NAME { get; set; }
+
+        [Required(ErrorMessage ="Lastname field is required")]
+        [Display(Name ="Lastname")]
+        [StringLength(maximumLength:50)]
+        [RegularExpression(@"^((\s*[ '.-]?\s*[a-zA-Z0-9]+)+[ '.-]?\s*)$", ErrorMessage = "Lastname is invalid. Lastname only allows Letters, Numbers, Periods(.), Apostrophe('), Parenthesis() and dashes(-)")]
         public string LAST_NAME { get; set; }
+
+        [Required(ErrorMessage ="Birthday field is required")]
+        [Display(Name ="Birthday")]
+        [DataType(DataType.Date)]
         public System.DateTime BIRTHDAY { get; set; }
+
+        [Display(Name ="Country")]
         public Nullable<int> COUNTRY_ID { get; set; }
+
+        [Display(Name ="Mobile No.")]
+        [DataType(DataType.PhoneNumber,ErrorMessage = "Mobile number is invalid")]
+        [Phone(ErrorMessage = "Mobile number is invalid")]
         public string MOBILE_NO { get; set; }
+
+        [Display(Name = "Gender")]
         public string GENDER { get; set; }
+
         public byte[] PROFILE_PIC { get; set; }
+
         public System.DateTime DATE_CREATED { get; set; }
+
+        [Display(Name = "About me")]
         public string ABOUT_ME { get; set; }
+
+        [Required(ErrorMessage = "Email address field is required")]
+        [Display(Name = "Email Address")]
+        [DataType(DataType.EmailAddress,ErrorMessage ="Email address is invalid")]
+        [EmailAddress(ErrorMessage = "Email address is invalid")]
         public string EMAIL_ADDRESS { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

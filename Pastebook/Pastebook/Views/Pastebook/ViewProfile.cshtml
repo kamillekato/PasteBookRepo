@@ -1,4 +1,5 @@
-﻿@model PastebookDataLibrary.USER
+﻿@model Pastebook.Models.ProfileViewModel
+
 @{ 
     Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
@@ -6,16 +7,17 @@
 <div class="row"> 
     <div class="col-md-12">
         <div class="rowPadding">
+             
             <div id="headerProfile" class="divBorderRadius divColorBlue divShadow">
                 <div class="col-md-offset-1 col-md-2">
                     @{
-                        if (Model.PROFILE_PIC == null)
+                        if (Model.User.PROFILE_PIC == null)
                         {
                             <img id="ImgProfile" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive" />
                         }
                         else
                         {
-                            var base64 = Convert.ToBase64String(Model.PROFILE_PIC);
+                            var base64 = Convert.ToBase64String(Model.User.PROFILE_PIC);
                             var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
                             <img id="ImgProfile" src="@imgSrc" class="img-circle img-responsive" />
                         }
@@ -23,18 +25,44 @@
                 </div>
                 <div class="col-md-9"> 
                     <div id="headerProfileInfo">  
-                        <span id="headerFullName" class="whiteText ">@Model.FIRST_NAME @Model.LAST_NAME</span> <br />
-                        <label id="headerUserName" class="whiteText">@@@Model.USER_NAME</label>  
+                        <span id="headerFullName" class="whiteText ">@Model.User.FIRST_NAME @Model.User.LAST_NAME</span> <br />
+                        <label id="headerUserName" class="whiteText">@@@Model.User.USER_NAME</label>  
                     </div> 
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-inline">
                                 <div class="form-group">
-                                    <div  class="fileUpload btn btn-default whiteText" role="button" title="Change photo">
-                                        <span class="glyphicon glyphicon-camera"></span>
-                                        <input id="inputUpload" type="file" class="upload" />
-                                    </div>
-                                    <button id="btnAddFriend" class="btn btn-default whiteText" >Add Friend</button>
+                                    @{
+                                        if (Model.User.ID == (int)Session["CurrentUserID"])
+                                        {
+                                            <div class="fileUpload btn btn-default whiteText" role="button" title="Change photo">
+                                                <span class="glyphicon glyphicon-camera"></span>
+                                                <input id="inputUpload" type="file" class="upload" />
+                                            </div>
+                                        }
+                                    }
+                                    @{
+                                        if (Model.Status != "Own")
+                                        {
+                                            if (Model.Status == "Friend")
+                                            {
+                                                <button id="btnAddFriend" class="btn btn-default whiteText"  >Friend</button>
+                                            }
+                                            else if (Model.Status == "Accept")
+                                            {
+                                                <button id="btnAddFriend" class="btn btn-default whiteText" onclick="AcceptFriendRequest()">Accept Friend</button>
+                                            }
+                                            else if (Model.Status == "Request")
+                                            {
+                                                <button id="btnAddFriend" class="btn btn-default whiteText">Request</button>
+                                            }
+                                            else if (Model.Status == "None")
+                                            {
+                                                <button id="btnAddFriend" class="btn btn-default whiteText" onclick="AddFriend()">Add Friend</button>
+                                            }
+                                        }
+                                    }
+                                    
                                 </div>
                             </div>
                         </div>
@@ -54,12 +82,17 @@
                     <h4 class="blueText"><strong><span class="glyphicon glyphicon-triangle-right"></span>  Introduction</strong></h4>
                 </div>
                 <div class="col-md-6">
-                    <button id="editAboutMe" type="button" data-toggle="modal" data-target="#modalAbout" class="blueText pull-right infoTextSize asText"><span class="glyphicon glyphicon-edit"></span></button> 
+                    @{
+                        if (Model.Status == "Own")
+                        {                    
+                            <button id="editAboutMe" type="button" data-toggle="modal" data-target="#modalAbout" class="blueText pull-right infoTextSize asText"><span class="glyphicon glyphicon-edit"></span> Edit</button>
+                        }
+                    }
                 </div>
             </div>
            
             <hr />
-             <p id="aboutMeInfo" class="infoTextSize">@Model.ABOUT_ME</p>
+             <p id="aboutMeInfo" class="infoTextSize">@Model.User.ABOUT_ME</p>
         </div>
 
         <div class="divShadow divPost rowLeftProfilePadding">
@@ -72,26 +105,46 @@
                             Birthday :
                         </dt>
                         <dd>
-                            @Model.BIRTHDAY.ToString("MMMM dd, yyyy")
+                            @Model.User.BIRTHDAY.ToString("MMMM dd, yyyy")
                         </dd> 
                         @{
-                            if (Model.COUNTRY_ID != 0)
+                            if (Model.User.COUNTRY_ID != 0)
                             {
                                 <dt>
                                     Country :
                                 </dt>
                                 <dd>
-                                    @Model.REF_COUNTRY.Country
+                                    @Model.User.REF_COUNTRY.Country
                                 </dd>
                             }
 
-                            if (Model.MOBILE_NO != null)
+                            if (Model.User.MOBILE_NO != null)
                             {
                                 <dt>
                                     Mobile number :
                                 </dt>
                                 <dd>
-                                    @Model.MOBILE_NO
+                                    @Model.User.MOBILE_NO
+                                </dd>
+                            }
+                            <dt>
+                                Gender :
+                            </dt>
+                            if (Model.User.GENDER == "M")
+                            {
+                                <dd>
+                                    Male
+                                </dd>
+                            }
+                            else if (Model.User.GENDER == "F")
+                            { 
+                                <dd>
+                                    Female
+                                </dd>
+                            }else if(Model.User.GENDER == "U")
+                            {
+                                <dd>
+                                    Unspecified
                                 </dd>
                             }
                         }
@@ -100,22 +153,50 @@
                     </dl>
                 </div>
             </div> 
-        </div>
+        </div> 
+
+        @{
+            if (Model.Status == "Own")
+            {
+                <div id="divFriendShow" class="divShadow divPost rowLeftProfilePadding">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h4 class="blueText"><strong><span class="glyphicon glyphicon-user"></span>  FriendList</strong></h4>
+                        </div>
+                        <div class="col-md-6">
+                            <button id="btnLeftProfile" type="button" class="blueText pull-right infoTextSize asText btnLeftProfile" onclick="location.href='@Url.Action("FriendList","Pastebook" )'">
+                                <span class="glyphicon glyphicon-eye-open"></span> View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        
     </div>
-    <div class="col-md-7">
-        <div class="divShadow divPost clearfix rowProfilePadding">
-            <h5 class="blueText"><strong><span class="glyphicon glyphicon-pencil"></span>  Create Post</strong></h5>
-            <textarea  class="form-control" rows="3" id="textAreaPost" placeholder="What's on your mind?"></textarea>
-            <div class="row">
-                <div class="col-md-offset-10 col-md-2"> 
-                    <button type="submit" class="asText" id="postButton"><h4 class="blueText"><strong>POST</strong></h4></button>
+    @{
+        if (Model.Status == "Friend" || Model.Status == "Own")
+        {
+            <div id="postContainer" class="col-md-7">
+                <div class="divShadow divPost clearfix rowProfilePadding">
+                    <h5 class="blueText"><strong><span class="glyphicon glyphicon-pencil"></span>  Create Post</strong></h5>
+                    <textarea class="form-control" rows="3" id="textAreaPost" placeholder="What's on your mind?"></textarea>
+                    <div class="row">
+                        <div class="col-md-offset-10 col-md-2">
+                            <button type="submit" class="asText" id="postButton"><h4 class="blueText"><strong>POST</strong></h4></button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div id="divRenderAction">
+                    @{ Html.RenderAction("Timeline", "Pastebook", new { userID = Model.User.ID }); }
                 </div>
             </div>
-        </div>
-        <div id="divRenderAction"> 
-            @{ Html.RenderAction("Timeline", "Pastebook", new { userID = Model.ID }); }
-        </div>
-    </div>
+                        }
+    }
+    
+
 </div>
 
 <div class="modal fade" id="modalView" tabindex="-1" role="dialog" aria-labelledby="modalViewLabel">
@@ -160,69 +241,27 @@
 
 @section Scripts{
     <script>
-        var partialUrl = '@Url.Action("Timeline","Pastebook",new { userID = Model.ID })';
-        var partialFriendUrl = '@Url.Action("ViewFriendRequest","Pastebook",new { userID = (int)Session["CurrentUserID"]})';
-        var partialNotificationUrl = '@Url.Action("ViewNotifications","Pastebook",new { userID = (int)Session["CurrentUserID"] })';
+        var partialUrl = '@Url.Action("Timeline","Pastebook",new { userID = Model.User.ID })';
+        
         var checkUserIfFriendUrl = '@Url.Action("CheckUserIfFriend","Pastebook" )';
         var posterID =  @Session["CurrentUserID"];
-        var profileOwnerID = @Model.ID;
+        var profileOwnerID = @Model.User.ID;
         var addFriendUrl = '@Url.Action("AddFriend","Pastebook" )'
         var cancelRequestUrl = '@Url.Action("CancelFriendRequest","Pastebook")'
         var createPostUrl = '@Url.Action("Post","Pastebook")';
         var likeUnlikeUrl = '@Url.Action("LikeUnlikePost","Pastebook")'
         var sendCommentUrl = '@Url.Action("PostComment","Pastebook")';
         var acceptFriendRequestUrl = '@Url.Action("AcceptFriendRequest", "Pastebook")';
-        var countNotificationUrl = '@Url.Action("CountNotification","Pastebook")';
-        var acceptInNotifUrl = '@Url.Action("AcceptFriendRequestInNotif","Pastebook")';
-        var cancelFriendUrl = '@Url.Action("CancelFriendRequestInNotif","Pastebook")';
         var saveAboutMeUrl='@Url.Action("SaveAboutMe","Pastebook")'
         var relationship=null;
         var changePictureUrl = '@Url.Action("ChangeProfilePicture","Pastebook",new {userID = (int)Session["CurrentUserID"] })';
-        var saveAboutMeUrl = '@Url.Action("SaveAboutMe","Pastebook")';
+        
 
 
-        function ReadUrl(input){
-            if (input.files && input.files[0]) {
-                var reader= new FileReader();
-                reader.onload = function(e){
-                    $("#ImgProfile").attr('src',e.target.result);
-                }
-                reader.readAsDataURL(input.files[0]);
-            }
-        }
+       
+    </script> 
 
-
-
-
-        ShowHideEditPhoto();
-        function ShowHideEditPhoto(){
-            if (profileOwnerID == posterID) {
-                $(".fileUpload").show();
-            }
-        }
-
-        $("#inputUpload").change(function(){
-            ReadUrl(this);
-            var data=new FormData();
-            var files = $("#inputUpload").get(0).files;
-            if (files.length> 0) {
-                data.append("UploadImage",files[0])
-            }
-            $.ajax({
-                url:changePictureUrl,
-                type:'POST',
-                processData: false,
-                contentType: false,
-                data:data,
-                success: function(){
-                    ReloadPartial();
-                },error:function(){
-                }
-            });
-
-        });
-    </script>
-
+<script src="~/Scripts/Custom/Profile.js"></script>
 
     
 

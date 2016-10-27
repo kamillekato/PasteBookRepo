@@ -2,6 +2,7 @@
 using PastebookDataLibrary;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -57,7 +58,7 @@ namespace PastebookBusinessLogic
         public bool RemoveLikeNotification(int postID , int likeBy)
         {
             bool returnValue = false;
-            returnValue = NotifRepo.Remove(notif=>notif.SENDER_ID == likeBy && notif.POST_ID == postID);
+            returnValue = NotifRepo.Remove(notif=>notif.SENDER_ID == likeBy && notif.POST_ID == postID && notif.NOTIF_TYPE=="L");
             return returnValue;
         }
 
@@ -65,13 +66,24 @@ namespace PastebookBusinessLogic
         {
             List<NOTIFICATION> friendRequest = new List<NOTIFICATION>();
             friendRequest = NotifRepo.GetList(notif=> notif.RECEIVER_ID == userID && notif.NOTIF_TYPE == "F") ;
+            UpdateNotifSeen(friendRequest);
             return friendRequest.OrderBy(friend=>friend.CREATED_DATE).ToList();
+        }
+
+        private void UpdateNotifSeen(List<NOTIFICATION> notifications)
+        {
+            foreach (var notif in notifications)
+            {
+                notif.SEEN = "Y";
+                NotifRepo.Update(notif);
+            }
         }
 
         public List<NOTIFICATION> GetNotification(int userID)
         {
             List<NOTIFICATION> notifications = new List<NOTIFICATION>();
-            notifications = NotifRepo.GetList(notif=> notif.RECEIVER_ID == userID && notif.NOTIF_TYPE != "F");
+            notifications = NotifRepo.GetList(notif=> notif.RECEIVER_ID == userID && notif.NOTIF_TYPE != "F"); 
+            UpdateNotifSeen(notifications);
             return notifications.OrderBy(notif=>notif.CREATED_DATE).ToList();
         }
     }

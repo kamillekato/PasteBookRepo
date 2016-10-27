@@ -1,0 +1,84 @@
+﻿
+.divSettingsContainer{
+    background-color:#fff;
+    margin-top:30px;
+}
+
+#settingsHeader{
+    font-weight:bold;
+    font-size:90px;
+    padding-top:15px;
+    padding-left:40px;
+    padding-bottom:25px;
+}
+.settingsColLeft{ 
+    padding-right:0;
+}
+.settingsColMiddle{
+    padding-left:0;
+    padding-right:0;
+}
+.settingsColRight{
+    padding-left:0;
+}
+.settingsMainButton{
+    border:none;
+    background-color:#fff;
+    border-bottom:5px solid white;
+} 
+.btnMainLeft{ 
+    border-radius:0px 0px 0px 5px;
+}
+.btnMainMiddle{ 
+    border-radius:0;
+}
+.btnMainRight{ 
+    border-radius:0px 0px 5px 0px;
+}
+
+.settingsMainButton:hover{
+    border-bottom:5px solid #4FC3F7;
+    background-color:#fff;
+    color:#4FC3F7
+}
+.settingsMainButton:focus{
+    border-bottom:5px solid #4FC3F7;
+    background-color:#fff;
+    color:#4FC3F7;
+    outline:none;
+}
+.btn:active,.btn:active:focus{
+    outline:none;
+}
+.settingsMainButton:active{
+    border-bottom:5px solid #4FC3F7;
+    background-color:#fff;
+    color:#4FC3F7;
+    outline:none;
+    box-shadow:none;
+}
+
+#settingsRenderBody{
+    padding:50px;
+}
+
+.settingsHeaderBottom {
+    color:#9E9E9E;
+    font-weight:bold;
+    font-size:30px;
+}
+
+.asteriskSize{
+    font-weight:bold;
+    font-size:20px;
+}
+.redFontColor{
+    color:#f44336;
+}
+#settingsInputContainer{
+    margin-left:40px;
+}
+
+#buttonContainer{
+    margin-right:93px;
+}

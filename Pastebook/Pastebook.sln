@@ -5,13 +5,11 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pastebook", "Pastebook\Pastebook.csproj", "{7CFD42FB-67F8-4DE1-A8DC-CDB7C3086652}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebookD", "PastebookBusinessLogic\PastebookD.csproj", "{F1F43FB4-0583-4DAC-B197-3DDC7B7D425F}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebookDataLibrary", "PastebookDataLibrary\PastebookDataLibrary.csproj", "{7973ACC2-1202-438B-8AA2-C86C6A88E76C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebookDataAccess", "PastebookDA\PastebookDataAccess.csproj", "{6BD560EA-4584-45AA-85C0-7DF956500B7A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebookBusinessLogic", "PastebookBusinessLogic.cs\PastebookBusinessLogic.csproj", "{7CCBC411-A80F-4DD3-B77F-81728281DDB7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PastebookDataAccess", "PastebookDA\PastebookDataAccess.csproj", "{6BD560EA-4584-45AA-85C0-7DF956500B7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,22 +21,18 @@ Global
 		{7CFD42FB-67F8-4DE1-A8DC-CDB7C3086652}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CFD42FB-67F8-4DE1-A8DC-CDB7C3086652}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CFD42FB-67F8-4DE1-A8DC-CDB7C3086652}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1F43FB4-0583-4DAC-B197-3DDC7B7D425F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1F43FB4-0583-4DAC-B197-3DDC7B7D425F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1F43FB4-0583-4DAC-B197-3DDC7B7D425F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1F43FB4-0583-4DAC-B197-3DDC7B7D425F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7973ACC2-1202-438B-8AA2-C86C6A88E76C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7973ACC2-1202-438B-8AA2-C86C6A88E76C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7973ACC2-1202-438B-8AA2-C86C6A88E76C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7973ACC2-1202-438B-8AA2-C86C6A88E76C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6BD560EA-4584-45AA-85C0-7DF956500B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BD560EA-4584-45AA-85C0-7DF956500B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BD560EA-4584-45AA-85C0-7DF956500B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BD560EA-4584-45AA-85C0-7DF956500B7A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7CCBC411-A80F-4DD3-B77F-81728281DDB7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7CCBC411-A80F-4DD3-B77F-81728281DDB7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7CCBC411-A80F-4DD3-B77F-81728281DDB7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7CCBC411-A80F-4DD3-B77F-81728281DDB7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD560EA-4584-45AA-85C0-7DF956500B7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD560EA-4584-45AA-85C0-7DF956500B7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD560EA-4584-45AA-85C0-7DF956500B7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD560EA-4584-45AA-85C0-7DF956500B7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -21,8 +21,17 @@
                 
                 </span>
                 <div class="form-group">  
-                    <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER1.USER_NAME})'"><strong>@post.USER1.FIRST_NAME @post.USER1.LAST_NAME</strong></span><br />
-                   
+                    @{
+                        if (post.USER1.USER_NAME == post.USER.USER_NAME)
+                        {
+                            <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER1.USER_NAME})'"><strong>@post.USER1.FIRST_NAME @post.USER1.LAST_NAME</strong></span><br />
+                        }
+                        else
+                        {
+                            <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER1.USER_NAME})'"><strong>@post.USER1.FIRST_NAME @post.USER1.LAST_NAME</strong></span>
+                            <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER.USER_NAME})'"> posted on <strong>    @post.USER.FIRST_NAME @post.USER.LAST_NAME</strong>'s timeline</span><br />
+                        }
+                    }
                     <span class="grayText">@post.CREATED_DATE.ToString("MMMM dd, yyyy hh:ss tt")</span> 
                 </div>
             </div>
@@ -39,35 +48,34 @@
              <div class="col-md-12">
                  @if (!post.LIKEs.Any(lke=>lke.LIKE_BY == (int)Session["CurrentUserID"]))
                  {
-                    <button type="submit" class="asText postButton likeButton" onclick="LikeUnlikePost(@post.ID,@post.PROFILE_OWNER_ID)"><span class="glyphicon glyphicon-thumbs-up"> </span>  @post.LIKEs.Count()</button>
+                    <button title="Like" type="submit" class="asText postButton likeButton" onclick="LikePost(@post.ID,@post.POSTER_ID)"><span class="glyphicon glyphicon-thumbs-up"> </span>  @post.LIKEs.Count()</button>
                  }
                  else 
                  {
-                    <button type="submit" class="asText postButton postBlueButton likeButton" onclick="LikeUnlikePost(@post.ID,@post.PROFILE_OWNER_ID)" ><span class="glyphicon glyphicon-thumbs-up"> </span>  @post.LIKEs.Count()</button>
+                    <button title="Like" type="submit" class="asText postButton postBlueButton likeButton" onclick="UnlikePost(@post.ID)" ><span class="glyphicon glyphicon-thumbs-up"> </span>  @post.LIKEs.Count()</button>
                  }
 
                  @if (post.COMMENTs.Any(cmmnt => cmmnt.POSTER_ID == (int)Session["CurrentUserID"]))
                  {
-                    <button type="submit" class="asText postButton postBlueButton" ng-click="">
+                    <button title="Number of comments" type="submit" class="asText postButton postBlueButton"  >
                         <span class="glyphicon glyphicon-comment">
                         </span>  @post.COMMENTs.Count()
                     </button>
                  }
                  else
                  {
-                    <button type="submit" class="asText postButton" ng-click="">
+                    <button title="Number of comments" type="submit" class="asText postButton"  >
                         <span class="glyphicon glyphicon-comment">
                         </span>  @post.COMMENTs.Count()
                     </button>
                  }  
                  <div class="btn-group">
-                     <button type="button" class="asText postButton" ng-click="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                     <button title="More" type="button" class="asText postButton" ng-click="" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                          <span class="glyphicon glyphicon-option-horizontal"></span>
                      </button>
                      <ul class="dropdown-menu">
-                         <li><a role="button" onclick="ViewLikes('@Url.Action("ViewLikes","Pastebook", new { postID = post.ID })')"  >View who likes</a></li> 
-                         <li role="separator" class="divider"></li>
-                         <li><a role="button" href="">Delete post</a></li>
+                         <li><a role="button" onclick="ViewLikes('@Url.Action("ViewLikes","Pastebook", new { postID = post.ID })')"  >View likes</a></li>  
+                         <li><a role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook",new {postID = post.ID })'">View post</a></li>
                      </ul>
                  </div>
              </div>  
@@ -75,16 +83,16 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="commentTop">
-                    <textarea id="@post.ID"class="form-control commentAreaPost" rows="2"   placeholder="Comment here"></textarea>
+                    <textarea id="@post.ID"class="form-control commentAreaPost" rows="2"   placeholder="Comment here" onfocus="ClearTimer()" onblur="TimerNewsFeed()" ></textarea>
                     <div class="row">
                         <div class="col-md-12">
-                            <button onclick="SendComment(@post.ID,@post.PROFILE_OWNER_ID)" class="btn btn-primary commentPostButton pull-right">Comment</button> 
+                            <button onclick="SendComment(@post.ID,@post.POSTER_ID)" class="btn btn-primary commentPostButton pull-right" >Comment</button> 
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-        @foreach(var comment in post.COMMENTs.OrderBy(cmmnt=>cmmnt.DATE_CREATED)){
+        @foreach(var comment in post.COMMENTs.OrderByDescending(cmmnt=>cmmnt.DATE_CREATED)){
             <div class="row">
                 <div class="col-md-12">
                     <div class="commentDisplay">

@@ -23,7 +23,7 @@ namespace PastebookDataAccess
                     returnValue = context.SaveChanges() != 0;
                 }
             }
-            catch (Exception ex)
+            catch  
             {
                 return false;
             }
@@ -148,7 +148,7 @@ namespace PastebookDataAccess
                     item = context.Set<C>().Where(where).Select(selectProperty).FirstOrDefault();
                 }
             }
-            catch (Exception ex)
+            catch 
             {
                 return item;
             }

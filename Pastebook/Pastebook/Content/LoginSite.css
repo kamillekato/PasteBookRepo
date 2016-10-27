@@ -3,7 +3,15 @@
     padding-bottom: 20px;
     background-color:#4FC3F7;
 }
-
+.navbar-inverse .navbar-brand {
+    color: #4FC3F7;
+    font-weight:bold;
+    font-size:20px;
+}
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    color: #4FC3F7;
+    background-color: transparent;
+}
 /* Set padding to keep content from hitting the edges */
 .body-content {
     padding-left: 15px;
@@ -13,6 +21,13 @@
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
+.ui-datepicker-trigger{
+    background-color:#337ab7;
+    color:#fff;
+    border-radius:5px;
+    border-color:#337ab7;
+    
+}
 .dl-horizontal dt {
     white-space: normal;
 }
