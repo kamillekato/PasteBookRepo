@@ -25,17 +25,17 @@
                             @{
                                 if (notif.USER1.PROFILE_PIC == null)
                                 {
-                                    <span class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" /></span>
+                                    <span role="button" class="form-group"><img src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive img-notification" onclick="location.href='@Url.Action("ViewProfile","Pastebook",new {userName =@notif.USER1.USER_NAME })'" /></span>
                                 }
                                 else
                                 {
                                     var base64 = Convert.ToBase64String(notif.USER1.PROFILE_PIC);
                                     var imgSrc = String.Format("data:image/gif;base64,{0}", base64);
-                                    <span class="form-group"><img src="@imgSrc" class="img-circle img-responsive img-notification" /></span>
+                                    <span role="button" class="form-group"><img src="@imgSrc" class="img-circle img-responsive img-notification" onclick="location.href='@Url.Action("ViewProfile","Pastebook",new {userName =@notif.USER1.USER_NAME })'" /></span>
                                 }
                             }
                             <div class="form-group">
-                                <strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong><br />
+                                <strong role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook",new {userName =@notif.USER1.USER_NAME })'">@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong><br />
                                 <button type="button" onclick="AcceptFriendByNotification( @notif.SENDER_ID,@notif.RECEIVER_ID)" class="btn btn-primary btn-xs"><span class="glyphicon glyphicon-ok" title="Accept Friend Request"></span></button>
                                 <button type="button" onclick="CancelFriendByNotification(@notif.SENDER_ID, @notif.RECEIVER_ID)" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove" title="Decline Friend Request"></span></button>
                             </div>

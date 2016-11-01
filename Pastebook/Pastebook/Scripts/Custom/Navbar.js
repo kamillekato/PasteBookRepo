@@ -1,20 +1,16 @@
-﻿function ReloadPartialFriend() {
+﻿//function ReloadPartialFriend() {
     
-    $("#dropdownFriend").load(partialFriendUrl);
-}
+//    $("#dropdownFriend").load(partialFriendUrl);
+//}
  
 function ReloadPartialNotification() {
      
     $("#dropdownNotification").load(partialNotificationUrl);
 }
 
-function LoadImage() {
-    var data = {
-        userID: parseInt(posterID)
-    };
+function LoadImage() { 
     $.ajax({
-        url: getUserImageUrl,
-        data:data,
+        url: getUserImageUrl, 
         type: 'GET',
         success: function (data) {
             if (data.imageString != null) { 
@@ -27,25 +23,17 @@ LoadImage();
 
 
 
-$("#searchBtn").click(function () {
-    $(location).attr('href', '/Pastebook/Pastebook/SearchUser?searchText=' + $("#searchTextBox").val() );
-});
+//$("#searchBtn").click(function () {
+//    $(location).attr('href', '/Pastebook/Pastebook/SearchUser?searchText=' + $("#searchTextBox").val() );
+//});
 
 function CountNotification() {
-    var data = {
-        userID: parseInt(posterID)
-    }
+    
     $.ajax({
-        url: countNotificationUrl,
-        data: data,
+        url: countNotificationUrl, 
         type: 'GET',
         success: function (result) {
-            if (result.countFriendRequest > 0) {
-                $("#bdgeFriend").show();
-                $("#bdgeFriend").text(result.countFriendRequest.toString());
-            } else {
-                $("#bdgeFriend").hide();
-            }
+             
             if (result.countNotification > 0) {
                 $("#bdgeNotification").show();
                 $("#bdgeNotification").text(result.countNotification.toString());
@@ -66,48 +54,48 @@ function TimerNotification() {
 TimerNotification();
 
 
-function CancelFriendByNotification(userID, friendID) {
-    var data = {
-        userID: userID,
-        friendID: friendID
-    };
+//function CancelFriendByNotification(userID, friendID) {
+//    var data = {
+//        userID: userID,
+//        friendID: friendID
+//    };
 
-    $.ajax({
-        url: cancelFriendUrl,
-        data: data,
-        type: 'GET',
-        success: function () {
-            CheckUserIfFriend();
-            ReloadPartialFriend();
-        }, error: function () {
-            alert('Something went wrong')
-        }
-    });
-}
+//    $.ajax({
+//        url: cancelFriendUrl,
+//        data: data,
+//        type: 'GET',
+//        success: function () {
+//            CheckUserIfFriend();
+//            ReloadPartialFriend();
+//        }, error: function () {
+//            alert('Something went wrong')
+//        }
+//    });
+//}
 
 
-$("#dropDownFriendRequest").click(function () {
-    ReloadPartialNotification();
-});
+//$("#dropDownFriendRequest").click(function () {
+//    ReloadPartialNotification();
+//});
 $("#dropDownNotification").click(function () {
     ReloadPartialNotification();
 });
 
-function AcceptFriendByNotification(userID, friendID) {
-    var data = {
-        userID: userID,
-        friendID: friendID
-    };
+//function AcceptFriendByNotification(userID, friendID) {
+//    var data = {
+//        userID: userID,
+//        friendID: friendID
+//    };
 
-    $.ajax({
-        url: acceptInNotifUrl,
-        data: data,
-        type: 'GET',
-        success: function () {
-            CheckUserIfFriend();
-            ReloadPartialFriend();
-        }, error: function () {
-            alert('Something went wrong')
-        }
-    });
-}
+//    $.ajax({
+//        url: acceptInNotifUrl,
+//        data: data,
+//        type: 'GET',
+//        success: function () {
+//            CheckUserIfFriend();
+//            ReloadPartialFriend();
+//        }, error: function () {
+//            alert('Something went wrong')
+//        }
+//    });
+//}

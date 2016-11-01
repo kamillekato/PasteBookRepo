@@ -23,16 +23,18 @@
                 <div class="form-group">  
                     @{
                         if (post.USER1.USER_NAME == post.USER.USER_NAME)
-                        {
-                            <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER1.USER_NAME})'"><strong>@post.USER1.FIRST_NAME @post.USER1.LAST_NAME</strong></span><br />
+                        { 
+                                <span class="postPosterName postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER1.USER_NAME})'"><strong>@post.USER1.FIRST_NAME @post.USER1.LAST_NAME</strong></span><br />
                         }
                         else
                         {
-                            <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER1.USER_NAME})'"><strong>@post.USER1.FIRST_NAME @post.USER1.LAST_NAME</strong></span>
-                            <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER.USER_NAME})'"> posted on <strong>    @post.USER.FIRST_NAME @post.USER.LAST_NAME</strong>'s timeline</span><br />
+                            <span class="postPosterName">
+                                <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER1.USER_NAME})'"><strong>@post.USER1.FIRST_NAME @post.USER1.LAST_NAME</strong></span>
+                                <span class="postTextColor" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = post.USER.USER_NAME})'"> posted on <strong>    @post.USER.FIRST_NAME @post.USER.LAST_NAME</strong>'s timeline</span><br />
+                            </span>
                         }
                     }
-                    <span class="grayText">@post.CREATED_DATE.ToString("MMMM dd, yyyy hh:ss tt")</span> 
+                    <span class="grayText">@post.CREATED_DATE.ToString("MMMM dd, yyyy hh:mm tt")</span> 
                 </div>
             </div>
             </div> 
@@ -52,7 +54,7 @@
                  }
                  else 
                  {
-                    <button title="Like" type="submit" class="asText postButton postBlueButton likeButton" onclick="UnlikePost(@post.ID)" ><span class="glyphicon glyphicon-thumbs-up"> </span>  @post.LIKEs.Count()</button>
+                    <button title="Unlike" type="submit" class="asText postButton postBlueButton likeButton" onclick="UnlikePost(@post.ID)" ><span class="glyphicon glyphicon-thumbs-up"> </span>  @post.LIKEs.Count()</button>
                  }
 
                  @if (post.COMMENTs.Any(cmmnt => cmmnt.POSTER_ID == (int)Session["CurrentUserID"]))
@@ -84,6 +86,7 @@
             <div class="col-md-12">
                 <div id="commentTop">
                     <textarea id="@post.ID"class="form-control commentAreaPost" rows="2"   placeholder="Comment here" onfocus="ClearTimer()" onblur="TimerNewsFeed()" ></textarea>
+                    <span id="@string.Format("{0}Error",post.ID)" class="text-danger"></span>
                     <div class="row">
                         <div class="col-md-12">
                             <button onclick="SendComment(@post.ID,@post.POSTER_ID)" class="btn btn-primary commentPostButton pull-right" >Comment</button> 
@@ -113,7 +116,7 @@
                                     }
                                     <div class="form-group">
                                         <span class="postTextColor commentText" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook", new {userName = comment.USER.USER_NAME})'"><strong>@comment.USER.FIRST_NAME @comment.USER.LAST_NAME</strong></span><br />
-                                        <span class="grayText commentText">@comment.DATE_CREATED.ToString("MMMM dd, yyyy hh:ss tt")</span>
+                                        <span class="grayText commentText">@comment.DATE_CREATED.ToString("MMMM dd, yyyy hh:mm tt")</span>
                                     </div>
                                 </div>
                             </div>

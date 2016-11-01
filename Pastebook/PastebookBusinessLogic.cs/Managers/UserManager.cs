@@ -13,10 +13,17 @@ namespace PastebookBusinessLogic
         private UserRepository userRepo;
         private PasswordManager pwdManager;
 
+        public int GetIdByUserName(string userName)
+        {
+            int userID = 0;
+            userID = userRepo.Get(usr=>usr.USER_NAME == userName , usr=>usr.ID);
+            return userID;
+        }
+
         public bool UpdateUserInformation(USER userUpdate)
         {
             bool returnValue = false;
-            var user = GetUserByID(userUpdate.ID);
+            var user = userRepo.Get(usr=>usr.ID == userUpdate.ID , usr=>usr);
             user.FIRST_NAME = userUpdate.FIRST_NAME;
             user.LAST_NAME = userUpdate.LAST_NAME;
             user.BIRTHDAY = userUpdate.BIRTHDAY;
@@ -25,8 +32,7 @@ namespace PastebookBusinessLogic
             user.MOBILE_NO = userUpdate.MOBILE_NO;
 
             if (user.USER_NAME == userUpdate.USER_NAME)
-            {
-                user.USER_NAME = userUpdate.USER_NAME;
+            { 
                 returnValue = UpdateUser(user);
                 return returnValue;
             }else
@@ -164,22 +170,10 @@ namespace PastebookBusinessLogic
             return email;
         }
 
-        public List<USER> GetUserFriendList(List<FRIEND> friendList,int userID)
+        public List<USER> GetUserFriendList(List<int> friendsID)
         {
             List<USER> users = new List<USER>();
-            foreach (var friend in friendList)
-            {
-                int getUserID = 0;
-                if (friend.USER_ID == userID)
-                {
-                    getUserID = friend.FRIEND_ID;
-                }else if(friend.FRIEND_ID == userID)
-                {
-                    getUserID = friend.USER_ID;
-                }
-                var getUser = userRepo.Get(usr => usr.ID == getUserID);
-                users.Add(getUser);
-            }
+            users = userRepo.GetList(usr=>friendsID.Contains(usr.ID) ); 
             return users;
         }
 

@@ -43,24 +43,24 @@ namespace PastebookBusinessLogic
             bool returnValue = false;
             friend.REQUEST = "Y";
             returnValue = friendRepo.Update(friend);
-            if (returnValue == true)
-            {
-                notifManager.RemoveFriendNotification(friend.USER_ID, friend.FRIEND_ID);
-            } 
+            //if (returnValue == true)
+            //{
+            //    notifManager.RemoveFriendNotification(friend.USER_ID, friend.FRIEND_ID);
+            //} 
             return returnValue;
         }
 
-        public bool RemoveFriend(FRIEND friend)
-        {
-            bool returnValue = false;
-            returnValue = friendRepo.Remove(friend);
-            if (returnValue ==  true)
-            {
-                notifManager.RemoveFriendNotification(friend.USER_ID , friend.FRIEND_ID);
-            }
+        //public bool RemoveFriend(FRIEND friend)
+        //{
+        //    bool returnValue = false;
+        //    returnValue = friendRepo.Remove(friend);
+        //    if (returnValue ==  true)
+        //    {
+        //        notifManager.RemoveFriendNotification(friend.USER_ID , friend.FRIEND_ID);
+        //    }
             
-            return returnValue;
-        }
+        //    return returnValue;
+        //}
 
         public bool CheckIfFriendExist(int userID ,int friendID)
         {

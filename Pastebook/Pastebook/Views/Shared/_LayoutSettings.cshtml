@@ -41,26 +41,25 @@
                 </div>
                 <ul class="nav navbar-nav navbar-right">
                     <li class="navbarIcon">
-                        <a role="button" onclick="location.href='@Url.Action("Home","Pastebook")'"><span class="glyphicon glyphicon-home"></span></a>
+                        <a title="Home" role="button" onclick="location.href='@Url.Action("Home","Pastebook")'"><span class="glyphicon glyphicon-home"></span></a>
                     </li>
                     <li class="navbarIcon dropdown">
-                        <a id="dropDownFriendRequest" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialFriend()">
-                            <span class="glyphicon glyphicon-user"></span><span id="bdgeFriend" class="badge redText"></span>
-                        </a>
+                        <a title="Friend List" role="button" onclick="location.href='@Url.Action("FriendList","Pastebook")'"><span class="glyphicon glyphicon-user"></span></a>
+                        @*<a title="Friend Request" id="dropDownFriendRequest" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialFriend()" >
+                            <span class="glyphicon glyphicon-user"></span><span id="bdgeFriend" class="badge redText"></span></a>
 
-                        <ul id="dropdownFriend" class="dropdown-menu">
-                            <li>
-                                <div class="friendRequestContent">
-                                    <div class="form-inline">
-                                        <h4>No Friend Request</h4>
+                            <ul id="dropdownFriend" class="dropdown-menu">
+                                <li>
+                                    <div class="friendRequestContent">
+                                        <div class="form-inline">
+                                            <h4>No Friend Request</h4>
+                                        </div>
                                     </div>
-                                </div>
-                            </li>
-                        </ul>
-
+                                </li>
+                            </ul>*@
                     </li>
                     <li class="navbarIcon dropdown">
-                        <a id="dropDownNotification" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialNotification()">
+                        <a title="Notification" id="dropDownNotification" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialNotification()">
                             <span class="glyphicon glyphicon-globe"></span><span id="bdgeNotification" class="badge redText"></span>
                         </a>
                         <ul id="dropdownNotification" class="dropdown-menu">
@@ -76,8 +75,8 @@
                     </li>
                     <li class="btn-group">
                         @*<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                Profile<span class="caret"></span>
-                            </button>*@
+                            <img  role="button" id="imgNavBar" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive imgNavBarBtn"/> <span class="caret"></span>
+                             </button>*@
                         <img role="button" id="imgNavBar" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive imgNavBarBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
 
                         <ul class="dropdown-menu">
@@ -132,8 +131,7 @@
         var partialFriendUrl = '@Url.Action("ViewFriendRequest","Pastebook",new { userID = (int)Session["CurrentUserID"]})';
         var partialNotificationUrl = '@Url.Action("ViewNotifications","Pastebook",new { userID = (int)Session["CurrentUserID"] })';
         var posterID =  @Session["CurrentUserID"];
-        var acceptInNotifUrl = '@Url.Action("AcceptFriendRequestInNotif","Pastebook")';
-        var cancelFriendUrl = '@Url.Action("CancelFriendRequestInNotif","Pastebook")';
+        var acceptInNotifUrl = '@Url.Action("AcceptFriendRequestInNotif","Pastebook")'; 
         var countNotificationUrl = '@Url.Action("CountNotification","Pastebook")';
         var searchUserUrl ='@Url.Action("SearchUser","Pastebook")';
         var getUserImageUrl = '@Url.Action("GetUserImage","Pastebook")'

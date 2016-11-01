@@ -1,0 +1,44 @@
+﻿@model IEnumerable<PastebookDataLibrary.NOTIFICATION>
+     
+@{
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
+}
+
+<div class="row">
+    <div class="col-md-offset-1 col-md-10 divPaddingTop">
+        <span id="notificationHeader">Notifications</span>
+        <div class="row">
+            <div class="col-md-12 divShadow divBorderRadius divWhiteBackground"> 
+                @if (Model.Count() == 0)
+                {
+                    <span class="nothingToShow">No notifications yet</span>
+                }
+            @foreach (var notif in Model)
+            {
+                if (notif.NOTIF_TYPE == "C")
+                {
+                            <hr />
+
+                            <a id="notificationLink" role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook", new { postID = @notif.POST_ID })'"><strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong> commented on your post</a>
+                        }
+                        else if (notif.NOTIF_TYPE == "L")
+                        {
+                            <hr />
+
+                            <a id="notificationLink" role="button" onclick="location.href='@Url.Action("ViewPost","Pastebook",new { postID = @notif.POST_ID})'"><strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong> liked on your post</a>
+                        }
+                        else if (notif.NOTIF_TYPE == "F")
+                        {
+                            <hr />
+
+                            <a id="notificationLink" role="button" onclick="location.href='@Url.Action("ViewProfile","Pastebook",new { userName = @notif.USER1.USER_NAME })'"><strong>@notif.USER1.FIRST_NAME @notif.USER1.LAST_NAME</strong> sent you a friend request</a>
+                        }
+                    } 
+                <hr />
+            </div>
+        </div>
+        
+    </div>
+
+
+</div>

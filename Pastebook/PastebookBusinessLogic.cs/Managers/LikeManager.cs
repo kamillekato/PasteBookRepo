@@ -40,36 +40,7 @@ namespace PastebookBusinessLogic
             
             return returnValue;
         }
-        public bool LikeUnlikePost(LIKE like,int postOwnerID)
-        {
-            bool returnValue = false;
-            LIKE getLike = null;
-            getLike = likeRepo.Get(x => x.POST_ID == like.POST_ID && x.LIKE_BY == like.LIKE_BY );
-            if (getLike == null)
-            { 
-                returnValue = likeRepo.Add(like);
-                if (postOwnerID != like.LIKE_BY)
-                {
-                    notifManager.AddNotification(new NOTIFICATION()
-                    {
-                        RECEIVER_ID = postOwnerID,
-                        SEEN = "N",
-                        SENDER_ID = like.LIKE_BY,
-                        NOTIF_TYPE = "L",
-                        POST_ID = like.POST_ID
-                    });
-                } 
-            }
-            else
-            {
-                returnValue = likeRepo.Remove(getLike);
-                if (postOwnerID != like.LIKE_BY)
-                {
-                    notifManager.RemoveLikeNotification(like.POST_ID , like.LIKE_BY);
-                }
-            } 
-            return returnValue;
-        }
+        
         public bool UnlikePost(LIKE like)
         {
             bool returnValue = false;

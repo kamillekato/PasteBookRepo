@@ -34,7 +34,7 @@ namespace PastebookDataAccess
             {
                 using ( var context = new DB_PASTEBOOKEntities())
                 {
-                    returnValue = context.NOTIFICATIONs.Where(notif => notif.RECEIVER_ID == userID && notif.NOTIF_TYPE != "F" && notif.SEEN == "N").ToList().Count();
+                    returnValue = context.NOTIFICATIONs.Where(notif => notif.RECEIVER_ID == userID && notif.SEEN == "N").ToList().Count();
                 }
             }
             catch 
@@ -68,7 +68,7 @@ namespace PastebookDataAccess
             {
                 using (var context = new DB_PASTEBOOKEntities())
                 {
-                    notifications = context.NOTIFICATIONs.Include("USER1").Where(where).ToList();
+                    notifications = context.NOTIFICATIONs.Include("USER1").Where(where).OrderByDescending(notif=>notif.CREATED_DATE).ToList();
                 }
             }
             catch

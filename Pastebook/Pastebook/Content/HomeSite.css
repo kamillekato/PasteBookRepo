@@ -3,6 +3,31 @@
     padding-bottom: 20px;
     background-color: #F5F5F5;
 }
+
+.nothingToShow{
+    font-size:35px;
+    color: #000;
+}
+
+blockquote{
+    white-space:normal; 
+    overflow:initial;
+    word-wrap:break-word;
+}
+
+#notificationHeader{
+    color:#4FC3F7;
+    text-shadow: 1.5px 1.5px 1.5px #333;
+    font-size:80px;
+}
+
+#notificationLink{
+    font-size: 17px; 
+}
+.divWhiteBackground{
+    background-color:#fff;
+}
+
 .ui-datepicker-trigger{
     background-color:#337ab7;
     color:#fff;
@@ -110,7 +135,10 @@
     margin-bottom:20px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
- 
+.errorModalHeader{
+    background-color:#c9302c;
+    color:#fff;
+}
 .modalLikeBody{
     background-color:#f5f5f5;
     border-radius:0px 0px 5px 5px;
@@ -227,6 +255,8 @@
 }
 .commentContent{
     font-size:16px;
+    overflow:initial;
+    word-wrap:break-word;
 }
 .commentText{
     font-size:14px;
@@ -271,8 +301,28 @@
 .profileHeaderDetails{
     margin-bottom:0px;
 }
+.postPosterName{
+    word-wrap:break-word;
+}
+.containerLikeName{
+    width:180px;
+    font-size:17px;
+}
+.containerEllipsis{
+    white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis; 
+}
+.containerWordWrap{ 
+    white-space:normal;
+    overflow:initial;
+    word-wrap:break-word;
+}
 #headerProfileInfo{
     margin-top:6%;
+    
 }
 
 #headerProfile{
@@ -342,14 +392,25 @@
 
 .divBorderRadius{ 
     border-radius:6px;  
-}
+} 
 #headerFullName{
     font-size:40px; 
-    font-weight:bold;
+    font-weight:bold; 
+    white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis; 
 }
 #headerUserName{
     margin-top:0;
     font-size:20px;
+    font-weight:bold;
+    white-space: nowrap;
+   overflow: hidden;
+   text-overflow: ellipsis;
+   -o-text-overflow: ellipsis;
+    -ms-text-overflow: ellipsis; 
 }
 
  
@@ -550,3 +611,6 @@ textarea {
 #welcomeHeaderContainer{
     background-color:#4FC3F7;
 }
+ .lightBlueText{
+     color:#4FC3F7;
+ }

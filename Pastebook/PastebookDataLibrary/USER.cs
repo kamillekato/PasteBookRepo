@@ -31,33 +31,34 @@ namespace PastebookDataLibrary
         public int ID { get; set; }
         [Required(ErrorMessage = "Username field is required")]
         [Display(Name = "Username")]
-        [StringLength(maximumLength: 50, MinimumLength = 4, ErrorMessage = "Username field must be at least 4 characters")]
+        [StringLength(maximumLength: 50,ErrorMessage = "Username field must be at most 50 characters long")]
         [RegularExpression(@"^((\s*([_.]?)\s*[a-zA-Z0-9]+)+([_.]?)\s*)$", ErrorMessage = "Username is invalid. Username only allows Letters, Numbers, Periods(.) and Underscores(_).")]
         public string USER_NAME { get; set; }
 
         [Required(ErrorMessage ="Password field is required")]
         [Display(Name = "Password")]
         [DataType(DataType.Password)]
-        [StringLength(maximumLength:50,MinimumLength = 5,ErrorMessage = "Password field must be atleast 5 characters")]
+        [StringLength(maximumLength:50,ErrorMessage = "Password field must be at most 50 characters long")]
         public string PASSWORD { get; set; }
 
         public string SALT { get; set; }
 
         [Required(ErrorMessage ="Firstname field is required")]
         [Display(Name ="Firstname")]
-        [StringLength(maximumLength:50)]
+        [StringLength(maximumLength:50,ErrorMessage = "Firstname must be at most 50 characters long")]
         [RegularExpression(@"^((\s*[ '.-]?\s*[a-zA-Z0-9]+)+[ '.-]?\s*)$", ErrorMessage = "Firstname is invalid. Firstname only allows Letters, Numbers, Periods(.), Apostrophe('), Parenthesis() and dashes(-)")]
         public string FIRST_NAME { get; set; }
 
         [Required(ErrorMessage ="Lastname field is required")]
         [Display(Name ="Lastname")]
-        [StringLength(maximumLength:50)]
+        [StringLength(maximumLength:50,ErrorMessage = "Lastname must be at most 50 characters long")]
         [RegularExpression(@"^((\s*[ '.-]?\s*[a-zA-Z0-9]+)+[ '.-]?\s*)$", ErrorMessage = "Lastname is invalid. Lastname only allows Letters, Numbers, Periods(.), Apostrophe('), Parenthesis() and dashes(-)")]
         public string LAST_NAME { get; set; }
 
         [Required(ErrorMessage ="Birthday field is required")]
         [Display(Name ="Birthday")]
-        [DataType(DataType.Date)]
+        [DataType(DataType.Date,ErrorMessageResourceName = "Birthday is invalid. Birthday must be yyyy/mm/dd format")]
+        [DisplayFormat(DataFormatString ="{0:yyyy/MM/dd}",ApplyFormatInEditMode = true)]
         public System.DateTime BIRTHDAY { get; set; }
 
         [Display(Name ="Country")]
@@ -65,6 +66,7 @@ namespace PastebookDataLibrary
 
         [Display(Name ="Mobile No.")]
         [DataType(DataType.PhoneNumber,ErrorMessage = "Mobile number is invalid")]
+        [StringLength(maximumLength:50,ErrorMessage = "Mobile number must be at most 50 digits long")]
         [Phone(ErrorMessage = "Mobile number is invalid")]
         public string MOBILE_NO { get; set; }
 

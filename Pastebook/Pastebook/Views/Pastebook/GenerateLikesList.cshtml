@@ -40,7 +40,9 @@ foreach (var like in Model)
                             }
                             
                             <div class="form-group">
-                                <h4>@like.USER.FIRST_NAME @like.USER.LAST_NAME </h4>
+                                <div class="containerEllipsis containerLikeName">
+                                    <strong>@like.USER.FIRST_NAME @like.USER.LAST_NAME </strong>
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,21 +1,40 @@
 ﻿
-function LikeUnlikePost(postID, postOwnerID) {
+ 
+
+function LikePost(postID, postOwnerID) {
     var data = {
-        postID: postID,
-        userID: posterID,
+        postID: postID, 
         postOwnerID: postOwnerID
     };
     $.ajax({
-        url: likeUnlikeUrl,
+        url: likeUrl,
         data: data,
         type: 'GET',
-        success: function (data) { 
+        success: function (data) {
             location.reload();
         },
         error: function () {
             alert('Something went wrong');
         }
     })
+}
+function UnlikePost(postID) {
+    var data = {
+        postID: postID 
+    }
+
+    $.ajax({
+        url: unlikeUrl,
+        data: data,
+        type: 'GET',
+        success: function (data) {
+            location.reload();
+        },
+        error: function () {
+            alert('Something went wrong');
+        }
+    })
+
 }
 
 function ViewLikes(partialLikeUrl) {
@@ -24,23 +43,29 @@ function ViewLikes(partialLikeUrl) {
 }
 function SendComment(id, postOwnerID) {
     var textAreaID = "#" + id.toString();
-    var data = {
-        content: $(textAreaID).val(),
-        userID: parseInt(posterID),
-        postID: id,
-        postOwnerID: postOwnerID
-    };
+    var errorComment = "#errorComment"
+    if ($(textAreaID).val() == "") {
+        $(errorComment).text("You haven't type anything");
+    } else if ($(textAreaID).val().length > 1000) {
+        $(errorComment).text("The maximum allowable characters to comment is 1000");
+    } else {
+        var data = {
+            content: $(textAreaID).val(),
+            postID: id,
+            postOwnerID: postOwnerID
+        };
 
-    $.ajax({
-        url: sendCommentUrl,
-        data: data,
-        type: 'GET',
-        success: function (data) {
-            $(textAreaID).val("");
-            location.reload();
-        },
-        error: function () {
-            alert('Something went wrong')
-        }
-    });
+        $.ajax({
+            url: sendCommentUrl,
+            data: data,
+            type: 'GET',
+            success: function (data) {
+                $(textAreaID).val("");
+                location.reload();
+            },
+            error: function () {
+                alert('Something went wrong')
+            }
+        });
+    }
 }

@@ -62,13 +62,13 @@ namespace PastebookBusinessLogic
             return returnValue;
         }
 
-        public List<NOTIFICATION> GetFriendRequest(int userID)
-        {
-            List<NOTIFICATION> friendRequest = new List<NOTIFICATION>();
-            friendRequest = NotifRepo.GetList(notif=> notif.RECEIVER_ID == userID && notif.NOTIF_TYPE == "F") ;
-            UpdateNotifSeen(friendRequest);
-            return friendRequest.OrderBy(friend=>friend.CREATED_DATE).ToList();
-        }
+        //public List<NOTIFICATION> GetFriendRequest(int userID)
+        //{
+        //    List<NOTIFICATION> friendRequest = new List<NOTIFICATION>();
+        //    friendRequest = NotifRepo.GetList(notif=> notif.RECEIVER_ID == userID && notif.NOTIF_TYPE == "F") ;
+        //    UpdateNotifSeen(friendRequest);
+        //    return friendRequest.OrderBy(friend=>friend.CREATED_DATE).ToList();
+        //}
 
         private void UpdateNotifSeen(List<NOTIFICATION> notifications)
         {
@@ -82,9 +82,11 @@ namespace PastebookBusinessLogic
         public List<NOTIFICATION> GetNotification(int userID)
         {
             List<NOTIFICATION> notifications = new List<NOTIFICATION>();
-            notifications = NotifRepo.GetList(notif=> notif.RECEIVER_ID == userID && notif.NOTIF_TYPE != "F"); 
+            notifications = NotifRepo.GetList(notif=> notif.RECEIVER_ID == userID); 
             UpdateNotifSeen(notifications);
-            return notifications.OrderBy(notif=>notif.CREATED_DATE).ToList();
+            return notifications.ToList();
         }
+
+         
     }
 }

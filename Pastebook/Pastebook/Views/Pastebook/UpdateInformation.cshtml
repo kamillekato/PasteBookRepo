@@ -1,10 +1,6 @@
 ﻿@model PastebookDataLibrary.USER
 @{
-    ViewBag.ListOfGender = new SelectList(new List<SelectListItem> {
-                            new SelectListItem { Value="U",Text= "Unspecified",Selected =true },
-                            new SelectListItem { Value = "M",Text="Male"},
-                               new SelectListItem {Value = "F", Text ="Female" }
-                           }, "Value", "Text");
+    
     Layout = "~/Views/Shared/_LayoutSettings.cshtml";
 }
 
@@ -97,7 +93,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div id="buttonContainer" class="pull-right">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <input id="submitUpdate" type="submit" value="Save" class="btn btn-primary" />
                     <button tpye="button" class="btn btn-primary" onclick="location.href='@Url.Action("Settings","Pastebook")'">Cancel</button>
                     
                 </div>
@@ -119,13 +115,20 @@
                 changeMonth: true,
                 changeYear: true,
                 showOn: "button", 
-                buttonText: "Select date"
+                buttonText: "Select date",
+                dateFormat: "yy/mm/dd"
             });
         });
 
-        $("#USER_NAME").blur(function(){
-            CheckUserName();
+        $("#USER_NAME").blur(function () {
+            if ( $("#USER_NAME").val() == "") {
+                 
+            } else {
+                CheckUserName();
+            }
+            
         });
+         
          
 
         function CheckUserName() {
@@ -139,7 +142,8 @@
                 success: function (result) {
                     if (result.IsValid == false) {
                         var userNameGet = $("#USER_NAME").val();
-                        if ('@Session["CurrentUserName"].ToString()' ==  userNameGet ) { 
+                        if ('@Session["CurrentUserName"].ToString()' == userNameGet) { 
+                            $("#errorUserName").text("");
                         }else{ 
                             $("#errorUserName").text("Username already taken.");
                         }
@@ -150,6 +154,9 @@
             });
         }
 
+
+
+        CheckUserName();
          
     </script>
     

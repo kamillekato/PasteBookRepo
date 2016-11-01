@@ -43,7 +43,8 @@
                         <a title="Home" role="button" onclick="location.href='@Url.Action("Home","Pastebook")'"><span class="glyphicon glyphicon-home"></span></a>
                     </li>
                     <li class="navbarIcon dropdown">
-                        <a title="Friend Request" id="dropDownFriendRequest" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialFriend()" >
+                        <a title="Friend List" role="button" onclick="location.href='@Url.Action("FriendList","Pastebook")'"><span class="glyphicon glyphicon-user"></span></a>
+                        @*<a title="Friend Request" id="dropDownFriendRequest" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialFriend()" >
                         <span class="glyphicon glyphicon-user"></span><span id="bdgeFriend" class="badge redText"></span></a>
                         
                         <ul id="dropdownFriend" class="dropdown-menu">
@@ -54,8 +55,7 @@
                                     </div>
                                 </div>
                             </li>
-                        </ul> 
-                        
+                        </ul>*@  
                     </li>
                      <li class="navbarIcon dropdown">
                         <a title="Notification" id="dropDownNotification" role="button" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" onclick="ReloadPartialNotification()">
@@ -71,14 +71,13 @@
                             </li>
                         </ul>
 
-                    </li>
-
+                    </li> 
                     <li  class="btn-group">
                         @*<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Profile<span class="caret"></span>
-                        </button>*@ 
+                        <img  role="button" id="imgNavBar" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive imgNavBarBtn"/> <span class="caret"></span>
+                         </button>*@ 
                        <img  role="button" id="imgNavBar" src="~/Content/Images/defaultProfilePic.jpg" class="img-circle img-responsive imgNavBarBtn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" />
-                        
+                       
                         <ul class="dropdown-menu">
                             <li>@Html.ActionLink("View Profile","ViewProfile","Pastebook",new { userName = Session["CurrentUserName"].ToString()},null)</li>
                             <li>@Html.ActionLink("Settings","Settings","Pastebook")</li>
@@ -100,16 +99,13 @@
     <script>
         var partialFriendUrl = '@Url.Action("ViewFriendRequest","Pastebook",new { userID = (int)Session["CurrentUserID"]})';
         var partialNotificationUrl = '@Url.Action("ViewNotifications","Pastebook",new { userID = (int)Session["CurrentUserID"] })';
-        var posterID =  @Session["CurrentUserID"];
-        var acceptInNotifUrl = '@Url.Action("AcceptFriendRequestInNotif","Pastebook")';
-        var cancelFriendUrl = '@Url.Action("CancelFriendRequestInNotif","Pastebook")';
+        var posterID =  @Session["CurrentUserID"]; 
         var countNotificationUrl = '@Url.Action("CountNotification","Pastebook")';
         var searchUserUrl ='@Url.Action("SearchUser","Pastebook")';
         var getUserImageUrl = '@Url.Action("GetUserImage","Pastebook")';
         var createPostUrl = '@Url.Action("Post","Pastebook")';
         var likeUrl = '@Url.Action("LikePost","Pastebook")';
-        var unlikeUrl = '@Url.Action("UnlikePost","Pastebook")'
-         
+        var unlikeUrl = '@Url.Action("UnlikePost","Pastebook")' 
     </script>
     <script src="~/Scripts/Custom/Navbar.js"></script>
 </body>

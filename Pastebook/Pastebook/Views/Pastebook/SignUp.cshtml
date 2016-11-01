@@ -68,7 +68,7 @@
                     <div class="form-group formSignup">
                         <div class="col-md-6">
                             @Html.LabelFor(model => model.BIRTHDAY, htmlAttributes: new { @class = "control-label" })<strong class="redText asteriskSize">*</strong>
-                            @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control",@readonly=true,@type="text",@placeholder="Birthday" } })
+                            @Html.EditorFor(model => model.BIRTHDAY, new { htmlAttributes = new { @class = "form-control date",@readonly=true,@type="text",@placeholder="Birthday" } })
                             @Html.ValidationMessageFor(model => model.BIRTHDAY, "", new { @class = "text-danger" })
                         </div>
                         <div class="col-md-6">
@@ -91,7 +91,7 @@
                     </div>
                     <div class="form-group formSignup">
                         <div class="col-md-12"> 
-                            <button type="submit" class="btn btnMain btn-default btn-block btn-primary wide"><strong>SIGN UP</strong></button>
+                            <button id="submitSignUp" type="submit" class="btn btnMain btn-default btn-block btn-primary wide"><strong>SIGN UP</strong></button>
                         </div>
                     </div>
                 </div> 
@@ -112,12 +112,21 @@
                 changeMonth: true,
                 changeYear: true,
                 showOn: "button", 
-                buttonText: "Select date"
+                buttonText: "Select date",
+                dateFormat: "yy/mm/dd" 
             });
         });
 
-        $("#USER_NAME").blur(function(){
-            CheckUserName();
+        $("#submitSignUp").click(function () { 
+            if ($("#ConfirmPassword").val() == "") {
+                $("#confirmError").text("Confirm password is required");
+            }
+        });
+
+        $("#USER_NAME").blur(function () {
+            if ($("#USER_NAME").val() != "") {
+                CheckUserName();
+            } 
         });
 
 
@@ -153,21 +162,23 @@
 
 
         $("#EMAIL_ADDRESS").blur(function () {
-            var data = {
-                email: $("#EMAIL_ADDRESS").val()
-            };
-            $.ajax({
-                url: checkEmailUrl,
-                data: data,
-                type: 'GET',
-                success: function (result) {
-                    if (result.IsValid == false) {
-                        $("#errorEmail").text("Email Address already taken.");
-                    } else {
-                        $("#errorEmail").text("");
+            if ($("#EMAIL_ADDRESS").val() != "") { 
+                var data = {
+                    email: $("#EMAIL_ADDRESS").val()
+                };
+                $.ajax({
+                    url: checkEmailUrl,
+                    data: data,
+                    type: 'GET',
+                    success: function (result) {
+                        if (result.IsValid == false) {
+                            $("#errorEmail").text("Email Address already taken.");
+                        } else {
+                            $("#errorEmail").text("");
+                        }
                     }
-                }
-            });
+                });
+            }
         });
     </script>
 }
